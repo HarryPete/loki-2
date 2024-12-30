@@ -42,13 +42,13 @@ const CourseDetail = ({course, level}) =>
     return (
         <div className='flex flex-col gap-4'>
             <p className='lg:text-3xl md:text-2xl text-xl font-bold' style={{color:'var(--primary-color)'}}>{course.title}</p>
-            <div className='md:h-[40vh] h-48 rounded flex items-center justify-center shadow-lg' style={{backgroundColor: ' var(--primary-color)'}}>
-                <Image className='h-[50%] w-fit' src={course.imageURL} alt={course.title} width={100} height={100}/>
+            <div className='md:h-[60vh] h-48 rounded flex items-center justify-center shadow-lg relative'>
+                <Image className='h-[100%] w-[100%] object-cover rounded' src={course.imageURL} alt={course.title} layout='fill'/>
             </div>
-            <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4'>
             {details.map((data)=>
             (
-                <div key={data.id} className='flex flex-col items-center bg-gray-100 p-4 rounded' style={{backgroundColor : 'var(--action-color)'}}>
+                <div key={data.id} className='flex flex-col items-center bg-white shadow-md p-4 rounded'>
                     <h1 className='font-bold md:text-3xl text-2xl'>{data.header}</h1>
                     <span>{data.detail}</span>
                 </div>
@@ -60,10 +60,10 @@ const CourseDetail = ({course, level}) =>
             <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
             {course.lectures.map((lecture)=>
             (
-                <Lecturecard lecture={lecture} level={level} key={lecture._id}/>  
-            ))}
+                <Lecturecard course={course} lecture={lecture} level={level} key={lecture._id}/>  
+            )).slice(0,16)}
             </div>
-            {level === 'visitor' && <Button onClick={handleClick} className='w-fit md:h-12 h-10 text-sm md:text-base font-semibold'>Join Now</Button>}
+            {level === 'visitor' && <Button onClick={handleClick} className='w-fit md:h-12 h-10 text-sm md:text-base'>Join Now</Button>}
         </div>
     )
 }

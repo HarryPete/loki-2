@@ -37,6 +37,8 @@ const Page = () =>
         }
     }
 
+    console.log(feedbacks)
+
     if(isLoading)
         return <Loading/>
 
@@ -45,10 +47,11 @@ const Page = () =>
         {feedbacks.map((feed)=>
         (
             <Card key={feed._id} className='p-4 space-y-4'>
-                <Image className="h-12 w-12 object-cover" src={feed.user?.imageeURL ? feed.user?.imageeURL  : defaultDP } alt='user' width={100} height={100}/>
+                <Image className="h-20 w-20 object-cover rounded-full object-top" src={feed.user?.imageURL ? feed.user?.imageURL  : defaultDP } alt='user' width={100} height={100}/>
                 <div className="space-y-2">
                     <p className="font-lg font-semibold">{feed.user.name}</p>
                     <p>{feed.comment}</p>
+                    <p className="font-semibold">{feed.user?.country}</p>
                     <Rating value={feed.rating}/>
                 </div>
             </Card> 

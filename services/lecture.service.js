@@ -15,6 +15,19 @@ class lectureService
             throw error
         }
     }
+
+    async getLecture(lectureId)
+    {
+        try
+        {
+            const lecture = await Lecture.findById(lectureId)
+            return lecture
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
 }
 
 export default lectureService

@@ -4,8 +4,9 @@ import { useState } from 'react'
 import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import MediaPlayer from './MediaPlayer'
+import Link from 'next/link'
 
-const Lecturecard = ({lecture, level}) =>
+const Lecturecard = ({course, lecture, level}) =>
 {
     const [ play, setPlay ] = useState(false);
     const [ videoSrc, setVideo ] = useState(null);
@@ -24,10 +25,10 @@ const Lecturecard = ({lecture, level}) =>
     {
         try
         {
-            const url = '/api/videos'
-            const response = await axios.post(url, {objectKey: 'test'});
-            setVideo(response.data);
-            // setPlay(true);
+            // const url = '/api/videos'
+            // const response = await axios.post(url, {objectKey: 'test'});
+            // setVideo(response.data);
+            setPlay(true);
         }
         catch(error)
         {
@@ -38,24 +39,17 @@ const Lecturecard = ({lecture, level}) =>
     // DAY 17 Practice Questions.mp4
 
     return(
-        <div className='flex items-start gap-2 justify-between rounded shadow-md p-6 z-10' >
-            <div>
+        <Link href={level === 'visitor' ? '' : `/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}` } className='flex items-start gap-2 justify-between rounded shadow-md p-6 z-10 bg-white relative' >
+            
                 <p>{lecture.title}</p>
                 <span className='text-gray-400 md:text-sm text-xs'>2 hours</span>
-            </div>
-            {level !== 'visitor' && <Button onClick={handlePlay}>Watch recording</Button>}
+            
            
             {/* {showUpload && 
             <div className={styles.uploadWrapper}>
                 <Upload setShowUpload={setShowUpload}/>
             </div>} */}
-
-            {play && 
-            <div >
-                <MediaPlayer options={videojsOptions} title={lecture.title}/>
-                {/* <button onClick={()=> setPlay(false)}>Back</button> */}
-            </div>}
-        </div>
+        </Link>
     )
 }
 

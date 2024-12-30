@@ -1,37 +1,31 @@
 'use client'
 
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
-import Lecturecard from '@/app/components/LectureCard';
 import { toast } from 'sonner';
 import Loading from '@/app/components/Loading';
-import { Card } from '@/components/ui/card';
-import Image from 'next/image';
-import Rating from '@/app/components/Rating';
-import defaultDP from '../../../../assets/defaultDP.png'
-import CourseDetail from '@/app/components/CourseDetail';
 
-const Course = () =>
+const Page = () =>
 {
-    const [ course, setCourse ] = useState(null);
+    const [ lecture, setLecture ] = useState(null);
     const [ isLoading,setIsLoading ] = useState(true);
-    const pathname = usePathname();
-    const courseId = pathname.split('/')[3];
+    const params = useSearchParams();
+    const lectureId = params.get('lectureId')
 
     useEffect(()=>
     {
-       getCourse();
+        getLecture();
     },[])
 
-    const getCourse = async () =>
+    const getLecture = async () =>
     {
         try
         {
             setIsLoading(true)
-            const url = `/api/course/${courseId}`
+            const url = `/api/lecture/${lectureId}`
             const response = await axios.get(url);
-            setCourse(response.data);
+            setLecture(response.data);
         }
         catch(error)
         {
@@ -43,15 +37,18 @@ const Course = () =>
         }
     }
 
-    console.log(course.feedbacks)
+    console.log(lecture)
+
 
     if(isLoading)
         return <Loading/>
 
     return(
         <div className='space-y-4 md:text-base text-sm'>
-            <CourseDetail level='admin' course={course}/>
-            <h1 className='text-3xl font-semibold pt-4'>Course feedbacks</h1>
+            <h1>{lecture.title}</h1>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/aJe-HpFwT_o?si=S6UEW6PJu6ZUwcZsrel=0&modestbranding=0&showinfo=0&autoplay=1&disablekb=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+            
+            
 {/*             
             <Carousel>
                 <CarouselContent>
@@ -72,7 +69,7 @@ const Course = () =>
                 <CarouselNext />
             </Carousel>
              */}
-            <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4 md:text-base text-sm">
+            {/* <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4 md:text-base text-sm">
             {course.feedbacks.map((feed)=>
             (
                 <Card key={feed._id} className='p-4 space-y-4'>
@@ -84,9 +81,18 @@ const Course = () =>
                     </div>
                 </Card> 
             ))}
-            </div>
+            </div> */}
         </div>
     )
 }
 
-export default Course
+const Lecture = () =>
+{
+    return(
+        <Suspense fallback={<Loading/>}>
+            <Page/>
+        </Suspense>
+    )
+}
+
+export default Lecture

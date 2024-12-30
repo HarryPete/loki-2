@@ -74,7 +74,7 @@ const Courses = () =>
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
             {courses?.map((course) =>
             (
                 <CourseCard level="user" key={course._id} course={course} removeCourse={removeCourse}/>

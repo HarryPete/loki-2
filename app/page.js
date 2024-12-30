@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import { faqData } from '@/utility/faqData'
 import chat from '@/assets/chat.png'
-import close from '@/assets/close.png'
-import call from '@/assets/call.png'
+import defaultDP from '@/assets/defaultDP.png'
+import linkedin from '@/assets/linkedinn.png'
 import live from '@/assets/live.png'
 import material from '@/assets/material.png'
 import record from '@/assets/record.png'
@@ -46,6 +46,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import RequestForm from './components/RequestForm'
+import axios from 'axios'
+import { toast } from 'sonner'
+import Rating from './components/Rating'
+import Link from 'next/link'
 
 const heroData =
 [
@@ -107,19 +111,13 @@ const roadmap = [
       "Engage in case studies, quizzes, and scenarios to apply knowledge. Practice compliance measures, risk mitigation strategies, and take initial mock tests.",
   },
   {
-    weeks: "7–8",
-    focus: "Revision and Final Prep",
-    description:
-      "Revisit key concepts, create summaries, and take final revision mock tests. Focus on exam format, time management, and solidifying weak areas.",
-  },
-  {
-    weeks: "9–12",
+    weeks: "7-9",
     focus: "Initial Mock Tests and Analysis",
     description:
       "Take one full-length mock test per week for both CAMS and CGSS. Analyze performance, identify weak areas, and revise key topics to build confidence.",
   },
   {
-    weeks: "13–16",
+    weeks: "10–11",
     focus: "Advanced Mock Tests and Refinement",
     description:
       "Take two full-length mock tests per week for each certification. Focus on high-weightage topics, refine time management, and ensure consistent performance.",
@@ -147,7 +145,7 @@ const numbers =
     },
 ]
 
-const feedbacks = [
+const feeds = [
     {
       name: "John Doe",
       image: profile1,
@@ -250,25 +248,64 @@ const feedbacks = [
 const Home = () =>
 {
     const [ showFaq, setShowFaq ] = useState(0);
+    const [ displayData, setDisplayData ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(true);
+
+    useEffect(()=>
+    {
+      getDisplayData();
+    },[])
+
+    const getDisplayData = async () =>
+    {
+      try
+      {
+        const url = '/api/display'
+        const response =await axios.get(url);
+        setDisplayData(response.data[0])
+      }
+      catch(error)
+      {
+        toast(error.message)
+      }
+      finally
+      {
+        setIsLoading(false);
+      }
+    }
 
     return(
         <div className='md:text-base text-sm md:leading-7 leading-5'>
             <HeroSection />
-            
-            <div className='bg-white space-y-4 text-center items-center py-12'>
-            <h1 className='font-semibold text-center text-2xl'>CAMS Graduates, December</h1>
+            <div className='bg-white space-y-6 text-center items-center py-12'>
+            <h1 className='font-semibold text-center text-2xl'>Recent Graduates</h1>
                 <Marquee className="justify-center overflow-hidden [--duration:60s] [--gap:2rem] w-[100%]">
-                {feedbacks.map((data, index)=>
+                {isLoading ? 
+                [1,2,3,4,5,6,7,8].map((_, index)=>
+                  (
+                      <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
+                          <div className='lg:p-24 md:p-16 p-8 bg-gray-100 shadow-md rounded-full mb-2'></div>
+                          <h1 className='p-2 rounded-xl mt-2 bg-gray-100 shadow-md mb-3 w-36'></h1>
+                          <p className='p-1.5 rounded-xl shadow-md w-20 bg-gray-100'></p>
+                      </div>
+                  ))
+                :  
+                displayData?.recentGraduates?.map((user, index)=>
                 (
                     <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
-                        <Image className='lg:h-48 md:h-36 h-24 w-fit aspect-square object-cover rounded-full' src={data.image} alt='feedback'/>
-                        <h1 className='lg:text-lg text-base font-semibold mt-2'>{data.name}</h1>
-                        <p className='lg:text-base text-sm text-gray-400'>India</p>
+                        <Link className='relative' href={user?.linkedIn ?? ''}>
+                          <Image className='lg:h-48 md:h-36 h-24 w-fit aspect-square object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} width={100}  height={100} alt='feedback'/>
+                          <Image className='lg:h-10 md:h-8 h-6  w-fit absolute bottom-0 right-2' src={linkedin} alt={user?.name}/>
+                        </Link>
+                        <h1 className='lg:text-lg text-base font-semibold mt-2'>{user?.name}</h1>
+                        <p className='lg:text-base text-sm text-gray-400'>{user?.country}</p>
                     </div>
                 ))}
                 </Marquee>
-                <h1 className='lg:px-[10vw] px-[5vw] lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold text-orange-700'>Join Our Growing Network of Successful Graduates</h1>
-                <p className='lg:px-[10vw] px-[5vw]  text-gray-400'>Explore the achievements of our recent graduates and see how our program is shaping the future of AML and compliance professionals.</p>
+                <div className='space-y-2'>
+                  <h1 className='lg:px-[10vw] px-[5vw] text-2xl  leading-snug font-semibold text-orange-700'>Join Our Growing Network of Successful Graduates</h1>
+                  <p className='lg:px-[10vw] px-[5vw] text-gray-400'>Explore the achievements of our recent graduates and see how our program is shaping the future of AML and compliance professionals.</p>
+                </div>
             </div>
 
             <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
@@ -305,7 +342,7 @@ const Home = () =>
                     <p className='font-semibold text-2xl lg:text-start text-center'>Course timeline</p>
                     <Image className='lg:h-28 md:h-20 h-16 w-fit' src={success} alt='icon'/>
                     <h1 className='lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold text-lime-200'>Your Step-by-Step Guide to CAMS & CGSS Success</h1>
-                    <p className='text-gray-400'>Master the essentials, refine your skills, and excel with a structured 16-week roadmap for certification excellence.</p>
+                    <p className='text-gray-400'>Master the essentials, refine your skills, and excel with a structured 11-week roadmap for certification excellence.</p>
                   </div>
                   <div className='lg:w-[50%] space-y-4'>
                     {roadmap.map((data, index)=>
@@ -323,15 +360,41 @@ const Home = () =>
 
             <div className='sm:px-[10vw] px-[15vw] py-12'>
             <h1 className='font-semibold w-full text-center text-2xl mb-8'>Testimonials</h1>
+            {isLoading ?
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
+            {[1,2,3].map((_,index)=>(
+              <div className='space-y-6 bg-white shadow-md p-6 rounded h-84' key={index}>
+                  <div className='h-16 w-16 shadow-md bg-gray-100 rounded-full'></div>
+                  <div  className='space-y-3'>
+                    <p className='p-2 rounded-xl bg-gray-100'></p>
+                    <p className='p-2 rounded-xl bg-gray-100'></p>
+                    <p className='p-2 rounded-xl bg-gray-100'></p>
+                    <p className='p-2 rounded-xl bg-gray-100'></p>
+                  </div>
+                  <div className='space-y-3'>
+                  <p className='p-2 rounded-xl bg-gray-100 w-56'></p>
+                  <p className='p-2 rounded-xl bg-gray-100 w-40'></p>
+                  </div>
+              </div>
+            ))}
+            </div> :
             <Carousel >
             <CarouselContent>
-            {feedbacks.map((feed, index) => (
+            
+            {displayData?.feedbacks?.map((feed, index) => (
             <CarouselItem key={index} className='lg:basis-1/3'>
               <>
-                <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4 bg-white">
-                        <Image className='h-14 text-sm md:text-base aspect-square w-fit object-cover rounded-full' src={feed.image} alt='user'/>
-                        <h1 className='font-semibold'>{feed.name}</h1>
-                        <p className=''>{feed.feedback}</p>
+                <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4 bg-white rounded shadow-md">
+                        <Link className='relative' href={feed.user?.linkedIn ?? ''}>
+                          <Image className='h-20 text-sm md:text-base aspect-square w-fit object-cover rounded-full' src={feed.user?.imageURL ? feed.user?.imageURL : defaultDP} width={100} height={100} alt='user'/>
+                          <Image className='h-8 w-fit absolute bottom-0 right-0' src={linkedin} alt={feed.user.name}/>
+                        </Link>
+                        
+                        <p className=''>{feed.comment}</p>
+                        <div className='space-y-1'>
+                        <h1 className='font-semibold'>{feed.user.name}</h1>
+                        <Rating value={feed.rating}/>
+                        </div>
                 </CardContent>
               </>
           </CarouselItem>
@@ -339,7 +402,7 @@ const Home = () =>
           </CarouselContent>
           <CarouselPrevious/>
           <CarouselNext />
-          </Carousel>
+          </Carousel>}
           </div>
 
           <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-6 items-center' style={{backgroundColor: 'var(--primary-color)'}}>

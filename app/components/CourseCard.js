@@ -30,15 +30,14 @@ const CourseCard = ({level, course}) =>
 {
 
     return(
-    <div className='bg-white rounded shadow-xl'>
-        <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative text-sm md:text-base'>
-            <div className='flex flex-col gap-4 p-4'>
-            <div className='flex flex-col items-center justify-center h-48 rounded' style={{backgroundColor: 'var(--primary-color)'}}>
-                <Image className='object-scale-down h-[70%]' src={course.imageURL} alt={course.id} width={150} height={150}/>
+        <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative bg-white rounded shadow-xl text-sm md:text-base p-4'>
+            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col items-center justify-center h-48 rounded relative'>
+                <Image className='h-[100%] w-full rounded object-cover' src={course.imageURL} alt={course.id} layout='fill'/>
             </div>
             {/* {level !== 'admin' && <BorderBeam colorFrom='var(--primary-color)' colorTo='var(--action-color)' className='rounded-xl'/>} */}
             
-            <p className='md:text-lg text-base font-semibold' >{course.title}</p> 
+            <p className='md:text-base text-sm font-semibold' >{course.title}</p> 
             
             {/* <p className='md:text-3xl text-2xl text-center w-full font-bold'>${course.price}</p> */}
             {level !== 'admin' && 
@@ -55,7 +54,6 @@ const CourseCard = ({level, course}) =>
             </div>}
             </div>
         </Link>
-    </div>
     )
 }
 

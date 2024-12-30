@@ -17,7 +17,7 @@ const Navbar = () =>
 
     return(
         <div className='absolute top-12 flex justify-between py-6 rounded left-[5%] w-[90%] z-10'>
-            <Image className='lg:h-16 h-10 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>  
+            <Image className='md:h-12 h-10 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>  
             <ProfileSettings/>
         </div>
     )

@@ -57,6 +57,8 @@ const Batch = () =>
         }
     }
 
+    console.log(batch?.enrollments)
+
     if(isLoading)
         return <Loading/>
 

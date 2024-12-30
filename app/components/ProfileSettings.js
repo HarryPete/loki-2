@@ -35,7 +35,7 @@ const ProfileSettings = () =>
                 <SheetDescription></SheetDescription>
             </SheetHeader>
             
-            <Image className='lg:h-16 h-12 w-fit aspect-square object-cover p-2 mb-4 rounded-full' style={{backgroundColor: 'var(--primary-color)'}} src={logo} alt='logo' onClick={()=> router.push('/')}/> 
+            <Image className='lg:h-16 h-12 w-fit aspect-square object-contain p-2 mb-4 rounded-full' style={{backgroundColor: 'var(--primary-color)'}} src={logo} alt='logo' onClick={()=> router.push('/')}/> 
             <div className='flex flex-col gap-2'>
                 {(data?.user?.role === 'user' || data?.user?.role === 'admin') && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/dashboard'>Dashboard</Link>}
                 <Link className=' hover:bg-yellow-400 p-4 rounded' href='/courses'>Courses</Link>
