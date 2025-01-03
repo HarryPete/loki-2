@@ -26,6 +26,7 @@ import {
 
 import axios from "axios"
 import { toast } from "sonner"
+import { useState } from "react"
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -102,6 +103,7 @@ export const domains =
 const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
 {
     const { name, contact, linkedIn, organisation, experience, country, domain } = userData;
+    const [ isLoading, setIsLoading ] = useState(false);
 
     console.log(userData)
 
@@ -123,6 +125,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
     {
         try
         {
+            setIsLoading(true);
             const url = `api/user/${userData._id}`
             const response = await axios.put(url, data);
             getUserData();
@@ -260,8 +263,11 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                         <FormMessage/>
                     </FormItem>)}
                 />
-                       
-                <Button type="submit">Update</Button>
+{ isLoading ? <Button className='lg:h-12 h-10 text-md'>
+                <Loader2 className='animate-spin'/>
+                Updating...
+            </Button> :                       
+                <Button type="submit">Update</Button>}
                 </form>
             </Form>
         </DialogContent>

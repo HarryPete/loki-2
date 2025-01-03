@@ -81,7 +81,7 @@ class userService
     {
         try
         {
-            const users = await User.find().select('-password -googleId');
+            const users = await User.find().populate({path: 'enrollments', model: Enrollment, populate: { path: 'batch', model: Batch}}).select('-password -googleId');
             return users;
         }
         catch(error)

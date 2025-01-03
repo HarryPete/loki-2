@@ -59,7 +59,7 @@ const Batches = () =>
 
     return(
         <div className='space-y-4'>
-            <BatchForm newBatch={newBatch} setNewBatch={setNewBatch}/>
+            {/* <BatchForm newBatch={newBatch} setNewBatch={setNewBatch}/> */}
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
             {batches.map((batch) =>
             (

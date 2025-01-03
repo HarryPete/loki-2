@@ -50,6 +50,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import Rating from './components/Rating'
 import Link from 'next/link'
+import Founder from './components/Founder'
 
 const heroData =
 [
@@ -278,7 +279,7 @@ const Home = () =>
         <div className='md:text-base text-sm md:leading-7 leading-5'>
             <HeroSection />
             <div className='bg-white space-y-6 text-center items-center py-12'>
-            <h1 className='font-semibold text-center text-2xl'>Recent Graduates</h1>
+            <h1 className='font-semibold text-center text-2xl'>CAMS Graduates, December 2024</h1>
                 <Marquee className="justify-center overflow-hidden [--duration:60s] [--gap:2rem] w-[100%]">
                 {isLoading ? 
                 [1,2,3,4,5,6,7,8].map((_, index)=>
@@ -294,11 +295,11 @@ const Home = () =>
                 (
                     <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
                         <Link className='relative' href={user?.linkedIn ?? ''}>
-                          <Image className='lg:h-48 md:h-36 h-24 w-fit aspect-square object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} width={100}  height={100} alt='feedback'/>
+                          <Image className='lg:h-48 md:h-36 h-24 w-fit aspect-square object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} width={100}  height={100} alt={user?.name}/>
                           <Image className='lg:h-10 md:h-8 h-6  w-fit absolute bottom-0 right-2' src={linkedin} alt={user?.name}/>
                         </Link>
-                        <h1 className='lg:text-lg text-base font-semibold mt-2'>{user?.name}</h1>
-                        <p className='lg:text-base text-sm text-gray-400'>{user?.country}</p>
+                        <h1 className='text-base font-semibold mt-2'>{user?.name}</h1>
+                        <p className='lg:text-sm text-xxs text-gray-400'>{user?.country}</p>
                     </div>
                 ))}
                 </Marquee>
@@ -309,11 +310,11 @@ const Home = () =>
             </div>
 
             <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
-                <h1 className='font-semibold text-center text-2xl'>Why it matters</h1>
-                <div className='grid lg:grid-cols-2 grid-cols-1 gap-4'>
+                <h1 className='font-semibold text-center text-2xl'>Why CAMS & CGSS ?</h1>
+                <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
                     {whyCamsAndCgss.map((data, index)=>
                     (
-                      <div className='space-y-4 p-8 rounded-xl shadow-2xl' key={data.id}  style={{backgroundColor: 'var(--primary-bg)'}}>
+                      <div className='space-y-2 p-8 rounded-xl shadow-2xl' key={data.id}  style={{backgroundColor: 'var(--primary-bg)'}}>
                        <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.icon} alt='icon'/>
                         <h1 className='font-semibold'>{data.header}</h1>
                         <p className='text-gray-400'>{data.description}</p>
@@ -340,16 +341,15 @@ const Home = () =>
                 <div className='flex lg:flex-row flex-col lg:items-start items-center gap-8'>
                   <div className='lg:w-[50%] space-y-4 lg:sticky top-[5%]'>
                     <p className='font-semibold text-2xl lg:text-start text-center'>Course timeline</p>
-                    <Image className='lg:h-28 md:h-20 h-16 w-fit' src={success} alt='icon'/>
-                    <h1 className='lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold text-lime-200'>Your Step-by-Step Guide to CAMS & CGSS Success</h1>
                     <p className='text-gray-400'>Master the essentials, refine your skills, and excel with a structured 11-week roadmap for certification excellence.</p>
+                    <Image className='md:h-20 h-16 w-fit' src={success} alt='icon'/>
                   </div>
                   <div className='lg:w-[50%] space-y-4'>
                     {roadmap.map((data, index)=>
                     (
-                      <div className='space-y-4 p-8 rounded-xl shadow-2xl' key={index}style={{backgroundColor: 'var(--primary-bg)'}}>
+                      <div className='space-y-2 p-8 rounded-xl shadow-2xl' key={index}style={{backgroundColor: 'var(--primary-bg)'}}>
                        {/* <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.icon} alt='icon'/> */}
-                        <h1 className='font-semibold'>Week {data.weeks}</h1>
+                        <h1 className='font-semibold bg-white text-black px-2 rounded w-fit'>Week {data.weeks}</h1>
                         <p className='font-semibold'>{data.focus}</p>
                         <p className='text-gray-400'>{data.description}</p>
                       </div>
@@ -357,6 +357,25 @@ const Home = () =>
                   </div>
                 </div>
             </div>
+
+            <div className='lg:px-[10vw] px-[5vw] space-y-6 py-12 flex flex-col gap-4'>
+              
+              <h1 className='font-semibold w-full text-center text-2xl'>Founder & Instructor</h1>
+              <div className='flex justify-center'>
+              <Founder/>
+              </div>
+            </div>
+
+            <div className='sm:px-[10vw] px-[5vw] py-12 flex lg:flex-row flex-col gap-8 text-white' style={{backgroundColor: 'var(--primary-color)'}}>
+            <div className='lg:w-[50%] w-full space-y-4'>
+              <h1 className='lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold'>Request a Callback</h1>
+              <p className='text-gray-400'>Get personalized assistance, clear your doubts, and take the first step toward achieving your CAMS & CGSS certifications with expert guidance.</p>
+            </div>
+            <div className='lg:w-[50%] w-full'>
+              <RequestForm/>
+            </div>
+          </div>
+            
 
             <div className='sm:px-[10vw] px-[15vw] py-12'>
             <h1 className='font-semibold w-full text-center text-2xl mb-8'>Testimonials</h1>
@@ -405,9 +424,11 @@ const Home = () =>
           </Carousel>}
           </div>
 
-          <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-6 items-center' style={{backgroundColor: 'var(--primary-color)'}}>
-              <p className='font-semibold text-2xl mb-4 text-white'>FAQs</p>
-              <div className='flex flex-col gap-8 lg:w-[80%] w-full'>
+          
+
+          <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-6 items-center' >
+              <p className='font-semibold text-2xl mb-4'>FAQs</p>
+              <div className='flex flex-col gap-8 w-full'>
               {faqData.map((data, index)=>
               (
                 <Accordian data={data} key={data.id} index={index} showFaq={showFaq} setShowFaq={setShowFaq}/>
@@ -415,16 +436,7 @@ const Home = () =>
               </div>
           </div>
 
-          <div className='sm:px-[10vw] px-[5vw] py-12 flex lg:flex-row flex-col gap-8'>
-            <div className='lg:w-[50%] w-full space-y-4'>
-              <p className='font-semibold text-2xl'>Heard us enough?</p>
-              <h1 className='lg:text-4xl md:text-2xl text-xl  leading-snug font-semibold text-orange-700'>Request a Callback – Let Us Guide You to Success</h1>
-              <p className='text-gray-400'>Get personalized assistance, clear your doubts, and take the first step toward achieving your CAMS & CGSS certifications with expert guidance.</p>
-            </div>
-            <div className='lg:w-[50%] w-full'>
-              <RequestForm/>
-            </div>
-          </div>
+          
           <Footer/>
         </div>
     )

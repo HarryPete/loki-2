@@ -31,15 +31,15 @@ const HeroSection = () =>
 {
 
     return(
-        <div className='lg:h-[80vh] h-[100vh] flex flex-col justify-end pb-[5vh] items-center relative'>
+        <div className='lg:px-[10vw] px-[5vw] lg:h-[80vh] h-[100vh] flex flex-col justify-end pb-[5vh] relative'>
             <Navbar/>
             <Image className='object-cover h-[100%]' src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply' alt='FINTS AML' layout='fill' priority={true} />
 
-               <div className='z-10 flex justify-between gap-4 w-[80%]'>
+               <div className='z-10'>
                     {/* <div className='w-[50%]'>
                         
                     </div> */}
-                    <div className='space-y-8 lg:w-[50%] w-full'>
+                    <div className='space-y-8 w-full'>
                         {/* <span className='border border-gray-400 text-xs font-semibold text-white p-2 rounded-xl'>For Professionals</span> */}
                         <h1 className='lg:text-3xl md:text-2xl text-xl text-yellow-400 font-semibold'>CAMS & CGSS Certification Pathway</h1>
                         <p className='text-gray-300'>Unlock your potential in anti-money laundering and sanctions compliance with expert-led learning, practical applications, and real-world case studies.</p>
@@ -53,13 +53,13 @@ const HeroSection = () =>
                         {numbers.map((data)=>
                         (
                             <div className='p-4 text-center space-y-1' key={data.id}>
-                                <h1 className='font-semibold md:text-2xl text-base '>{data.number}</h1>
+                                <h1 className='font-semibold md:text-xl text-base '>{data.number}</h1>
                                 <h1 className='text-gray-500 text-sm'>{data.title}</h1>
                                 
                             </div>
                         ))}
                         </div>
-                        <Image className='md:h-16 h-12 w-fit z-10' src={subheading} alt='icon'/>
+                        {/* <Image className='md:h-16 h-12 w-fit z-10' src={subheading} alt='icon'/> */}
                     </div>
                     {/* <div className='lg:w-[30%] w-0 bg-white rounded p-6'>
                     <RequestForm/>

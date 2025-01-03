@@ -69,12 +69,11 @@ const Progress = ({batchData, level, assessments, getBatch}) =>
         <div className='space-y-4'>
             
             
-            <div className='flex flex-col text-sm md:text-base text-white justify-center items-center rounded p-6' style={{backgroundColor: 'var(--primary-color)'}}>
-                <Image src={batchData.course.imageURL} alt={batchData.course.title} width={150} height={150}/>
-                <div className='text-3xl font-bold mb-2'>{batchData.title.split('-')[1]}</div>
-                <p className=''>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>
+            <div className='flex flex-col text-sm md:text-base h-[50vh] text-white justify-center items-center rounded p-6 relative'>
+                <Image className='object-cover' src={batchData.course.imageURL} alt={batchData.course.title} layout='fill'/>
+                <div className='text-3xl absolute bottom-4 font-bold mb-2 z-50'>{batchData.title.split('-')[1]}</div>
+                <p className='absolute top-4 right-4 bg-gray-700 p-2 rounded z-50 text-xs'>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>
             </div>
-            
             
             <div className='grid md:grid-cols-3 grid-cols-1 gap-4'>
             <   div className='p-4 rounded text-center' style={{backgroundColor: 'var(--action-color)'}}>

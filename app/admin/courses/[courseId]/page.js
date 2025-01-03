@@ -43,8 +43,6 @@ const Course = () =>
         }
     }
 
-    console.log(course.feedbacks)
-
     if(isLoading)
         return <Loading/>
 

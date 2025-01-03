@@ -20,7 +20,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 
-const BatchCard = ({type, level, data, participants, removeBatch, batchId}) =>
+const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, batchId}) =>
 {
     const router = useRouter();
     const pathname = usePathname();
@@ -29,7 +29,7 @@ const BatchCard = ({type, level, data, participants, removeBatch, batchId}) =>
     {
         try
         {
-            const url = `/api/batch/${data._id}`
+            const url = `/api/batch/${batch._id}`
             await axios.delete(url)
         }
         catch(error)
@@ -40,29 +40,29 @@ const BatchCard = ({type, level, data, participants, removeBatch, batchId}) =>
 
     const checkAccess = () =>
     {
-        if(data.access === 'true')
-            return router.push(`/course/${data.course.id}?batchId=${data.title}`)
+        if(batch.access)
+            return router.push(`/course/${batch.course.id}?eId=${enrollment._id}`)
         else
             toast('Access Denied')
     }
 
     return(
-        <Link href={level === 'admin' ? (type === 'batch' ? `/admin/batches/${data.title}` : `${pathname}/${batchId}`) : `/course/${data.course.id}?batchId=${data.title}`}>
-            <Card className='p-4 rounded flex flex-col gap-4 relative'>
-            <div className='rounded flex flex-col p-4 justify-center items-center shadow-md' style={{backgroundColor: 'var(--primary-color)'}}>
-                <Image src={data.course.imageURL} alt={data.title} height={150} width={150}/>
-                <p className='text-2xl font-semibold text-gray-100'>{data.title.split('-')[1]}</p>
+        <Card className='p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? `/admin/batches/${batch.title}` : `${pathname}/${batchId}`) : checkAccess()}}>
+            <div className='rounded flex flex-col h-48 p-4 justify-center items-center shadow-md relative'>
+                <Image className='rounded object-cover' src={batch.course.imageURL} alt={batch.title} layout='fill'/>
             </div>
-            
-            {/* {level === 'admin' && type === 'batch' && <Image className='h-5 w-5 absolute top-8 right-8 cursor-pointer' src={deleteIcon} alt='delete' onClick={deleteBatch}/>} */}
-            {level !== "admin" && <p className='font-semibold'>{data.course.title}</p>}
-            <p className='absolute top-8 left-8 bg-gray-300 p-1 rounded text-xs '>{FormatDate(data.startDate)}</p>
-            <div className='flex justify-between items-end'>
-                {level === "admin" ? (type === 'batch' ? <p> Enrollments : {data.enrollments.length}</p> : <p> Participants : {participants}</p>) : <p>{data.sessions.length} lectures</p>}
-                <p>{data.status}</p>
-            </div> 
+            <div className='flex justify-between items-center text-sm'>
+                <p className='font-semibold'>{batch.title}</p>
+                <p>{batch.status}</p>
+            </div>
+            <p className='absolute top-6 right-6 bg-gray-300 p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p>
+             {/* 
+            <div className='flex justify-between items-end text-sm'>
+                {level === "admin" ? (type === 'batch' ? <p> Enrollments : {batch.enrollments.length}</p> : <p> Participants : {participants}</p>) : <p>{batch.sessions.length} lectures</p>}
+                
+                
+            </div>  */}
         </Card>
-        </Link>
     )
 }
 

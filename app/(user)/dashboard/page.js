@@ -54,9 +54,9 @@ const Dashboard = () =>
     return(
         <div>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1'>
-                {userData?.enrollments?.map((data)=>
+                {userData?.enrollments?.map((enrollment)=>
                 (
-                    <BatchCard data={data.batch} key={data._id}/>
+                    <BatchCard batch={enrollment.batch} enrollment={enrollment} key={enrollment._id} level='user'/>
                 ))}
             </div>
             {/* <ProfileDetails userData={userData}/> */}

@@ -20,16 +20,17 @@ import { toast } from "sonner"
 import Loading from "./Loading"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  courseId: z.string().min(7, {
-    message: "Course is a mandatory field",
+  name: z.string().min(7, {
+    message: "Name is required",
   }),
-  mentor: z.string().min(3, {
-    message: "Mentor is a mandatory field",
+  email: z.string().min(3, {
+    message: "Email is required",
   }),
-  title: z.string().min(7, {
-    message: "Invalid title",
+  contact: z.string().min(7, {
+    message: "Contact is required",
   })
 })
 
@@ -41,9 +42,9 @@ const RequestForm = () =>
             resolver: zodResolver(formSchema),
             defaultValues: 
             {
-              courseId: "",
-                mentor: "",
-                title: ""
+              name: "",
+              email: "",
+              contact: ""
             },
         })
 
@@ -51,14 +52,18 @@ const RequestForm = () =>
     {
         try
         {
-            const url = '/api/course'
-            const response = await axios.post(url, batchDetails);
+            setIsLoading(true)
+            const url = '/api/query'
+            const response = await axios.post(url, data);
             toast(response.data.message);
-            setNewBatch(false)
         }   
         catch(error)
         {
-            console.log(error)
+            toast(error.message)
+        }
+        finally
+        {
+          setIsLoading(false)
         }
     }
 
@@ -113,8 +118,11 @@ const RequestForm = () =>
                         <FormMessage/>
                     </FormItem>)}
                 />
-                       
-                <Button type="submit" className='md:h-12 h-10 md:text-base text-sm font-semibold w-full'>Request Callback</Button>
+
+              {isLoading ? <Button className='lg:h-12 h-10 text-md'>
+                <Loader2 className='animate-spin'/>
+                </Button> :                       
+                <Button type="submit" className='md:h-12 h-10 md:text-base text-sm font-semibold w-full'>Request Callback</Button>}
               </form>
         </Form>
   )

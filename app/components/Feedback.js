@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Loading from './Loading';
+import { Loader2 } from 'lucide-react';
 
 const rating = 
 [
@@ -89,10 +90,6 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
         }
     }
 
-    if(isLoading)
-        return <Loading/>
-
-
     return(
         <Dialog open={feedbackForm} onOpenChange={setFeedbackForm}>
         <DialogTrigger asChild>
@@ -107,7 +104,7 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
                 and provide the best possible experience for you.
                 </DialogDescription>
             </DialogHeader>
-            <Select onValueChange={setSelectedCourse}>
+            {!isLoading  && <Select onValueChange={setSelectedCourse}>
                 <SelectTrigger className="w-full h-12">
                     <SelectValue placeholder="Choose course" />
                 </SelectTrigger>
@@ -117,7 +114,7 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
                     <SelectItem className='h-12' value={course._id} key={course._id}>{course.title}</SelectItem>
                 ))}
                 </SelectContent>
-            </Select>
+            </Select>}
             <div className='flex gap-4 justify-center'>
             {rating.map((count)=>
             (
@@ -128,7 +125,10 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
             ))}
             </div>
             <Textarea placeholder='Feedback' value={feedback} onChange={(e)=> setFeedbcak(e.target.value)}/>
-            <Button onClick={submitFeedback}>Submit</Button>
+            {isLoading ? <Button className='lg:h-12 h-10 text-md'>
+                <Loader2 className='animate-spin'/>
+            </Button> :
+            <Button onClick={submitFeedback}>Submit</Button>}
         </DialogContent>
         </Dialog>
     )

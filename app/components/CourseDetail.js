@@ -40,7 +40,7 @@ const CourseDetail = ({course, level}) =>
     }
 
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 w-full'>
             <p className='lg:text-3xl md:text-2xl text-xl font-bold' style={{color:'var(--primary-color)'}}>{course.title}</p>
             <div className='md:h-[60vh] h-48 rounded flex items-center justify-center shadow-lg relative'>
                 <Image className='h-[100%] w-[100%] object-cover rounded' src={course.imageURL} alt={course.title} layout='fill'/>
@@ -48,7 +48,7 @@ const CourseDetail = ({course, level}) =>
             <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4'>
             {details.map((data)=>
             (
-                <div key={data.id} className='flex flex-col items-center bg-white shadow-md p-4 rounded'>
+                <div key={data.id} className='flex flex-col items-center bg-yellow-400 shadow-md p-4 rounded'>
                     <h1 className='font-bold md:text-3xl text-2xl'>{data.header}</h1>
                     <span>{data.detail}</span>
                 </div>

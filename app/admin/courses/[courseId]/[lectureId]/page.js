@@ -4,7 +4,9 @@ import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigat
 import { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import lectureIcon from '../../../../../assets/lecture.png'
 import Loading from '@/app/components/Loading';
+import Image from 'next/image';
 
 const Page = () =>
 {
@@ -44,9 +46,21 @@ const Page = () =>
         return <Loading/>
 
     return(
-        <div className='space-y-4 md:text-base text-sm'>
-            <h1>{lecture.title}</h1>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/aJe-HpFwT_o?si=S6UEW6PJu6ZUwcZsrel=0&modestbranding=0&showinfo=0&autoplay=1&disablekb=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+        <div className='flex flex-col gap-4 space-y-4 md:text-base text-sm'>
+            <div className='bg-white shadow-lg rounded'>
+            <div className='flex items-center gap-2 bg-gray-200 p-4'>
+            <Image  className='h-6 w-fit' src={lectureIcon} alt='icon'/>
+            <h1 className='text-base font-semibold'>{lecture.title}</h1>
+            
+            </div>
+            <div className='space-y-4 p-4 text-sm'>
+            {lecture.modules.map((module,index)=>
+            (
+                <p key={index}>{module}</p>
+            ))}
+            </div>
+            </div>
+            <iframe className='w-[100%]' width="560" height="315" src="https://www.youtube.com/embed/aJe-HpFwT_o?si=S6UEW6PJu6ZUwcZsrel=0&modestbranding=0&showinfo=0&autoplay=1&disablekb=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
             
             
 {/*             

@@ -39,7 +39,7 @@ const Lecturecard = ({course, lecture, level}) =>
     // DAY 17 Practice Questions.mp4
 
     return(
-        <Link href={level === 'visitor' ? '' : `/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}` } className='flex items-start gap-2 justify-between rounded shadow-md p-6 z-10 bg-white relative' >
+        <Link href={level === 'visitor' ? '' : ( level === 'user' ?`/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}` : `/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}`) } className='flex items-start gap-2 justify-between rounded shadow-lg p-6 z-10 bg-white relative' >
             
                 <p>{lecture.title}</p>
                 <span className='text-gray-400 md:text-sm text-xs'>2 hours</span>

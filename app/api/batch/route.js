@@ -14,7 +14,6 @@ export async function POST(req, {params})
         await dbConnect();
 
         const { title, courseId, mentor, startDate, endDate } = await req.json(); 
-        console.log(title, courseId, mentor, startDate, endDate)
 
         const newBatch = await batchInstance.addNewBatch(title, courseId, mentor, startDate, endDate);
         const course = await courseInstance.getByCourseId(courseId);
@@ -43,7 +42,6 @@ export async function GET(req, res)
         await dbConnect();
 
         const batches = await batchInstance.getAllBatches();
-        console.log(batches)
         return NextResponse.json(batches)
     }
     catch(error)
