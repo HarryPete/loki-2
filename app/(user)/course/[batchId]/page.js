@@ -64,6 +64,7 @@ const Batch = () =>
             setIsLoading(false)
         }
     }
+
     useEffect(() => 
     {
         if(status === "authenticated")

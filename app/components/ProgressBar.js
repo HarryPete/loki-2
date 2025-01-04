@@ -89,8 +89,8 @@ const ProgressBar = ({batch}) =>
         {batch.title} <span className="text-gray-500 font-medium">instructed by</span> {batch.mentor.name}
         </div>
         <div className="space-x-2 text-white mt-2">
-          <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link>
-          <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link>
+          <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link>
+          {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
         </div>
       </CardFooter>
     </Card>

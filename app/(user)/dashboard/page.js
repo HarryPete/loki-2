@@ -53,7 +53,7 @@ const Dashboard = () =>
         
     return(
         <div>
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1'>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
                 {userData?.enrollments?.map((enrollment)=>
                 (
                     <BatchCard batch={enrollment.batch} enrollment={enrollment} key={enrollment._id} level='user'/>
