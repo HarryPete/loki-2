@@ -18,7 +18,7 @@ const enrollmentSchema = new Schema({
     }],
     access:
     {
-        type: String,
+        type: Boolean,
         enum: [true, false],
         default : true
     }

@@ -51,6 +51,7 @@ import { toast } from 'sonner'
 import Rating from './components/Rating'
 import Link from 'next/link'
 import Founder from './components/Founder'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const heroData =
 [
@@ -285,9 +286,9 @@ const Home = () =>
                 [1,2,3,4,5,6,7,8].map((_, index)=>
                   (
                       <div className='transition-all flex flex-col items-center p-2 rounded' key={index}>
-                          <div className='lg:p-24 md:p-16 p-8 bg-gray-100 shadow-md rounded-full mb-2'></div>
-                          <h1 className='p-2 rounded-xl mt-2 bg-gray-100 shadow-md mb-3 w-36'></h1>
-                          <p className='p-1.5 rounded-xl shadow-md w-20 bg-gray-100'></p>
+                          <Skeleton className='lg:p-24 md:p-16 p-8 bg-gray-200 shadow-md rounded-full mb-2'/>
+                          <Skeleton className='p-2 rounded-xl bg-gray-200 mt-2 shadow-md mb-3 w-36'/>
+                          <Skeleton className='p-1.5 rounded-xl shadow-md w-20 bg-gray-200'/>
                       </div>
                   ))
                 :  
@@ -382,17 +383,18 @@ const Home = () =>
             {isLoading ?
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
             {[1,2,3].map((_,index)=>(
-              <div className='space-y-6 bg-white shadow-md p-6 rounded h-84' key={index}>
-                  <div className='h-16 w-16 shadow-md bg-gray-100 rounded-full'></div>
-                  <div  className='space-y-3'>
-                    <p className='p-2 rounded-xl bg-gray-100'></p>
-                    <p className='p-2 rounded-xl bg-gray-100'></p>
-                    <p className='p-2 rounded-xl bg-gray-100'></p>
-                    <p className='p-2 rounded-xl bg-gray-100'></p>
+              <div className='space-y-6 shadow-md p-6 rounded h-84 bg-white' key={index}>
+                  <Skeleton className='h-16 w-16 shadow-md bg-gray-100 rounded-full'/>
+                  <div className='space-y-3'>
+                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-2 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-2 rounded-xl bg-gray-200 w-[50%]'/>
                   </div>
                   <div className='space-y-3'>
-                  <p className='p-2 rounded-xl bg-gray-100 w-56'></p>
-                  <p className='p-2 rounded-xl bg-gray-100 w-40'></p>
+                  <Skeleton className='p-2 rounded-xl bg-gray-200 w-56'/>
+                  <Skeleton className='p-2 rounded-xl bg-gray-200 w-40'/>
                   </div>
               </div>
             ))}

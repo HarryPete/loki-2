@@ -47,7 +47,7 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
     }
 
     return(
-        <Card className='p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? `/admin/batches/${batch.title}` : `${pathname}/${batchId}`) : checkAccess()}}>
+        <Card className='p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
             <div className='rounded flex flex-col h-48 p-4 justify-center items-center shadow-md relative'>
                 <Image className='rounded object-cover' src={batch.course.imageURL} alt={batch.title} layout='fill'/>
             </div>

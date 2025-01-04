@@ -96,7 +96,7 @@ const Signup = () =>
         <div className='h-[100vh] flex items-center justify-center' style={{backgroundColor:'var(--primary-bg)'}}>
             <div className='bg-white rounded w-96 p-6'> 
                 <div className='flex justify-center mb-4'>
-                    <Image className='h-16 w-fit' src={logo} alt='logo'/>
+                    <Image className='h-16 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
                 </div>
                 <div className='w-full flex flex-col gap-4 items-center'>
                     <form className='flex flex-col w-full gap-4'onSubmit={handleSubmit}>

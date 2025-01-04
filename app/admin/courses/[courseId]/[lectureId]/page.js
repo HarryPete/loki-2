@@ -7,13 +7,21 @@ import { toast } from 'sonner';
 import lectureIcon from '../../../../../assets/lecture.png'
 import Loading from '@/app/components/Loading';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 const Page = () =>
 {
     const [ lecture, setLecture ] = useState(null);
     const [ isLoading,setIsLoading ] = useState(true);
     const params = useSearchParams();
-    const lectureId = params.get('lectureId')
+    const id = params.get('id');
+    const lectureId = params.get('lectureId');
+    const course = params.get('course');
+    const [ url, setUrl ] = useState('')
+    const path = usePathname();
+    const { data, status } = useSession();
+    const [ batchData, setBatchData ] = useState(null);
+    const router = useRouter();
 
     useEffect(()=>
     {
@@ -27,6 +35,8 @@ const Page = () =>
             setIsLoading(true)
             const url = `/api/lecture/${lectureId}`
             const response = await axios.get(url);
+            const embedUrl = response.data.recording;
+            setUrl(embedUrl)
             setLecture(response.data);
         }
         catch(error)
@@ -39,64 +49,26 @@ const Page = () =>
         }
     }
 
-    console.log(lecture)
-
-
     if(isLoading)
         return <Loading/>
 
     return(
-        <div className='flex flex-col gap-4 space-y-4 md:text-base text-sm'>
-            <div className='bg-white shadow-lg rounded'>
-            <div className='flex items-center gap-2 bg-gray-200 p-4'>
-            <Image  className='h-6 w-fit' src={lectureIcon} alt='icon'/>
-            <h1 className='text-base font-semibold'>{lecture.title}</h1>
-            
-            </div>
-            <div className='space-y-4 p-4 text-sm'>
-            {lecture.modules.map((module,index)=>
-            (
-                <p key={index}>{module}</p>
-            ))}
-            </div>
-            </div>
-            <iframe className='w-[100%]' width="560" height="315" src="https://www.youtube.com/embed/aJe-HpFwT_o?si=S6UEW6PJu6ZUwcZsrel=0&modestbranding=0&showinfo=0&autoplay=1&disablekb=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-            
-            
-{/*             
-            <Carousel>
-                <CarouselContent>
-                    {course.feedbacks.map((feed) => (
-                    <CarouselItem key={feed._id} className='lg:basis-1/2'>
-                        <Card className='p-4 space-y-4 aspect-square'>
-                            <Image className="h-12 w-12 object-cover" src={feed.user?.imageeURL ? feed.user?.imageeURL  : defaultDP } alt='user' width={100} height={100}/>
-                            <div className="space-y-2">
-                                <p className="font-lg font-semibold">{feed.user.name}</p>
-                                <p>{feed.comment}</p>
-                                <Rating value={feed.rating}/>
-                            </div>
-                        </Card>
-                    </CarouselItem>
-                ))}
-                </CarouselContent>
-                <CarouselPrevious/>
-                <CarouselNext />
-            </Carousel>
-             */}
-            {/* <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4 md:text-base text-sm">
-            {course.feedbacks.map((feed)=>
-            (
-                <Card key={feed._id} className='p-4 space-y-4'>
-                    <Image className="h-12 w-12 object-cover rounded-full object-top" src={feed.user?.imageURL ? feed.user?.imageURL  : defaultDP } alt='user' width={100} height={100}/>
-                    <div className="space-y-2">
-                        <p className="font-lg font-semibold">{feed.user.name}</p>
-                        <p>{feed.comment}</p>
-                        <Rating value={feed.rating}/>
+         <div className='flex flex-col gap-4 space-y-4 md:text-base text-sm'>
+                    {/* <h1 className='text-2xl font-semibold'>{course.toUpperCase() +' > '} Leture {id}</h1> */}
+                    <div className='bg-white shadow-lg rounded'>
+                        <div className='flex items-center gap-2 bg-gray-200 p-4'>
+                        <Image className='h-6 w-fit' src={lectureIcon} alt='icon'/>
+                        <h1 className='text-base font-semibold'>{lecture.title}</h1>
                     </div>
-                </Card> 
-            ))}
-            </div> */}
-        </div>
+                    <div className='space-y-4 p-4 text-sm'>
+                    {lecture.modules.map((module,index)=>
+                    (
+                        <p key={index}>{module}</p>
+                    ))}
+                    </div>
+                    </div>
+                    <iframe className='lg:w-[100%] lg:h-[60vh] h-[100%] w-[100%] rounded shadow-lg' width="560" height="315" src={url} title={lecture.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                </div>
     )
 }
 

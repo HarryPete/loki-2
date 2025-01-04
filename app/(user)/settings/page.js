@@ -20,6 +20,8 @@ const Settings = () =>
     const [ editInfo, setEditInfo ] = useState(false);
     const [ feedbackForm, setFeedbackForm ] = useState(false);
     const [ editDP, setEditDP ] = useState(false);
+
+    console.log(data)
     
     const getUserData = async () =>
     {
@@ -38,6 +40,8 @@ const Settings = () =>
             setIsLoading(false);
         }
     }
+
+    console.log(userData)
 
     useEffect(() => 
     {

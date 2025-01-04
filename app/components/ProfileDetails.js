@@ -100,12 +100,10 @@ export const domains =
     },
 ] 
 
-const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
+const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData, getBatch, level}) =>
 {
     const { name, contact, linkedIn, organisation, experience, country, domain } = userData;
     const [ isLoading, setIsLoading ] = useState(false);
-
-    console.log(userData)
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -128,6 +126,10 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
             setIsLoading(true);
             const url = `api/user/${userData._id}`
             const response = await axios.put(url, data);
+            if(level === 'admin')
+                getBatch();
+            else
+                getUserData();
             getUserData();
             toast(response.data.message);
             setEditInfo(false)
@@ -141,7 +143,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
     return (
     <Dialog open={editInfo} onOpenChange={setEditInfo}>
         <DialogTrigger asChild>
-            <Button>Edit</Button>
+            <Button className='w-min text-xs h-6'>Edit</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -160,7 +162,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -175,7 +177,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Contact</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -189,7 +191,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Organisation</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -204,7 +206,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                 <FormItem>
                 <FormLabel>Domain</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className='md:h-12 h-10 text-sm'>
+                <FormControl className='h-10 text-sm'>
                   <SelectTrigger>
                     <SelectValue placeholder="Select your domain" />
                   </SelectTrigger>
@@ -212,7 +214,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                 <SelectContent>
                   {domains.map((data)=>
                   (
-                    <SelectItem className='md:h-12 h-10 text-sm' value={data.domain} key={data.id}>{data.domain}</SelectItem>
+                    <SelectItem className='h-10 text-sm' value={data.domain} key={data.id}>{data.domain}</SelectItem>
                   ))}                  
                 </SelectContent>
                 </Select>
@@ -228,7 +230,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Experience</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -242,7 +244,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Linked in</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -256,13 +258,14 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData}) =>
                     <FormItem>
                         <FormLabel>Country</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 md:text-base text-sm' {...field} />
+                        <Input className='h-10 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
                         <FormMessage/>
                     </FormItem>)}
                 />
+                
 { isLoading ? <Button className='lg:h-12 h-10 text-md'>
                 <Loader2 className='animate-spin'/>
                 Updating...

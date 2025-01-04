@@ -31,7 +31,7 @@ const HeroSection = () =>
 {
 
     return(
-        <div className='lg:px-[10vw] px-[5vw] lg:h-[80vh] h-[100vh] flex flex-col justify-end pb-[5vh] relative'>
+        <div className='lg:px-[10vw] px-[5vw] h-[80vh] flex flex-col justify-end pb-[5vh] relative'>
             <Navbar/>
             <Image className='object-cover h-[100%]' src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply' alt='FINTS AML' layout='fill' priority={true} />
 

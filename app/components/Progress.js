@@ -63,13 +63,9 @@ const Progress = ({batchData, level, assessments, getBatch}) =>
         }
     }
 
-    console.log(batchData)
-
     return(
         <div className='space-y-4'>
-            
-            
-            <div className='flex flex-col text-sm md:text-base h-[50vh] text-white justify-center items-center rounded p-6 relative'>
+            <div className='flex flex-col text-sm md:text-base h-[45vh] text-white justify-center items-center rounded p-6 relative'>
                 <Image className='object-cover' src={batchData.course.imageURL} alt={batchData.course.title} layout='fill'/>
                 <div className='text-3xl absolute bottom-4 font-bold mb-2 z-50'>{batchData.title.split('-')[1]}</div>
                 <p className='absolute top-4 right-4 bg-gray-700 p-2 rounded z-50 text-xs'>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>

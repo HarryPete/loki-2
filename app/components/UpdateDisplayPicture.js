@@ -10,7 +10,7 @@ import device from '../../assets/device.png'
 import close from '../../assets/close.png'
 import Loading from './Loading';
 
-const UpdateDisplayPicture = ({ userData, getUserData, editDP, setEditDP }) =>
+const UpdateDisplayPicture = ({ level, userData, getUserData, editDP, setEditDP, getBatch }) =>
 {
 
     const [ isLoading, setIsLoading ] = useState(false)
@@ -24,8 +24,10 @@ const UpdateDisplayPicture = ({ userData, getUserData, editDP, setEditDP }) =>
             const data = { imageURL: file }
             const url = `api/user/${userData._id}`
             const response = await axios.put(url, data);
-
-            getUserData();
+            if(level === 'admin')
+                getBatch();
+            else
+                getUserData();
             toast(response.data.message);
             setEditDP(false)
         }   

@@ -86,11 +86,11 @@ class enrollmentService
         }
     }
 
-    async updateAccess(enrollmentId, access)
+    async updateEnrollment(enrollmentId, updates)
     {
         try
         {
-            return await Enrollment.findByIdAndUpdate(enrollmentId, {$set : {access}})
+            return await Enrollment.findByIdAndUpdate(enrollmentId, {$set : updates})
         }
         catch(error)
         {

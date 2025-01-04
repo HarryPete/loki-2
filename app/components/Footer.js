@@ -25,10 +25,10 @@ const Footer = () =>
                 <a href='https://www.linkedin.com/in/lokesh-naik-amltrustedsource/' target='_blank'>
                     <Image className='h-8 w-8 bg-white rounded-full p-1' src={linkedin} alt='linkedin'/>
                 </a>
-                <a href='https://www.youtube.com/@camsbuild_lokesh' target='_blank'>
+                <a href='https://www.youtube.com/@FinTS_lokesh' target='_blank'>
                     <Image className='h-8 w-8 bg-white rounded-full p-1' src={youtube} alt='youtube'/>
                 </a> 
-                <a href='' target='_blank'>
+                <a href='https://www.instagram.com/fints.aml/' target='_blank'>
                     <Image className='h-8 w-8 bg-white rounded-full p-1' src={instagram} alt='instagram'/>
                 </a>   
             </div>

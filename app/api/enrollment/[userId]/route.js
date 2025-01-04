@@ -27,19 +27,19 @@ export async function POST(req, {params})
     }
 }
 
-export async function GET(req, {params}) 
-{
-    try
-    {
-        await dbConnect();
+// export async function GET(req, {params}) 
+// {
+//     try
+//     {
+//         await dbConnect();
 
-        const { userId } = await params;
-        const enrollment = await enrollmentInstance.getEnrollmentById(userId);
+//         const { userId } = await params;
+//         const enrollment = await enrollmentInstance.getEnrollmentById(userId);
         
-        return NextResponse.json(enrollment);
-    }    
-    catch(error)
-    {
-        return NextResponse.json({error})
-    }
-}
+//         return NextResponse.json(enrollment);
+//     }    
+//     catch(error)
+//     {
+//         return NextResponse.json({error})
+//     }
+// }

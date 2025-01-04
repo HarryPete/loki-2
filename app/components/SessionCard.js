@@ -22,7 +22,7 @@ const SessionCard = ({session, index, updateSessionStatus, activeAgenda, setActi
     }
 
     return(
-        <Card className='flex justify-between rounded items-center text-sm md:text-base p-4'>
+        <Card className='flex justify-between items-center text-sm p-4'>
             <div className='flex items-center gap-2'>
                 <TooltipProvider>
                 <Tooltip>
@@ -32,14 +32,14 @@ const SessionCard = ({session, index, updateSessionStatus, activeAgenda, setActi
                     </TooltipContent>
                 </Tooltip>
                 </TooltipProvider>
-                <p>Session {index+1}</p>
+                <p >Session {index+1}</p>
             </div>
             
             {level === "admin" ? 
 
             <div className='flex items-center gap-2'>
                 <Switch id={session._id} status={session.status} updateSessionStatus={updateSessionStatus}/>
-                <Label>{session.status}</Label>
+                <Label >{session.status}</Label>
             </div> : 
             <div className='flex items-center'>
                 <p>{session.status}</p>

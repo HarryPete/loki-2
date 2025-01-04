@@ -32,7 +32,6 @@ const Page = () =>
     {
         try
         {
-            setIsLoading(true)
             const url = `/api/lecture/${lectureId}`
             const response = await axios.get(url);
             const videoId = response.data.recording.split("v=")[1];
@@ -49,8 +48,6 @@ const Page = () =>
             setIsLoading(false)
         }
     }
-
-    console.log(lecture?.recording)
 
     if(isLoading)
         return <Loading/>

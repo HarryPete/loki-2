@@ -63,7 +63,7 @@ const Batches = () =>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
             {batches.map((batch) =>
             (
-                <BatchCard type="batch" level="admin" key={batch._id} data={batch} removeBatch={removeBatch}/>
+                <BatchCard type="batch" level="admin" key={batch._id} batch={batch} removeBatch={removeBatch}/>
             ))}
             </div>
         </div>
