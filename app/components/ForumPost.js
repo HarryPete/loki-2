@@ -52,20 +52,15 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
             },
     })
     
-    const handlePost = async (e) =>
+    async function onSubmit(data) 
     {
-        e.preventDefault();
-
         if(!keyList.length)
             return toast.error('Missing keywords')
-
-        if(!title)
-            return toast.error('Discussion title cannot be empty')
 
         try
         {
             const url = '/api/forum'
-            const response = await axios.post(url, {title, author: user, keywords: keyList});
+            const response = await axios.post(url, {title: data.title, author: user, keywords: keyList});
             toast.success(response.data.message)
             getDiscussions('/api/forum');
             getTopics()
@@ -91,26 +86,26 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
         setKeyList(newList)
     }
 
-    async function onSubmit(data) 
-    {
-        try
-        {
-            // const url = `api/user/${userData._id}`
-            // const response = await axios.put(url, data);
-            // getUserData();
-            // toast(response.data.message);
-            // setEditInfo(false)
-        }   
-        catch(error)
-        {
-            console.log(error)
-        }
-    }
+    // async function onSubmit(data) 
+    // {
+    //     try
+    //     {
+    //         const url = `api/user/${userData._id}`
+    //         const response = await axios.put(url, data);
+    //         getUserData();
+    //         toast(response.data.message);
+    //         setEditInfo(false)
+    //     }   
+    //     catch(error)
+    //     {
+    //         console.log(error)
+    //     }
+    // }
 
     return(
         <Dialog open={newDiscussion} onOpenChange={setNewDiscussion}>
         <DialogTrigger asChild>
-            <Button className='h-14 text-md'>New Discussion</Button>
+            <Button className='rounded-full h-16 aspect-square text-md fixed bottom-4 right-4'>New</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -129,7 +124,7 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
                     <FormItem>
                         <FormLabel>Title</FormLabel>
                         <FormControl>
-                        <Input className='h-12' {...field} />
+                        <Input className='h-12 text-sm' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>

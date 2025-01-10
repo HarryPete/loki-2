@@ -1,5 +1,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
 
 const ForumSearchbar = ({searchQuery, getDiscussions, handleChange}) =>
 {
@@ -22,7 +23,7 @@ const ForumSearchbar = ({searchQuery, getDiscussions, handleChange}) =>
     }
 
     return(
-        <div className=''>
+        <Card className='p-4 grid grid-cols-1 gap-4'>
             <Input value={searchQuery.search} onChange={(e)=> handleChange('search', e.target.value)}/>
             <Input value={searchQuery.search} onChange={(e)=> handleChange('search', e.target.value)}/>
             {/* <FormControl color='grey' fullWidth >
@@ -38,7 +39,7 @@ const ForumSearchbar = ({searchQuery, getDiscussions, handleChange}) =>
                 <button onClick={handleFilterChange}>Search</button>  
                 <button onClick={handleClear}>Clear</button>    
             </div>    
-        </div>
+        </Card>
     )
 }
 

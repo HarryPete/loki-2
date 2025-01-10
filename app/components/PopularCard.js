@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/card';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +19,7 @@ const PopularCard = ({handleChange, getTopics, topics}) =>
     }
 
     return(
-        <div className='bg-gray-100 rounded text-sm p-4 space-y-4 shadow-lg'>
+        <Card className='text-sm p-4 space-y-4'>
             <h1 className='text-xl font-semibold' style={{color: 'var(--primary-color)'}}>Popular Topics</h1>
             {topics?.map((topic, index) =>
             (
@@ -30,7 +31,7 @@ const PopularCard = ({handleChange, getTopics, topics}) =>
                     {index === active && <p className='bg-white px-1 font-bold rounded-full text-xs cursor-pointer' onClick={handleClick}>x</p>}    
                 </div>
             ))}            
-        </div>
+        </Card>
     )
 } 
 

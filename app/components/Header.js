@@ -54,7 +54,7 @@ const Header = () =>
             </div>
             
             {showDetails && 
-            <Card className='fixed w-[90%] sm:w-96 top-24 sm:right-5 flex flex-col items-end gap-2 p-6 '>
+            <Card className='fixed w-[90%] sm:w-96 top-20 sm:right-5 flex flex-col items-end gap-2 p-6 '>
                 <Image className='h-6 w-fit cursor-pointer' src={close} alt='close' onClick={()=> setShowDetails(false)}/>
                 <div className='flex gap-4 w-full border-b border-gray-300'>
                     <Image className='h-12 w-12 object-cover rounded-full' src={userData?.imageURL ? userData?.imageURL : user} height={100} width={100} alt='user'/>

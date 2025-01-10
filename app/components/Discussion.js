@@ -25,7 +25,7 @@ const Discussion = ({discussion, handleDelete}) =>
             <div className='flex flex-wrap gap-2'>
             {keywords.map((key, index)=>
             (
-                <p key={index} className='bg-gray-300 rounded p-1 w-fit relative text-sm'>{key}</p>
+                <p key={index} className='bg-gray-200 rounded p-1 w-fit relative text-xs'>{key}</p>
             ))}
             </div>
         </div>

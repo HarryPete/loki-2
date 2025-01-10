@@ -68,12 +68,13 @@ const Forum = () =>
             {discussions ? 
             <div className='space-y-4 '> 
             
-                <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion}/>
+                
                 {discussions.length > 0 ?
                 <div className='flex items-start gap-4'>
-                    
+                    <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion}/>
+                   
                     <div className='w-[30%] space-y-4 sticky top-40'>
-                        {/* <ForumSearchbar handleChange={handleChange} searchQuery={searchQuery} getDiscussions={getDiscussions}/> */}
+                        <ForumSearchbar handleChange={handleChange} searchQuery={searchQuery} getDiscussions={getDiscussions}/>
                         <PopularCard handleChange={handleChange} getTopics={getTopics} topics={topics}/>
                     </div>
                     <div className='w-[70%]'>

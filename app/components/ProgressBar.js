@@ -90,6 +90,7 @@ const ProgressBar = ({batch}) =>
         </div>
         <div className="space-x-2 text-white mt-2">
           <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link>
+          {/* <Link href='/forum' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Forum</Link> */}
           {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
         </div>
       </CardFooter>
