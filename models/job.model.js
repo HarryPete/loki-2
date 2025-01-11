@@ -52,7 +52,8 @@ const jobSchema = new Schema(
             type: mongoose.Types.ObjectId,
             ref: User
         },
-        budget: Number
+        budget: Number,
+        link: String
     },
     {
         timestamps: true

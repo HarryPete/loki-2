@@ -61,15 +61,14 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
         {
             const url = '/api/forum'
             const response = await axios.post(url, {title: data.title, author: user, keywords: keyList});
-            toast.success(response.data.message)
-            getDiscussions('/api/forum');
-            getTopics()
-            setTitle('')
-            setKeyList([])
+            toast.success(response.data.message);
+            setNewDiscussion(false);
+            getDiscussions();
+            setKeyList([]);
         }
         catch(error)
         {
-            console.log(error);
+            toast.error(error.message);
         } 
     }
 
@@ -105,7 +104,7 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
     return(
         <Dialog open={newDiscussion} onOpenChange={setNewDiscussion}>
         <DialogTrigger asChild>
-            <Button className='rounded-full h-16 aspect-square text-md fixed bottom-4 right-4'>New</Button>
+            <Button className='text-sm'>New Discussion</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -116,7 +115,7 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
             </DialogHeader>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 text-sm">
                 <FormField
                     control={form.control}
                     name="title"
@@ -139,15 +138,15 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
                 ))}
                 </div>
                 
-                <Button className='h-12 w-full text-base' type="submit">Post</Button>
+                <Button className='h-10 w-full' type="submit">Post</Button>
                 </form>
             </Form>
-            <div className='flex flex-wrap gap-2'>
+            {keyList.length>0 && <div className='flex flex-wrap gap-2'>
             {keyList?.map((key, index)=>
             (   
                 <ForumKey key={index} type="edit" keyword={key} removeKeyWord={removeKeyWord}/>
             ))}
-            </div>
+            </div>}
         </DialogContent>
     </Dialog> 
     )

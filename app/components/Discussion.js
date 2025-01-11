@@ -14,10 +14,10 @@ const Discussion = ({discussion, handleDelete}) =>
     return(
         <div className='space-y-2'>
             <div className=''>
-                <p className='font-semibold'>{title}</p>
+                <p className='font-semibold lg:text-base text-sm'>{title}</p>
                 {/* {data?.user?.role === 'admin' && <Image src={deleteIcon} alt='delete' onClick={()=> handleDelete(id)}/>} */}
             </div>
-            <div className='flex gap-2 text-sm'>
+            <div className='flex gap-2 text-xs'>
                 <p>Posted by {author?.name}</p>
                 <p>•</p>
                 <p>{FormatTime(createdAt)}</p>

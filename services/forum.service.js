@@ -54,6 +54,41 @@ class forumService
         }
     }
 
+    async findDiscussionById(discussionId)
+    {
+        try
+        {
+            const discussions = await Forum.findById(discussionId).populate({path: 'author', model: User})
+            .populate
+            (
+                {
+                    path:'comments',
+                    model: Comment,
+                    populate:
+                    [{
+                        path: 'author', 
+                        model: User
+                    },
+                    {
+                        path: 'replies', 
+                        model: Reply,
+                        populate:
+                        {
+                            path: 'author',
+                            model: User
+                        }
+                    }]
+                }
+            );
+            return discussions;
+        }
+        catch(error)
+        {
+            console.log(error)
+            throw new Error('Failed to fetch discussions')
+        }
+    }
+
     async deleteById(id)
     {
         try

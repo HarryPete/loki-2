@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
-const Discussions = ({discussions, getDiscussions, getTopics}) =>
+const Discussions = ({discussions, getDiscussions}) =>
 {   
     const [ comment, setComment ] = useState('')
     const [ viewComment, setViewComment ] = useState(null)
@@ -28,8 +28,7 @@ const Discussions = ({discussions, getDiscussions, getTopics}) =>
             const url = `/api/forum/${id}`
             const response = await axios.delete(url);
             toast.success(response.data.message);
-            getDiscussions('/api/forum');
-            getTopics();
+            getDiscussions();
         }
         catch(error)
         {
@@ -49,7 +48,7 @@ const Discussions = ({discussions, getDiscussions, getTopics}) =>
             {
                 const response = await axios.post(url, {comment, author: user});
                 toast.success(response.data.message)
-                getDiscussions('/api/forum');
+                getDiscussions();
                 setComment('');
                 setViewComment(id);
             }
@@ -62,20 +61,21 @@ const Discussions = ({discussions, getDiscussions, getTopics}) =>
     }
 
     return(
-        <div className='grid grid-cols-1 gap-4'>
-            {discussions.map((discussion) =>
+        <div className='grid grid-cols-1 gap-4 lg:text-sm text-xs'>
+            {discussions.map((discussion, index) =>
             (
                 <Card className='space-y-4 p-4' key={discussion._id}>
+                    {index === 0 && <span className='bg-yellow-400 p-1 text-xs rounded'>Recent</span>}
                     <Discussion discussion={discussion} handleDelete={handleDelete}/>
                     <div className='flex gap-2'>
-                        <Input value={comment} onChange={(e)=> setComment(e.target.value)} placeholder='Reply'/>
-                        <Button onClick={()=> handleComment(discussion._id)}>Send</Button>
+                        <Input className='lg:text-sm text-xs' value={comment} onChange={(e)=> setComment(e.target.value)} placeholder='Reply'/>
+                        <Button className='lg:text-sm text-xs' onClick={()=> handleComment(discussion._id)}>Send</Button>
                     </div>
                     { discussion.comments.length > 0 ?
-                    <div className='flex items-center gap-2 cursor-pointer bg-white w-fit p-2 ursor-pointer rounded-2xl text-sm' onClick={()=> setViewComment((prev) => prev  === discussion._id ? null : discussion._id)}>
+                    <div className='flex items-center gap-2 bg-gray-100 w-fit p-2 cursor-pointer rounded-2xl' onClick={()=> setViewComment((prev) => prev  === discussion._id ? null : discussion._id)}>
                         <p>{discussion.comments?.length > 1 ? 'View responses' : 'View response'}</p>
                        <Image className='h-4 w-fit' src={viewComment === discussion._id ? upArrow : downArrow} alt='comments'/> 
-                    </div>:<p className='text-muted-foreground text-sm'>Be the first one to respond</p>}
+                    </div>:<p className='text-muted-foreground'>Be the first one to respond</p>}
                     {viewComment === discussion._id &&
                     <div className='space-y-4'>
                     {discussion.comments.map((comment) =>

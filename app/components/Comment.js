@@ -28,7 +28,7 @@ const Comment = ({comment, getDiscussions, user}) =>
                 const url = `/api/reply/${id}`
                 const response = await axios.post(url, {reply, author: user})
                 toast.success(response.data.message)
-                getDiscussions('/api/forum');
+                getDiscussions();
                 setReply('');
                 setViewReply(id)
             }
@@ -36,28 +36,28 @@ const Comment = ({comment, getDiscussions, user}) =>
         }
         catch(error)
         {
-            console.log(error);
+            toast.error(error.message);
         }
     }
 
     return(
-        <div className='space-y-2'>
+        <div className='space-y-4'>
             <ReplyCard key={comment._id} data={comment} 
                 type="comment" setShowReply={setShowReply} 
                 replyId={comment._id}
             />
 
             {(comment.replies?.length > 0 ? 
-            <div 
+            <div className='ml-12 flex items-center gap-2 bg-gray-100 rounded-full w-fit px-2 p-1 cursor-pointer '
                 onClick={()=>
                 { 
                     setViewReply((prev)=> prev === comment._id ? null : comment._id); 
                     setShowReply((prev)=> prev === comment._id ? null : comment._id)
                 }}>
-                <Image src={viewReply === comment._id ? downArrow : upArrow} alt='comments'/>{comment.replies?.length} {comment.replies?.length > 1 ? 'replies' : 'reply'}</div> : <></>)}
+                <Image className='h-4 w-fit text-sm' src={viewReply === comment._id ? upArrow : downArrow} alt='comments'/>{comment.replies?.length} {comment.replies?.length > 1 ? 'replies' : 'reply'}</div> : <></>)}
 
             {viewReply === comment._id &&
-            <div className=''>
+            <div className='ml-12 space-y-2'>
                 {comment.replies.map((reply) =>
                 (
                     <ReplyCard key={reply._id} data={reply} type="reply"/>
@@ -66,9 +66,9 @@ const Comment = ({comment, getDiscussions, user}) =>
             
             
             {showReply === comment._id && 
-            <div className='w-[60%]  flex gap-2 ml-14'> 
-                <Input value={reply} onChange={(e)=> setReply(e.target.value)}/>
-                <Button className='' onClick={()=> handleReply(comment._id)}>Send</Button>
+            <div className='lg:w-[60%] w-fit flex gap-2 ml-12 text-xs'> 
+                <Input className='lg:text-sm text-xs' placeholder='Reply' value={reply} onChange={(e)=> setReply(e.target.value)}/>
+                <Button className='lg:text-sm text-xs' onClick={()=> handleReply(comment._id)}>Send</Button>
             </div>}
         </div>   
     )

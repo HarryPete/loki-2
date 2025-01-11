@@ -8,6 +8,8 @@ import PopularCard from '@/app/components/PopularCard'
 import Loading from '@/app/components/Loading'
 import ForumPost from '@/app/components/ForumPost'
 import Discussions from '@/app/components/Discussions'
+import Link from 'next/link'
+import { toast } from 'sonner'
 
 const Forum = () =>
 {
@@ -20,68 +22,67 @@ const Forum = () =>
 
     useEffect(() =>
     {        
-        const url = '/api/forum'
-        getDiscussions(url);
+        getDiscussions();
     },[])
     
-    const getDiscussions = async (url) =>
+    const getDiscussions = async () =>
     {
         try
         {
+            const url = `/api/forum`
             const response = await axios(url)
             setDiscussions(response.data)
         }
         catch(error)
         {
-            console.log(error);
+            toast.error(error.message);
         }
     }
 
-    const handleChange = (type, value) =>
-    {
-        if(type === "topic" && !value)
-        {
-            router.push(pathname)
-            getDiscussions(`/api/forum`)
-            setSearchQuery({...searchQuery, [type] : ''})
-            return;
-        }
+    // const handleChange = (type, value) =>
+    // {
+    //     if(type === "topic" && !value)
+    //     {
+    //         router.push(pathname)
+    //         getDiscussions()
+    //         setSearchQuery({...searchQuery, [type] : ''})
+    //         return;
+    //     }
 
-        if(type==="topic")
-        {
-            const path = `topic=${value}`
-            router.push(`${pathname}?${path}`)
-            getDiscussions(`/api/forum?${path}`)
-        }
-        setSearchQuery({...searchQuery, [type] : value})
-    }
+    //     if(type==="topic")
+    //     {
+    //         const path = `topic=${value}`
+    //         router.push(`${pathname}?${path}`)
+    //         getDiscussions(`/api/forum?${path}`)
+    //     }
+    //     setSearchQuery({...searchQuery, [type] : value})
+    // }
 
-    const getTopics = async () =>
-    {
-        const url = '/api/forum/topics';
-        const response = await axios(url);
-        setTopics(response.data);
-    }
+    // const getTopics = async () =>
+    // {
+    //     const url = '/api/forum/topics';
+    //     const response = await axios(url);
+    //     setTopics(response.data);
+    // }
 
     return(
-        <div className=''>
+        <div className='space-y-4'>
+            <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>
+                   
             {discussions ? 
-            <div className='space-y-4 '> 
-            
-                
+            <div className='space-y-4 '>                 
                 {discussions.length > 0 ?
                 <div className='flex items-start gap-4'>
-                    <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion}/>
-                   
-                    <div className='w-[30%] space-y-4 sticky top-40'>
+                    
+                    {/* <div className='w-[30%] space-y-4 sticky top-40'>
                         <ForumSearchbar handleChange={handleChange} searchQuery={searchQuery} getDiscussions={getDiscussions}/>
                         <PopularCard handleChange={handleChange} getTopics={getTopics} topics={topics}/>
-                    </div>
-                    <div className='w-[70%]'>
-                        <Discussions discussions={discussions} getDiscussions={getDiscussions} getTopics={getTopics}/>
+                    </div> */}
+                    <div className='w-[100%] grid grid-cols-1 gap-2 text-sm'>
+                        <Discussions discussions={discussions} getDiscussions={getDiscussions}/>
                     </div> 
                 </div> :
-                <div className=''>
+                <div className='text-center text-gray-300 md:text-3xl text-lg font-semibold'>
                     No Discussions Posted
                 </div>}
             </div> : 

@@ -17,9 +17,7 @@ import Image from "next/image"
 const ProfileSettings = () =>
 {
     const { data } = useSession()
-
-    console.log(data)
-
+    
     return (
         <Sheet>
         <SheetTrigger asChild>
