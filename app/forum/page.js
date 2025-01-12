@@ -11,6 +11,7 @@ import Discussions from '@/app/components/Discussions'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { useSession } from 'next-auth/react'
+import Header from '../components/Header'
 
 const Forum = () =>
 {
@@ -70,7 +71,10 @@ const Forum = () =>
     // }
 
     return(
-        <div className='space-y-4'>
+        <div>
+        <Header/>
+        <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4 pt-24'>
+            
             {user && <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>}
                    
             {discussions ? 
@@ -91,6 +95,7 @@ const Forum = () =>
                 </div>}
             </div> : 
             <Loading/>}
+        </div>
         </div>
     )
 }
