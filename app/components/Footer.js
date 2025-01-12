@@ -10,7 +10,7 @@ const Footer = () =>
 {
 
     return(
-        <div className='px-[10vw] justify-center py-24 text-white md:text-base text-sm' style={{backgroundColor: 'var(--primary-color)'}}>
+        <div className='px-[10vw] justify-center py-24 text-white md:text-sm text-xs' style={{backgroundColor: 'var(--primary-color)'}}>
             <div className='flex flex-col items-center sm:flex-row gap-2 sm:justify-between mb-6  border-b border-gray-800 pb-8'>
                 <Image className='h-12 w-fit' src={logo} alt='icon'/>
                 

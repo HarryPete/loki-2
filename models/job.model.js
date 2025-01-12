@@ -11,14 +11,9 @@ const jobSchema = new Schema(
         company:
         {
             type: String,
-            required:  true
+            required: true
         },
         workplaceType:
-        {
-            enum: ['On-site', 'Hybrid', 'Remote'],
-            default: 'Onsite'
-        },
-        location:
         {
             type: String,
             required: true
@@ -26,34 +21,44 @@ const jobSchema = new Schema(
         jobType:
         {
             type: String,
-            required: true   
+            required: true  
+        },
+        country:
+        {
+            type: String,
+            required: true
+        },
+        city:
+        {
+            type: String,
+            required: true
         },
         skills:
         [{
             type: String
         }],
+        experience:
+        {
+            type: String,
+            required: true
+        },
+        budget: Number,
+        openings:
+        {
+            type: String,
+            required: true
+        }, 
+        link: String,
         description:
         {
             type: String,
             required: true
         },
-        experience:
-        {
-            type: Number,
-            required: true
-        },
-        openings:
-        {
-            type: Number,
-            default: 1
-        }, 
         postedBy:
         {
             type: mongoose.Types.ObjectId,
             ref: User
-        },
-        budget: Number,
-        link: String
+        }
     },
     {
         timestamps: true

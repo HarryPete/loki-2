@@ -11,6 +11,11 @@ const displaySchema = new Schema(
         [{
             type: Schema.Types.ObjectId,
             ref: 'User'
+        }],
+        recentJobs:
+        [{
+            type: Schema.Types.ObjectId,
+            ref: 'Job'
         }]
     },
     {

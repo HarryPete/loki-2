@@ -65,7 +65,7 @@ const Comment = ({comment, getDiscussions, user}) =>
             </div> }
             
             
-            {showReply === comment._id && 
+            {showReply === comment._id && user && 
             <div className='lg:w-[60%] w-fit flex gap-2 ml-12 text-xs'> 
                 <Input className='lg:text-sm text-xs' placeholder='Reply' value={reply} onChange={(e)=> setReply(e.target.value)}/>
                 <Button className='lg:text-sm text-xs' onClick={()=> handleReply(comment._id)}>Send</Button>

@@ -29,6 +29,11 @@ const routes =
         id: 5,
         title: 'Requests',
         route: '/admin/requests'
+    },
+    {
+        id: 6,
+        title: 'Job Portal',
+        route: '/admin/job-portal'
     }
 ]
 

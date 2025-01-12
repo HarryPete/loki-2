@@ -7,6 +7,9 @@ import Navbar from './Navbar'
 import Link from 'next/link'
 import { BorderBeam } from '@/components/ui/border-beam'
 import RequestForm from './RequestForm'
+import { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 const numbers =
 [
@@ -29,6 +32,15 @@ const numbers =
 
 const HeroSection = () =>
 {
+    // const [ showPopup, setShowPopup ] = useState(false);
+
+    // useEffect(()=>
+    // (
+    //     setTimeout(()=>
+    //     (
+    //       setShowPopup(true)  
+    //     ),2000)
+    // ),[])
 
     return(
         <div className='lg:px-[10vw] px-[5vw] h-[80vh] flex flex-col justify-end pb-[5vh] relative'>
@@ -42,7 +54,7 @@ const HeroSection = () =>
                     <div className='space-y-8 w-full'>
                         {/* <span className='border border-gray-400 text-xs font-semibold text-white p-2 rounded-xl'>For Professionals</span> */}
                         <h1 className='lg:text-3xl md:text-2xl text-xl text-yellow-400 font-semibold'>CAMS & CGSS Certification Pathway</h1>
-                        <p className='text-gray-300'>Unlock your potential in anti-money laundering and sanctions compliance with expert-led learning, practical applications, and real-world case studies.</p>
+                        <p className='text-gray-300 lg:text-base md:text-sm text-xs'>Unlock your potential in anti-money laundering and sanctions compliance with expert-led learning, practical applications, and real-world case studies.</p>
                         <div className='space-y-2 space-x-2'>
                             <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Live classes</span>
                             <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Real world cases</span>
@@ -60,6 +72,23 @@ const HeroSection = () =>
                         ))}
                         </div>
                         {/* <Image className='md:h-16 h-12 w-fit z-10' src={subheading} alt='icon'/> */}
+                        {/* <div className='bg-[rgba(0,0,0,0.5)] shadow-xl border border-gray-800 md:p-8 p-4 rounded-xl'>
+                            <h1 className='md:text-base text-sm text-center text-gray-100'><span className='text-yellow-400 font-semibold'>CAMS-149</span> commences on January 17, 2025</h1>
+                        </div>
+
+                        <Dialog open={showPopup} onOpenChange={setShowPopup}>
+                            <DialogTrigger asChild>
+                                <Button className='w-min text-xs h-6'></Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Edit your profile</DialogTitle>
+                                <DialogDescription>
+                                </DialogDescription>
+                            </DialogHeader>
+                            </DialogContent>
+                        </Dialog> */}
+
                     </div>
                     {/* <div className='lg:w-[30%] w-0 bg-white rounded p-6'>
                     <RequestForm/>

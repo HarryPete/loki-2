@@ -10,15 +10,19 @@ import ForumPost from '@/app/components/ForumPost'
 import Discussions from '@/app/components/Discussions'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { useSession } from 'next-auth/react'
 
 const Forum = () =>
 {
     const [ discussions, setDiscussions ] = useState(null);
-    const [ topics, setTopics ] = useState(null)
-    const [ searchQuery, setSearchQuery ] = useState({search: '', order: ''})
+    // const [ topics, setTopics ] = useState(null)
+    // const [ searchQuery, setSearchQuery ] = useState({search: '', order: ''})
     const [ newDiscussion, setNewDiscussion ] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
+
+    const session = useSession();
+    const user = session?.data?.user?.id
 
     useEffect(() =>
     {        
@@ -67,7 +71,7 @@ const Forum = () =>
 
     return(
         <div className='space-y-4'>
-            <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>
+            {user && <ForumPost newDiscussion={newDiscussion} setNewDiscussion={setNewDiscussion} getDiscussions={getDiscussions}/>}
                    
             {discussions ? 
             <div className='space-y-4 '>                 

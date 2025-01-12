@@ -19,11 +19,11 @@ class forumService
         }
     }
 
-    async findAll(search)
+    async findAll()
     {
         try
         {
-            const discussions = await Forum.find({title: {$regex : search, $options : 'i'}}).populate({path: 'author', model: User})
+            const discussions = await Forum.find().populate({path: 'author', model: User})
             .populate
             (
                 {

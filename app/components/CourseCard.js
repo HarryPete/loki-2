@@ -4,12 +4,13 @@ import verified from '../../assets/verified.png'
 import Link from 'next/link'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Card } from '@/components/ui/card'
+import logo from '../../assets/logo.png'
 
 const extraData =
 [
     {
         id:1,
-        description: '32 recorded lectures'
+        description: 'Recorded lectures'
     },
     {
         id:2,
@@ -17,13 +18,24 @@ const extraData =
     },
     {
         id:3,
-        description: 'Exclusive study guides'
+        description: '1:1 sessions'
     },
     {
         id:4,
+        description: 'Exclusive study guides'
+    },
+    {
+        id:5,
         description: 'Lifetime access to forum'
     },
-
+    {
+        id:6,
+        description: 'Exam strategies'
+    },
+    {
+        id:6,
+        description: 'Job assistance'
+    },
 ]
 
 const CourseCard = ({level, course}) =>
@@ -32,7 +44,7 @@ const CourseCard = ({level, course}) =>
     return(
         <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative bg-white rounded shadow-xl text-sm md:text-base p-4'>
             <div className='flex flex-col gap-4'>
-            <div className='flex flex-col items-center justify-center h-48 rounded relative'>
+            <div className='flex flex-col items-center justify-center h-56 rounded relative'>
                 <Image className='h-[100%] w-full rounded object-cover' src={course.imageURL} alt={course.id} layout='fill'/>
             </div>
             {/* {level !== 'admin' && <BorderBeam colorFrom='var(--primary-color)' colorTo='var(--action-color)' className='rounded-xl'/>} */}
@@ -50,8 +62,8 @@ const CourseCard = ({level, course}) =>
                         <p>{data.description}</p>
                     </div>
                 ))}
-                <p className='text-gray-400 mt-2 text-sm'>32 lectures, 64 hours</p>
-            </div>}
+                <p className='text-gray-400 mt-2 text-sm'>35 lectures, 60 hours</p>
+              </div>}
             </div>
         </Link>
     )

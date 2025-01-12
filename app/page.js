@@ -52,6 +52,7 @@ import Rating from './components/Rating'
 import Link from 'next/link'
 import Founder from './components/Founder'
 import { Skeleton } from '@/components/ui/skeleton'
+import { FormatDate } from '@/utility/FormatDate'
 
 const heroData =
 [
@@ -277,9 +278,9 @@ const Home = () =>
     }
 
     return(
-        <div className='md:text-base text-sm md:leading-7 leading-5'>
+        <div className='md:text-sm text-xs md:leading-7 leading-5'>
             <HeroSection />
-            <div className='bg-white space-y-6 text-center items-center py-12'>
+            <div className='space-y-6 text-center items-center py-12'>
             <h1 className='font-semibold text-center text-2xl'>CAMS Graduates, December 2024</h1>
                 <Marquee className="justify-center overflow-hidden [--duration:60s] [--gap:2rem] w-[100%]">
                 {isLoading ? 
@@ -304,11 +305,73 @@ const Home = () =>
                     </div>
                 ))}
                 </Marquee>
-                <div className='space-y-2'>
+                {/* <div className='space-y-2'>
                   <h1 className='lg:px-[10vw] px-[5vw] text-2xl  leading-snug font-semibold text-orange-700'>Join Our Growing Network of Successful Graduates</h1>
                   <p className='lg:px-[10vw] px-[5vw] text-gray-400'>Explore the achievements of our recent graduates and see how our program is shaping the future of AML and compliance professionals.</p>
-                </div>
+                </div> */}
+
+                <div className='sm:px-[10vw] px-[15vw] py-12'>
+            <h1 className='font-semibold w-full flex items-center justify-center gap-2 text-2xl mb-8'>Job Openings <span className='bg-yellow-400 px-1 p-2 rounded-full text-xs'>New</span></h1>
+            {isLoading ?
+            <div className='grid md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
+            {[1,2].map((_,index)=>(
+              <div className='space-y-6 shadow-md p-8 rounded bg-white' key={index}>
+                  <div className='flex justify-between w-full'>
+                    <Skeleton className='w-[40%] p-2 shadow-md bg-gray-200 rounded'/>
+                    <Skeleton className='w-[30%] p-2 shadow-md bg-gray-200 rounded'/>
+                  </div>
+                  <div className='space-y-3'>
+                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
+                  </div>
+                  <Skeleton className='p-0.5 rounded-xl bg-gray-200'/>
+                  <div className='space-y-3'>
+                    <div className='flex gap-2'>
+                      <Skeleton className='p-3 w-12 rounded bg-gray-200'/>
+                      <Skeleton className='p-3 w-12 rounded bg-gray-200'/>  
+                    </div>
+                    <Skeleton className='p-1.5 rounded bg-gray-200 w-56'/>
+                  </div>
+              </div>
+            ))}
+            </div> :
+            <Carousel >
+            <CarouselContent>
+            
+            {displayData?.recentJobs?.map((job, index) => (
+            <CarouselItem key={job._id} className='lg:basis-1/2 p-2 space-y-1'>
+              <>
+                <CardContent className="p-6 bg-white rounded shadow-md text-start">
+                   <div className="flex lg:flex-row flex-col font-semibold lg:items-center items-start pb-4 justify-between">
+                      <span className='text-start'>{job.title}</span>
+                      <span className="text-muted-foreground">{job.company}</span>
+                    </div>
+                    
+                  <div >
+                    <p><span>Experience : </span>{job.experience} years</p>
+                    <p><span>Location : </span>{job.city +', ' +job.country}</p>
+                    <p className="pb-4"><span>Openings : </span>{job.openings}</p>
+                  </div>
+                                      {/* <p className="border-t py-4">{job.description}</p> */}
+                  <footer className="flex flex-col gap-4 text-xs w-full border-t pt-6">
+                    <div className="space-x-2">
+                      <span className="bg-yellow-400 p-1 rounded">{job.jobType}</span>
+                      <span className="bg-yellow-400 p-1 rounded">{job.workplaceType}</span>
+                  </div>
+                  <p className="text-muted-foreground">Posted on {FormatDate(job.createdAt)}</p>
+                  </footer>     
+                </CardContent>
+              </>
+          </CarouselItem>
+          ))}
+          </CarouselContent>
+          <CarouselPrevious/>
+          <CarouselNext />
+          </Carousel>}
+          </div>
             </div>
+            
 
             <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
                 <h1 className='font-semibold text-center text-2xl'>Why CAMS & CGSS ?</h1>
@@ -331,7 +394,7 @@ const Home = () =>
                 (
                     <div className='flex flex-col gap-2' key={data.id}>
                         <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.image} alt='icon'/>
-                        <h1 className='md:text-lg text-base font-semibold mt-4'>{data.header}</h1>
+                        <h1 className='md:text-base text-sm font-semibold mt-4'>{data.header}</h1>
                         <p className='text-gray-400'>{data.detail}</p>
                     </div>
                 ))}

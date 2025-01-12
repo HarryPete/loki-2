@@ -8,15 +8,15 @@ export async function GET(req, res)
     try
     {
         await dbConnect();
-        const {searchParams} = new URL(req.url);
-        const params = new URLSearchParams(searchParams);
-        const searchKey = params.get('search') ? params.get('search') : '';
-        const orderKey = params.get('order') ? params.get('order') : ''
-        const topic = params.get('topic') ? params.get('topic') : ''
-        const discussions = await forumInstance.findAll(searchKey);
-        const orderedDiscussion = orderKey === "dec" ? discussions.sort((a,b)=> b.updatedAt - a.updatedAt) : discussions
-        const disccussionTopic = topic ? orderedDiscussion.filter((discussion) => discussion.keywords.includes(topic)) : orderedDiscussion;
-        return NextResponse.json(disccussionTopic)
+        // const {searchParams} = new URL(req.url);
+        // const params = new URLSearchParams(searchParams);
+        // const searchKey = params.get('search') ? params.get('search') : '';
+        // const orderKey = params.get('order') ? params.get('order') : ''
+        // const topic = params.get('topic') ? params.get('topic') : ''
+        const discussions = await forumInstance.findAll();
+        // const orderedDiscussion = orderKey === "dec" ? discussions.sort((a,b)=> b.updatedAt - a.updatedAt) : discussions
+        // const disccussionTopic = topic ? orderedDiscussion.filter((discussion) => discussion.keywords.includes(topic)) : orderedDiscussion;
+        return NextResponse.json(discussions)
     }
     catch(error)
     {

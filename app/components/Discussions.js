@@ -67,15 +67,16 @@ const Discussions = ({discussions, getDiscussions}) =>
                 <Card className='space-y-4 p-4' key={discussion._id}>
                     {index === 0 && <span className='bg-yellow-400 p-1 text-xs rounded'>Recent</span>}
                     <Discussion discussion={discussion} handleDelete={handleDelete}/>
+                    {user && 
                     <div className='flex gap-2'>
                         <Input className='lg:text-sm text-xs' value={comment} onChange={(e)=> setComment(e.target.value)} placeholder='Reply'/>
                         <Button className='lg:text-sm text-xs' onClick={()=> handleComment(discussion._id)}>Send</Button>
-                    </div>
+                    </div>}
                     { discussion.comments.length > 0 ?
                     <div className='flex items-center gap-2 bg-gray-100 w-fit p-2 cursor-pointer rounded-2xl' onClick={()=> setViewComment((prev) => prev  === discussion._id ? null : discussion._id)}>
                         <p>{discussion.comments?.length > 1 ? 'View responses' : 'View response'}</p>
                        <Image className='h-4 w-fit' src={viewComment === discussion._id ? upArrow : downArrow} alt='comments'/> 
-                    </div>:<p className='text-muted-foreground'>Be the first one to respond</p>}
+                    </div>:(user && <p className='text-muted-foreground'>Be the first one to respond</p> )}
                     {viewComment === discussion._id &&
                     <div className='space-y-4'>
                     {discussion.comments.map((comment) =>
@@ -85,6 +86,7 @@ const Discussions = ({discussions, getDiscussions}) =>
                     </div>}
                 </Card>
             ))}
+            {!user && <div className='w-full bg-gray-200 text-xs p-6 fixed bottom-0 left-0 text-center'>Only users can involve in discussions</div>}
         </div>
     )
 }
