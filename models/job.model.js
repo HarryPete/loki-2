@@ -54,11 +54,22 @@ const jobSchema = new Schema(
             type: String,
             required: true
         },
+        interests:
+        [{
+            type: mongoose.Types.ObjectId,
+            ref: User
+        }],
         postedBy:
         {
             type: mongoose.Types.ObjectId,
             ref: User
-        }
+        },
+        email:
+        {
+            type: String,
+            required: true
+        },
+        contact: String
     },
     {
         timestamps: true

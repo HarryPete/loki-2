@@ -32,6 +32,7 @@ import { keywords } from '@/utility/keywords'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 
 const formSchema = z.object({
   title: z.string().min(4, {
@@ -56,8 +57,12 @@ const formSchema = z.object({
     message: "Experience is a required field",
   }),
   budget: z.string(),
+  contact: z.string(),
   description: z.string().min(10, {
     message: "Job description is too short",
+  }),
+  email: z.string().min(8, {
+    message: "Email is a required field",
   }),
   openings: z.string(),
   link: z.string(),
@@ -69,6 +74,7 @@ const JobForm = () =>
     const user = session?.data?.user?.id;
     const countries = Country.getAllCountries();
     const router = useRouter();
+    const [ isLoading, setIsLoading ] = useState(false);
 
     const form = 
         useForm({
@@ -85,7 +91,9 @@ const JobForm = () =>
                 budget: "",
                 description: "",
                 link: "",
-                openings: 1
+                openings: 1,
+                email: "",
+                contact: ""
             },
     })
     
@@ -93,15 +101,20 @@ const JobForm = () =>
     {
         try
         {
+            setIsLoading(true);
             const url = '/api/job'
             const response = await axios.post(url, data);
             toast.success(response.data.message);
-            router.push('/admin/job-portal')
+            router.push('/')
         }
         catch(error)
         {
             toast.error(error.message);
         } 
+        finally
+        {
+          setIsLoading(false)
+        }
     }
 
     return(
@@ -349,7 +362,41 @@ const JobForm = () =>
                     </FormItem>)}
                 /> */}
 
-                <Button className='h-10 w-full lg:col-span-2 col-span-1' type="submit">Post</Button>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className='md:text-sm text-xs'>Email</FormLabel>
+                        <FormControl>
+                        <Input className='h-10 md:text-sm text-xs' {...field} />
+                        </FormControl>
+                        <FormDescription>
+                        </FormDescription>
+                        <FormMessage/>
+                    </FormItem>)}
+                />
+
+                  <FormField
+                    control={form.control}
+                    name="contact"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className='md:text-sm text-xs'>Contact</FormLabel>
+                        <FormControl>
+                        <Input className='h-10 md:text-sm text-xs' {...field} />
+                        </FormControl>
+                        <FormDescription>
+                        </FormDescription>
+                        <FormMessage/>
+                    </FormItem>)}
+                />
+
+                {isLoading ? 
+                <Button className='h-10 w-full lg:col-span-2 col-span-1' type="submit">
+                  <Loader2 className='animate-spin'/>
+                </Button> : 
+                <Button className='h-10 w-full lg:col-span-2 col-span-1' type="submit">Post</Button>}
                 </form>
             </Form>
         

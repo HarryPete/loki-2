@@ -4,15 +4,31 @@ import JobForm from "@/app/components/JobForm";
 import Loading from "@/app/components/Loading"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FormatDate } from "@/utility/FormatDate";
 import axios from "axios";
 import { Suspense, useEffect, useState } from "react"
 import { toast } from "sonner";
+import defaultDP from '../../../assets/defaultDP.png'
+import Image from "next/image";
 
 const Page = () =>
 {
     const [ jobs, setJobs ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true)
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ jobId, setJobId ] = useState(null);
+
+    console.log(jobId)
+
+    const handleOpenDialog = (jobId) => 
+    {
+        setJobId(jobId);
+    };
+
+    const handleCloseDialog = () => 
+    {
+        setJobId(null);
+    };
 
     useEffect(()=>
     {
@@ -35,7 +51,7 @@ const Page = () =>
         {
             setIsLoading(false)
         }
-    } 
+    }
 
     console.log(jobs)
 
@@ -64,11 +80,72 @@ const Page = () =>
                     <p className="pb-4"><span>Openings : </span>{job.openings}</p>
                     {/* <p className="border-t py-4">{job.description}</p> */}
                     <footer className="flex gap-2 text-xs justify-between">
+                        <div className="space-y-2">
                         <div className="space-x-2">
-                            <span className="bg-yellow-400 p-1 rounded">{job.jobType}</span>
-                            <span className="bg-yellow-400 p-1 rounded">{job.workplaceType}</span>
+                            <span className="bg-gray-100 p-1 rounded">{job.jobType}</span>
+                            <span className="bg-gray-100 p-1 rounded">{job.workplaceType}</span>
                         </div>
                         <p className="text-muted-foreground">Posted on {FormatDate(job.createdAt)}</p>
+                        </div>
+                        <Button className='text-sm' onClick={() => handleOpenDialog(job._id)}>{job.interests.length} interests</Button>
+                       
+                        <Dialog open={jobId === job._id} onOpenChange={handleCloseDialog}>
+                        <DialogContent className="sm:max-w-[425px] text-sm">
+                            <DialogHeader>
+                                <DialogTitle>{job.company}</DialogTitle>
+                                <DialogDescription>{job.title}</DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-2">
+                                {job.interests.length > 0 ? job.interests.map((user)=>
+                                (
+                                    <Card key={user._id} className="flex gap-2 p-2">
+                                        <Image className='h-8 w-8 object-cover rounded-full object-top' src={user?.imageURL ? user?.imageURL : defaultDP} alt={user.name} width={100} height={100}/>
+                                        <div>
+                                        <h1 className="font-semibold">{user.name}</h1>
+                                        <div className="flex gap-1 text-muted-foreground text-xs">
+                                            <span>{user.experience} years | </span>
+                                            <span>{user.domain} | </span>
+                                            <span>{user.country}</span>
+                                        </div>
+                                        </div>
+                                    </Card>
+                                )) : <h1 className="text-center">No interests shown</h1>}
+                                {/* <h1 className="font-semibold border-b border-gray-300 pb-2">Profile details</h1>
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Email</span>
+                                        <span>{user?.email}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Contact</span>
+                                        <span>{user?.contact}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Experience</span>
+                                        <span>{user?.experience}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Domain</span>
+                                        <span>{user?.domain}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500">Country</span>
+                                        <span>{user?.country}</span>
+                                    </div>
+                                </div>
+                                <h1 className="font-semibold border-b border-gray-300 pb-2">Enrollments</h1>
+                                <div className="space-y-1">
+                                    {user?.enrollments?.map((enrollment)=>
+                                    (
+                                        <div key={enrollment._id}>
+                                            <h1>{enrollment?.batch?.title}</h1>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="pt-4 text-gray-400">{user.role +' since ' +FormatDate(user.createdAt)}</p> */}
+                            </div>
+                        </DialogContent>
+                        </Dialog>
                     </footer>
                 </Card>
             ))}

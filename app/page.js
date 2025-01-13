@@ -23,7 +23,7 @@ import goal from '@/assets/goal.png'
 
 import organisation from '@/assets/organisation.png'
 import prevention from '@/assets/prevention.png'
-import risk from '@/assets/risk.png'
+import verified from '@/assets/verified.png'
 import updated from '@/assets/updated.png'
 import success from '@/assets/success.png'
 
@@ -53,6 +53,8 @@ import Link from 'next/link'
 import Founder from './components/Founder'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FormatDate } from '@/utility/FormatDate'
+import { useSession } from 'next-auth/react'
+import { Loader2 } from 'lucide-react'
 
 const heroData =
 [
@@ -253,6 +255,8 @@ const Home = () =>
     const [ showFaq, setShowFaq ] = useState(0);
     const [ displayData, setDisplayData ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
+    const { status, data } = useSession();
+    const [ applyLoading, setApplyLoading ] = useState(false);
 
     useEffect(()=>
     {
@@ -277,8 +281,29 @@ const Home = () =>
       }
     }
 
+    const handleInterest = async (job) =>
+    {
+      try
+      {
+        setApplyLoading(true)
+        const jobData = {...job, interests: [...job.interests, data.user.id]}
+        const url = `/api/job/${job._id}`
+        const response = await axios.put(url, jobData);
+        toast.success(response.data.message);
+        getDisplayData();
+      }
+      catch(error)
+      {
+        toast.error(error.message)
+      }
+      finally
+      {
+        setApplyLoading(false)
+      }
+    }
+
     return(
-        <div className='md:text-sm text-xs md:leading-7 leading-5'>
+        <div className='text-sm md:leading-7 leading-5'>
             <HeroSection />
             <div className='space-y-6 text-center items-center py-12'>
             <h1 className='font-semibold text-center text-2xl'>CAMS Graduates, December 2024</h1>
@@ -313,25 +338,27 @@ const Home = () =>
                 <div className='sm:px-[10vw] px-[15vw] py-12'>
             <h1 className='font-semibold w-full flex items-center justify-center gap-2 text-2xl mb-8'>Job Openings <span className='bg-yellow-400 px-1 p-2 rounded-full text-xs'>New</span></h1>
             {isLoading ?
-            <div className='grid md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
-            {[1,2].map((_,index)=>(
+            <div className='grid md:grid-cols-3 grid-cols-1 w-full rounded gap-5'>
+            {[1,2,3].map((_,index)=>(
               <div className='space-y-6 shadow-md p-8 rounded bg-white' key={index}>
-                  <div className='flex justify-between w-full'>
-                    <Skeleton className='w-[40%] p-2 shadow-md bg-gray-200 rounded'/>
-                    <Skeleton className='w-[30%] p-2 shadow-md bg-gray-200 rounded'/>
+                  <div className='space-y-4'>
+                    <Skeleton className='w-[60%] p-2 shadow-md bg-gray-200 rounded'/>
+                    <Skeleton className='w-[50%] p-2 shadow-md bg-gray-200 rounded'/>
                   </div>
                   <div className='space-y-3'>
-                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
-                    <Skeleton className='p-1.5 rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-1.5 w-[50%] rounded-xl bg-gray-200'/>
+                    <Skeleton className='p-1.5 w-[50%] rounded-xl bg-gray-200'/>
                   </div>
                   <Skeleton className='p-0.5 rounded-xl bg-gray-200'/>
+                  <div className='flex justify-between items-end'>
                   <div className='space-y-3'>
                     <div className='flex gap-2'>
                       <Skeleton className='p-3 w-12 rounded bg-gray-200'/>
                       <Skeleton className='p-3 w-12 rounded bg-gray-200'/>  
                     </div>
                     <Skeleton className='p-1.5 rounded bg-gray-200 w-56'/>
+                  </div>
+                    <Skeleton className='p-4 rounded bg-gray-200 w-20'/>
                   </div>
               </div>
             ))}
@@ -340,26 +367,34 @@ const Home = () =>
             <CarouselContent>
             
             {displayData?.recentJobs?.map((job, index) => (
-            <CarouselItem key={job._id} className='lg:basis-1/2 p-2 space-y-1'>
+            <CarouselItem key={job._id} className='lg:basis-1/3 p-2 space-y-1'>
               <>
                 <CardContent className="p-6 bg-white rounded shadow-md text-start">
-                   <div className="flex lg:flex-row flex-col font-semibold lg:items-center items-start pb-4 justify-between">
+                   <div className="flex flex-col font-semibold pb-4">
                       <span className='text-start'>{job.title}</span>
                       <span className="text-muted-foreground">{job.company}</span>
                     </div>
                     
                   <div >
                     <p><span>Experience : </span>{job.experience} years</p>
-                    <p><span>Location : </span>{job.city +', ' +job.country}</p>
-                    <p className="pb-4"><span>Openings : </span>{job.openings}</p>
+                    <p className="pb-4"><span>Location : </span>{job.city +', ' +job.country}</p>
+                    {/* <p className="pb-4"><span>Openings : </span>{job.openings}</p> */}
                   </div>
                                       {/* <p className="border-t py-4">{job.description}</p> */}
-                  <footer className="flex flex-col gap-4 text-xs w-full border-t pt-6">
-                    <div className="space-x-2">
-                      <span className="bg-yellow-400 p-1 rounded">{job.jobType}</span>
-                      <span className="bg-yellow-400 p-1 rounded">{job.workplaceType}</span>
-                  </div>
-                  <p className="text-muted-foreground">Posted on {FormatDate(job.createdAt)}</p>
+                  <footer className="flex md:flex-row flex-col justify-between md:items-end items-start space-y-2 w-full border-t pt-6">
+                    <div className='md:space-y-2 space-y-4'>
+                    <div className="space-x-2 text-xs">
+                      <span className="bg-gray-100 shadow-md p-1 rounded">{job.jobType}</span>
+                      <span className="bg-gray-100 shadow-md p-1 rounded">{job.workplaceType}</span>
+                    </div>
+                    <p className="text-muted-foreground">Posted on {FormatDate(job.createdAt)}</p>
+                    </div>
+                    {data?.user?.id && 
+                    (!job.interests.includes(data.user.id) ? (applyLoading ? <Button className='w-20'><Loader2 className='animate-spin'/></Button> : <Button className='lg:h-8 lg:text-sm text-xs' onClick={()=> handleInterest(job)}>Show interest</Button>) : 
+                    <div className='rounded p-2 py-0.5 gap-1 bg-gray-100 flex items-center'>
+                      <span>Applied</span>
+                      <Image className='h-4 w-4' src={verified} alt='icon'/>
+                    </div>)}
                   </footer>     
                 </CardContent>
               </>
@@ -466,7 +501,7 @@ const Home = () =>
             <CarouselContent>
             
             {displayData?.feedbacks?.map((feed, index) => (
-            <CarouselItem key={index} className='lg:basis-1/3'>
+            <CarouselItem key={index} className='lg:basis-1/3 h-max'>
               <>
                 <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4 bg-white rounded shadow-md">
                         <Link className='relative' href={feed.user?.linkedIn ?? ''}>

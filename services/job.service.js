@@ -1,4 +1,5 @@
 import { Job } from "@/models/job.model";
+import { User } from "@/models/user.model";
 
 class jobService
 {
@@ -15,12 +16,38 @@ class jobService
             throw error
         }
     }
+    
+    async updateJob(jobId, jobDetails)
+    {
+        try
+        {
+            const job = await Job.findByIdAndUpdate(jobId, { $set: jobDetails });
+            return job
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async getJobById(jobId)
+    {
+        try
+        {
+            const job = await Job.findById(jobId);
+            return job
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
 
     async getAllJobs()
     {
         try
         {
-            const jobs = await Job.find();
+            const jobs = await Job.find().populate({ path: 'interests', model: User});
             return jobs
         }
         catch(error)
