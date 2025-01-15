@@ -8,7 +8,7 @@ export default async function middleware(req)
 {
     const { nextUrl } = req;
     const token = await cookies();
-    const cookie = token?.get('__Secure-authjs.session-token');
+    const cookie = token?.get('authjs.session-token');
     
     let user = null;
     if(cookie)
@@ -24,6 +24,8 @@ export default async function middleware(req)
     const adminRoute = adminRoutes.some((route)=> nextUrl.pathname.startsWith(route));
     const authRoute = authRoutes.some((route)=> nextUrl.pathname.startsWith(route));
        
+    console.log(userRoute, adminRoute, authRoute)
+
     if(user?.role === 'visitor' || !user )
         if(userRoute || adminRoute)
             return NextResponse.redirect(new URL('/login', nextUrl))

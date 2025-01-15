@@ -33,7 +33,7 @@ const extraData =
         description: 'Exam strategies'
     },
     {
-        id:6,
+        id:7,
         description: 'Job assistance'
     },
 ]

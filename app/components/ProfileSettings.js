@@ -16,7 +16,7 @@ import Image from "next/image"
 
 const ProfileSettings = () =>
 {
-    const { data } = useSession()
+    const { data, status } = useSession()
     
     return (
         <Sheet>
@@ -38,7 +38,7 @@ const ProfileSettings = () =>
                 {(data?.user?.role === 'user' || data?.user?.role === 'admin') && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/dashboard'>Dashboard</Link>}
                 <Link className=' hover:bg-yellow-400 p-4 rounded' href='/courses'>Courses</Link>
                 {/* <Link className=' hover:bg-yellow-400 p-4 rounded' href='/about'>About</Link> */}
-                {(data?.user?.role === 'visitor' || !data?.user?.role) && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/signup' >Signup</Link>}
+                {status === 'unauthenticated' && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/signup' >Signup</Link>}
             </div>  
             <h1 className="text-lg py-4 font-semibold">Upcoming batch</h1>
             <div className="bg-gray-100 rounded space-y-2 p-4 shadow-lg ">
