@@ -100,7 +100,7 @@ class userService
                 path: 'enrollments',
                 model: Enrollment,
                 populate: 
-                [{
+                {
                     path: 'batch', 
                     model: Batch,
                     populate:
@@ -108,11 +108,7 @@ class userService
                         path: 'course',
                         model: Course
                     }
-                },
-                {
-                    path: 'assessments',
-                    model: Test
-                }]
+                }
             },
             {
                 path: 'chat',
