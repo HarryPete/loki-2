@@ -11,6 +11,33 @@ const batchSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Course'
         },
+        mocks:
+        [{
+            mock: 
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Quiz'
+            },
+            results:
+            [{
+                test:
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Test'
+                },
+                user:
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User'
+                }
+            }],
+            status:
+            {
+                type: String,
+                enum: ['Locked', 'Unlocked'],
+                default : 'Locked'
+            },
+        }],
         enrollments:
         [{
             type: Schema.Types.ObjectId,

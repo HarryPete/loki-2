@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import deleteIcon from '../../../../assets/delete.png'
  
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
@@ -28,28 +29,40 @@ import axios from "axios"
 import { toast } from "sonner"
 
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import Loading from "@/app/components/Loading"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
+import Image from "next/image"
+import { useDispatch, useSelector } from "react-redux"
+import { addNewQuestion, removeQuestion, updateQuestion } from "@/store/slices/mockReducer"
 
 const formSchema = z.object({
   question: z.string().min(10, {
-    message: "required",
+    message: "Question is required",
   }),
- options: z.array(z.object({
-    option: z.string().min(1, {
-        message : "option is required"
-    }),
-    isCorrect : z.boolean().default(false)
- })).min(2).max(6)
+ options: z.array(
+    z.object({
+      option: z.string().min(1, "Option is required"),
+      isCorrect: z.boolean(),
+   })
+ )
+ .min(2, "At least 2 options are required"),
 })
 
 const Page = () =>
 {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ courses, setCourses ] = useState(null);
-
+    const [ index, setIndex ] = useState(0);
+    const mock = useSelector((state)=> state.mock.questions)
+    const dispatch = useDispatch();
+    // const question = { question: "",
+    //   options: [
+    //     { option: "", isCorrect: false },
+    //     { option: "", isCorrect: false },
+    //   ]}
+    
     useEffect(()=>
     {
         getCourses();
@@ -72,31 +85,65 @@ const Page = () =>
             setIsLoading(false);
         }
     }
+    
+    useEffect(()=> 
+    {
+      form.reset(mock[index])
+    },[index])
 
     const form = useForm({
             resolver: zodResolver(formSchema),
-            defaultValues: 
-            {
-                question: "",
-                options: Array(6).fill({ option : "", isCorrect: false})
-            },
+            defaultValues: mock[index],
         })
 
-    async function onSubmit(data) 
+    function onSubmit(data) 
     {
-        try
+      let isAnswerEntered = data.options.find((option)=> option.isCorrect)
+      if(!isAnswerEntered)
+        return toast('Choose atleast one answer')
+
+      const answers = []; 
+      data.options.forEach((option,index)=>
+      {
+        if(option.isCorrect)
         {
-            console.log(data)
-            // const url = '/api/batch'
-            // const response = await axios.post(url, batchDetails);
-            // toast(response.data.message);
-            // setNewBatch(false)
-        }   
-        catch(error)
-        {
-            console.log(error)
+          answers.push(index+1)
         }
+      })
+      const updatedData = {...data, answers, index}
+
+      dispatch(updateQuestion(updatedData))
+      toast.success(`Question ${index+1} updated`)
     }
+
+    const deleteQuestion = () =>
+    {
+      dispatch(removeQuestion(index)); 
+      setIndex((prev)=> prev === 0 ? index + 1 : index - 1)
+    }
+
+    const handleSubmit = async (e) =>
+    {
+      e.preventDefault();
+
+      try
+      {
+        const url = '/api/quiz'
+        const response = await axios.post(url, {title: '1M-CAMS', course: '66f376fb1c527d1058d8aecc', reference: mock })
+        toast.success(response.data.message);
+      }
+      catch(error)
+      {
+        toast.error(error.message)
+      }
+    }
+
+    const { fields, append, remove } = useFieldArray({
+      control: form.control,
+      name: "options",
+    });
+
+    console.log(mock)
 
     if(isLoading)
         return <Loading/>
@@ -111,7 +158,7 @@ const Page = () =>
                 <FormItem>
                 <FormLabel>Course</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl className='md:h-12 h-10 text-sm'>
+                <FormControl className='text-xs'>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a course" />
                   </SelectTrigger>
@@ -119,15 +166,18 @@ const Page = () =>
                 <SelectContent>
                 {courses.map((course)=>
                 (
-                    <SelectItem className='md:h-12 h-10 text-sm' value={course._id} key={course._id}>{course.title}</SelectItem>
+                    <SelectItem className='text-xs' value={course._id} key={course._id}>{course.title}</SelectItem>
                 ))}                  
                 </SelectContent>
                 </Select>
                 <FormMessage />
                 </FormItem>)}
             /> */}
-                <h1 className="text-base font-semibold">Question </h1>
-
+            <div className="bg-white p-6 shadow-lg rounded-xl space-y-4">
+                <div className="flex justify-between gap-2">
+                  <h1 className="text-base font-semibold">Question {index+1}</h1>
+                  {/* <Image className="h-7 w-fit cursor-pointer bg-gray-100 shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete' onClick={deleteQuestion}/> */}
+                </div>
                 <FormField
                     control={form.control}
                     name="question"
@@ -135,7 +185,7 @@ const Page = () =>
                     <FormItem>
                         {/* <FormLabel>Question</FormLabel> */}
                         <FormControl>
-                        <Textarea className='md:h-12 h-10 text-sm' {...field} />
+                        <Textarea className='text-xs' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -144,54 +194,81 @@ const Page = () =>
                 />
 
                 <h1 className="text-base font-semibold">Options</h1>
+                <Button className='text-xs' onClick={() => append({ option: "", isCorrect: false })}>Add Option</Button>
 
-                {form.watch("options").map((_, index) => (
+          {fields.map((field, index) => (
           <FormField
-            key={index}
+            key={field.id}
             control={form.control}
             name={`options.${index}.option`}
             render={({ field }) => (
               <FormItem>
+                {/* Remove Option Button */}
+                
                 {/* <FormLabel>Option {index + 1}</FormLabel> */}
                 <div className="flex items-center space-x-4">
-                  {/* Option Input */}
+                
+                {fields.length > 2 && (
+                      <Image className="h-7 w-fit cursor-pointer bg-gray-100 shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete'
+                        onClick={() => remove(index)}
+                      />
+                    )}
+
                   <FormControl>
                     <input
                       type="text"
                       placeholder={`Option ${index + 1}`}
                       {...field}
-                      className="flex-1 border p-2 text-sm rounded"
+                      className="flex-1 border p-2 text-sm rounded h-12"
                     />
                   </FormControl>
 
+                  {/* Option Input */}
+                  
+
                   {/* Correct Checkbox */}
+
                   <FormField
                     control={form.control}
                     name={`options.${index}.isCorrect`}
                     render={({ field }) => (
-                      <FormItem className="flex items-center text-sm  space-x-2">
+                      <FormItem className="flex items-center text-sm space-x-2">
                         <FormControl>
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        {/* <FormDescription>Correct</FormDescription> */}
                       </FormItem>
                     )}
                   />
+                  
                 </div>
                 <FormMessage />
               </FormItem>
             )}
           />
+          
         ))}
-
-                
-                
-
-                <Button type="submit" className='md:h-12 h-10 text-sm'>Create</Button>
+        </div>
+        
+        <div className="w-full flex justify-between">
+          <div className="space-x-2 h-fit">
+            <Button className='text-xs' type="submit">Update</Button>
+            <Button className='text-xs' onClick={()=> {form.reset(); dispatch(addNewQuestion()); setIndex((prev)=> prev+1)}}>Add question</Button>
+          </div>
+          
+          <Button  className='text-xs' onClick={handleSubmit}>Finish</Button>
+        </div>
+        
+        
               </form>
+              <div className="pt-8 flex flex-wrap justify-center gap-2">
+              {Array(mock.length).fill(0).map((_, ind)=>
+              (
+                <div className={`${( ind === index) && 'bg-yellow-400'} cursor-pointer rounded-full border w-10 text-center p-2`} onClick={()=> setIndex(ind)} key={ind}>{ind+1}</div>
+              ))}
+              </div>
               </Form>
   )
 }

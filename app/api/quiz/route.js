@@ -10,8 +10,8 @@ export async function POST(req)
     {
         await dbConnect();
 
-        const {title, course, list} = await req.json();
-        await quizInstance.createQuiz(title, course, list)
+        const { title, course, reference } = await req.json();
+        await quizInstance.createQuiz(title, course, reference)
         return NextResponse.json({message: 'Quiz created'})
     }
     catch(error)

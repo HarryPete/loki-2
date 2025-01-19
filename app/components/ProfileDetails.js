@@ -27,6 +27,7 @@ import {
 import axios from "axios"
 import { toast } from "sonner"
 import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -138,6 +139,10 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData, getBatch,
         {
             console.log(error)
         }
+        finally
+        {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -145,7 +150,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData, getBatch,
         <DialogTrigger asChild>
             <Button className='w-min text-xs h-6'>Edit</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] text-sm">
             <DialogHeader>
                 <DialogTitle>Edit your profile</DialogTitle>
                 <DialogDescription>
@@ -266,7 +271,7 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData, getBatch,
                     </FormItem>)}
                 />
                 
-{ isLoading ? <Button className='lg:h-12 h-10 text-md'>
+            { isLoading ? <Button>
                 <Loader2 className='animate-spin'/>
                 Updating...
             </Button> :                       

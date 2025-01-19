@@ -7,11 +7,11 @@ import { Quiz } from "@/models/quiz.model";
 
 class quizService
 {
-    async createQuiz(title, course, quiz)
+    async createQuiz(title, course, reference)
     {
         try
         {
-            const newQuiz = await Quiz.create({title, course, quiz});
+            const newQuiz = await Quiz.create({title, course, reference});
             return await newQuiz.save();
         }
         catch(error)
@@ -73,25 +73,7 @@ class quizService
     {
         try
         {
-            const quiz = await Quiz.findOne({title: id})
-            .populate({
-                path: 'group',
-                model: Group,
-                populate:
-                [{
-                    path: 'batch',
-                    model: Batch,
-                    populate:
-                    {
-                        path: 'course',
-                        model: Course
-                    }
-                },
-                {
-                    path: 'assignment',
-                    model: Assignment
-                }]
-            })
+            const quiz = await Quiz.findById(id)
             return quiz
         }
         catch(error)

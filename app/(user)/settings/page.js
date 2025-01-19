@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import Feedback from '@/app/components/Feedback';
 import UpdateDisplayPicture from '@/app/components/UpdateDisplayPicture'
+import { useRouter } from 'next/navigation';
 
 const Settings = () =>
 {
@@ -20,9 +21,8 @@ const Settings = () =>
     const [ editInfo, setEditInfo ] = useState(false);
     const [ feedbackForm, setFeedbackForm ] = useState(false);
     const [ editDP, setEditDP ] = useState(false);
+    const router = useRouter()
 
-    console.log(data)
-    
     const getUserData = async () =>
     {
         try
@@ -59,8 +59,8 @@ const Settings = () =>
         )
 
     return(
-        <div className='space-y-8 md:text-base text-sm'>
-            <div className='flex gap-4'>
+        <div className='space-y-8 text-sm'>
+            <div className='flex gap-4 items-center'>
                 <h1 className="lg:text-3xl text-2xl font-semibold" style={{color: 'var(--primary-color)'}}>Profile Settings</h1>
                 <ProfileDetails userData={userData} setEditInfo={setEditInfo} editInfo={editInfo} getUserData={getUserData}/>
             </div>
@@ -72,7 +72,7 @@ const Settings = () =>
                 <UpdateDisplayPicture userData={userData} getUserData={getUserData} editDP={editDP} setEditDP={setEditDP}/>
                 <div className='flex flex-col gap-1 mt-1'>
                     <span className='md:text-2xl text-xl font-semibold text-white'>{userData.name}</span>
-                    <span className='md:text-base text-md md:text-start text-center text-gray-500 font-semibold'>{userData.country}</span>
+                    <span className='text-md md:text-start text-center text-gray-500 font-semibold'>{userData.country}</span>
                 </div>    
             </div>
             </div>

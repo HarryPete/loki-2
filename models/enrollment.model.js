@@ -11,10 +11,19 @@ const enrollmentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Batch'
     },
-    assessments:
+    mocks:
     [{
-        type: Schema.Types.ObjectId,
-        ref: 'Test'
+        mock:
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Test'
+        },
+        status:
+        {
+            type: String,
+            enum: ['Pending', 'Completed'],
+            default : 'Pending'
+        }
     }],
     access:
     {

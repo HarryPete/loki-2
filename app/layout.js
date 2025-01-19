@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./SessionWrappper";
 import { Toaster } from "sonner";
+import ReduxProvider from "./ReduxProvider";
 
 
 export const metadata = 
@@ -63,10 +64,12 @@ export default async function RootLayout({ children })
       <meta property="og:image" content="fintsAML"/>
       {/* <meta property="og:url" content="https://www.fintsacademy.com"/> */}
       <SessionWrapper>
+          <ReduxProvider>
           <body className={poppins.className}>
             {children}
             <Toaster toastOptions={{ style:{backgroundColor : 'white', color: 'var(--primary-color)', boxShadow:'var(--box-shadow)', padding: '20px ', fontSize: '15px', border:'0'}}}/> 
           </body>
+          </ReduxProvider>
       </SessionWrapper>
     </html>
   );

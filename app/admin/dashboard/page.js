@@ -27,8 +27,8 @@ const routes =
     },
     {
         id: 5,
-        title: 'Requests',
-        route: '/admin/requests'
+        title: 'Mock Tests',
+        route: '/admin/mock-tests'
     },
     {
         id: 6,

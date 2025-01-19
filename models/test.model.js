@@ -5,7 +5,7 @@ const testSchema = new Schema({
     {
         type: String
     },
-    quiz:
+    questions:
     {
         type: [Schema.Types.Mixed]
     },

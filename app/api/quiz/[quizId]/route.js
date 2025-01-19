@@ -60,7 +60,7 @@ export async function GET(req, {params})
     {
         await dbConnect();
 
-        const {quizId} = params;
+        const {quizId} = await params;
         const quiz = await quizInstance.getQuizByTitle(quizId);
         return NextResponse.json(quiz);
     }
