@@ -34,7 +34,7 @@ export default function Layout({ children })
     return(
         <div className='min-h-[100vh]'>
             <Header userData={userData}/>
-            <AdminPanel/>
+            {/* <AdminPanel/> */}
             <main className='lg:px-[10vw] px-[5vw] pt-28 pb-12'>
                 {children}
             </main>          

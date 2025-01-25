@@ -112,6 +112,18 @@ class quizService
             return error
         }
     }
+
+    async deleteQuiz(quizId)
+    {
+        try
+        {
+            return await Quiz.findByIdAndDelete(quizId);
+        }
+        catch(error)
+        {
+            return error
+        }
+    }
 }
 
 export default quizService

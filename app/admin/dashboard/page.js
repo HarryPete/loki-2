@@ -40,7 +40,7 @@ const routes =
 const Dashboard = () =>
 {
     return(
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
             {routes.map((data)=>
             (
                 <Link href={data.route} key={data.id}>

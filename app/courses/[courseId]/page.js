@@ -46,7 +46,7 @@ const Course = () =>
     return(
         <div className='mt-12'>
             <Header/>
-            <div className='flex flex-col gap-4 lg:px-[10vw] px-[5vw] py-12'>
+            <div className='flex flex-col gap-4 lg:px-[10vw] px-[5vw] py-12 md:text-sm text-xs'>
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

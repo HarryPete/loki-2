@@ -52,7 +52,7 @@ const Founder = () =>
                 <div className='flex flex-col lg:flex-row justify-between gap-4 w-full'>
                     <div className='z-10 flex lg:flex-row flex-col lg:items-end justify-end items-center gap-4'>
                         <a href='https://www.linkedin.com/in/lokesh-naik-amltrustedsource/' target='_blank'>
-                            <Image className='h-32 w-32 bg-black p-1 rounded-full object-cover object-top' src={founder} alt='Lokesh Naik'/>
+                            <Image className='h-32 w-32 bg-gray-100 p-1 rounded-full object-cover object-top' src={founder} alt='Lokesh Naik'/>
                         </a> 
                         <div>
                         <p className='font-semibold'>Lokesh Naik</p>

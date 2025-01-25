@@ -59,7 +59,7 @@ class courseService
             const course = await Course.findOne({id})
             .populate({path: 'lectures', model: Lecture})
             .populate({path: 'batches', model: Batch, populate: {path: 'enrollments', model: Enrollment}})
-            .populate({path:'feedbacks',  model:Feedback, populate: {path: 'user', model:User}})
+            .populate({path:'feedbacks', model:Feedback, populate: {path: 'user', model:User}})
             if(!course)
                 throw new Error('Course not found')
             return course
@@ -87,6 +87,18 @@ class courseService
         try
         {
             return await Course.findByIdAndUpdate(courseId, {$push: {feedbacks: feedback}})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async deleteFeedbackFromCourse(courseId, feedbackId)
+    {
+        try
+        {
+            return await Course.findByIdAndUpdate(courseId, {$pull: {feedbacks: feedbackId}})
         }
         catch(error)
         {

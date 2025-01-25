@@ -3,13 +3,14 @@
 import Loading from "@/app/components/Loading"
 import { Card } from "@/components/ui/card"
 import axios from "axios"
-import { useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 import { toast } from "sonner"
 import correct from '../../../../assets/correct.png'
 import editIcon from '../../../../assets/edit-dark.png'
 import deleteIcon from '../../../../assets/delete-dark.png'
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 
 const Page = () =>
 {
@@ -17,6 +18,8 @@ const Page = () =>
     const [ isLoading, setIsLoading ] = useState(true)
     const params = useSearchParams();
     const mockId = params.get('mockId');
+    const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(()=>
     {
@@ -48,7 +51,7 @@ const Page = () =>
         <div className="space-y-4">
             <div className="flex justify-between items-center font-semibold">
                 <h1>Set {mock.title.split('-')[0][0]} - {mock.title.split('-')[1]}</h1>
-                
+                <Button className='h-6 text-sm' onClick={()=> router.push(`${pathname}/edit?mockId=${mock._id}`)}>Edit</Button>
             </div>
             <div className="space-y-6">
             {mock.reference.map((data, index)=>
@@ -64,7 +67,7 @@ const Page = () =>
                             </div>
                         ))}
                     </div>
-                    <div className="flex gap-4 p-2 border-t pt-5 text-gray-400">
+                    {/* <div className="flex gap-4 p-2 border-t pt-5 text-gray-400">
                         <div className="flex items-center gap-1 cursor-pointer hover:scale-105">
                             <Image className="h-4 w-fit" src={editIcon} alt='edit'/>
                             <span>Edit</span>
@@ -73,7 +76,7 @@ const Page = () =>
                             <Image className="h-4 w-fit" src={deleteIcon} alt='delete'/>
                             <span>Delete</span>
                         </div>
-                    </div>
+                    </div> */}
                 </Card>
             ))}
             </div>

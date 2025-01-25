@@ -33,6 +33,7 @@ export async function GET(req, {params})
     {
         await dbConnect();
 
+        
         const { userId } = await params;
         const enrollment = await enrollmentInstance.getEnrollmentById(userId);
         
@@ -42,4 +43,23 @@ export async function GET(req, {params})
     {
         return NextResponse.json({error})
     }
+}
+
+export async function PUT(req, {params})
+{ 
+    try
+    { 
+        await dbConnect();
+         
+        const { userId } = await params;
+        const { batchId, enrollmentId } = await req.json(); 
+        await userInstance.removeEnrollment(userId, enrollmentId);
+        await batchInstance.removeEnrollment(batchId, enrollmentId);
+        await enrollmentInstance.removeEnrollment(enrollmentId)
+        return NextResponse.json({message: 'Duplicate removed'})
+    }  
+    catch(error)
+    { 
+        return NextResponse.json({error: error.message})
+    } 
 }

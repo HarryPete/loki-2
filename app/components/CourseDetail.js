@@ -4,6 +4,13 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Lecturecard from './LectureCard'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export const details =
 [
@@ -45,25 +52,33 @@ const CourseDetail = ({course, level}) =>
             <div className='md:h-[60vh] h-48 rounded flex items-center justify-center shadow-lg relative'>
                 <Image className='h-[100%] w-[100%] object-cover rounded' src={course.imageURL} alt={course.title} layout='fill'/>
             </div>
-            <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4'>
+            <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>
             {details.map((data)=>
             (
-                <div key={data.id} className='flex flex-col items-center bg-yellow-400 shadow-md p-4 rounded'>
-                    <h1 className='font-bold md:text-3xl text-2xl'>{data.header}</h1>
+                <Card key={data.id} className='flex flex-col items-center p-4'>
+                    <h1 className='font-bold md:text-2xl text-xl'>{data.header}</h1>
                     <span>{data.detail}</span>
-                </div>
+                </Card>
             ))}
             </div>
-            <p className='leading-8'>{course.description}</p>
+            <p className='leading-relaxed'>{course.description}</p>
+            <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-base lg:text-lg font-semibold">Sessions in Brief</AccordionTrigger>
+                    <AccordionContent>
+                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
+                    {course.lectures.map((lecture)=>
+                    (
+                        <Lecturecard course={course} lecture={lecture} level={level} key={lecture._id}/>  
+                    )).slice(0,16)}
+                    </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
             
-            <h1 className='lg:text-2xl text-xl font-bold'>Sessions in Brief</h1>
-            <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
-            {course.lectures.map((lecture)=>
-            (
-                <Lecturecard course={course} lecture={lecture} level={level} key={lecture._id}/>  
-            )).slice(0,16)}
-            </div>
-            {level === 'visitor' && <Button onClick={handleClick} className='w-fit md:h-12 h-10 text-sm md:text-base'>Join Now</Button>}
+            <h1 className='lg:text-xl text-lg font-bold'></h1>
+            
+            {level === 'visitor' && <Button onClick={handleClick} className='w-fit'>Join Now</Button>}
         </div>
     )
 }

@@ -30,7 +30,7 @@ class enrollmentService
         {
             const enrollment = await Enrollment.findById(enrollmentId)
             .populate(
-            {
+            [{
                 path: 'batch', 
                 model: Batch,
                 populate:
@@ -51,7 +51,11 @@ class enrollmentService
                     path: 'mentor',
                     model: Mentor
                 }]
-            })
+            },
+            {
+                path: 'mocks', 
+                model: Test,
+            }])
 
             return enrollment
         }
@@ -85,6 +89,30 @@ class enrollmentService
             throw error
         }
     }
+
+    async assignMockTest(enrollmentId, testId)
+    {
+        try
+        {
+            return await Enrollment.findByIdAndUpdate(enrollmentId, {$push : { mocks : testId }})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async removeEnrollment(enrollmentId)
+    {
+        try
+        {
+            return await Batch.findByIdAndDelete(enrollmentId);
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }    
 
     async updateEnrollment(enrollmentId, updates)
     {

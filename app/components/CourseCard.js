@@ -42,19 +42,18 @@ const CourseCard = ({level, course}) =>
 {
 
     return(
-        <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative bg-white rounded shadow-xl text-sm md:text-base p-4'>
-            <div className='flex flex-col gap-4'>
-            <div className='flex flex-col items-center justify-center h-56 rounded relative'>
+        <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative'>
+        <Card className='space-y-4 p-4'>
+            <div className='flex flex-col items-center justify-center h-48 rounded relative'>
                 <Image className='h-[100%] w-full rounded object-cover' src={course.imageURL} alt={course.id} layout='fill'/>
             </div>
             {/* {level !== 'admin' && <BorderBeam colorFrom='var(--primary-color)' colorTo='var(--action-color)' className='rounded-xl'/>} */}
             
-            <p className='md:text-base text-sm font-semibold' >{course.title}</p> 
+            <p className='md:text-sm text-xs font-semibold' >{course.title}</p> 
             
             {/* <p className='md:text-3xl text-2xl text-center w-full font-bold'>${course.price}</p> */}
             {level !== 'admin' && 
             <div className='flex flex-col gap-2'>
-            
                 {extraData.map((data)=>
                 (
                     <div key={data.id} className='flex gap-2 items-center text-sm'>
@@ -63,8 +62,8 @@ const CourseCard = ({level, course}) =>
                     </div>
                 ))}
                 <p className='text-gray-400 mt-2 text-sm'>35 lectures, 60 hours</p>
-              </div>}
-            </div>
+            </div>}
+        </Card>
         </Link>
     )
 }

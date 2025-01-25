@@ -6,20 +6,19 @@ import { User } from "@/models/user.model";
 
 class graduateService
 {
-
-    // async enroll(user, batch)
-    // {
-    //     try
-    //     {
-    //         const enrollment = await Enrollment.create({user, batch})
-    //         await enrollment.save();
-    //         return enrollment;
-    //     }
-    //     catch(error)
-    //     {
-    //         return error
-    //     }
-    // }
+    async createGraduationBatch(graduationDetails)
+    {
+        try
+        {
+            const graduateBatch = await Graduate.create(graduationDetails)
+            await graduateBatch.save();
+            return graduateBatch;
+        }
+        catch(error)
+        {
+            return error
+        }
+    }
 
     async getGraduates()
     {

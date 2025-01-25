@@ -35,19 +35,20 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 import { useDispatch, useSelector } from "react-redux"
-import { addNewQuestion, removeQuestion, updateQuestion } from "@/store/slices/mockReducer"
+import { addNewQuestion, feedMock, removeQuestion, updateQuestion } from "@/store/slices/mockReducer"
 
 const formSchema = z.object({
   question: z.string().min(10, {
     message: "Question is required",
   }),
- options: z.array(
+  options: z.array(
     z.object({
       option: z.string().min(1, "Option is required"),
       isCorrect: z.boolean(),
    })
  )
  .min(2, "At least 2 options are required"),
+  note: z.string()
 })
 
 const Page = () =>
@@ -57,15 +58,14 @@ const Page = () =>
     const [ index, setIndex ] = useState(0);
     const mock = useSelector((state)=> state.mock.questions)
     const dispatch = useDispatch();
-    // const question = { question: "",
-    //   options: [
-    //     { option: "", isCorrect: false },
-    //     { option: "", isCorrect: false },
-    //   ]}
-    
+    const [ openDialogue, setOpenDialogue ] = useState(false)
+    const [ mockTitle, setMockTitle ] = useState('')
+    const [ course, setSelectCourse ] = useState('');
+
     useEffect(()=>
     {
         getCourses();
+        dispatch(feedMock([]))
     },[])
 
     const getCourses = async () =>
@@ -122,14 +122,18 @@ const Page = () =>
       setIndex((prev)=> prev === 0 ? index + 1 : index - 1)
     }
 
-    const handleSubmit = async (e) =>
+    const handleSubmit = async () =>
     {
-      e.preventDefault();
+      if(!mockTitle)
+        return toast.error('Mock title is required')
+
+      if(!course)
+        return toast.error('Course is required')
 
       try
       {
         const url = '/api/quiz'
-        const response = await axios.post(url, {title: '1M-CAMS', course: '66f376fb1c527d1058d8aecc', reference: mock })
+        const response = await axios.post(url, {title: mockTitle, course: course, reference: mock })
         toast.success(response.data.message);
       }
       catch(error)
@@ -138,12 +142,12 @@ const Page = () =>
       }
     }
 
+    console.log(mockTitle, course)
+
     const { fields, append, remove } = useFieldArray({
       control: form.control,
       name: "options",
     });
-
-    console.log(mock)
 
     if(isLoading)
         return <Loading/>
@@ -242,7 +246,7 @@ const Page = () =>
                       </FormItem>
                     )}
                   />
-                  
+
                 </div>
                 <FormMessage />
               </FormItem>
@@ -250,7 +254,24 @@ const Page = () =>
           />
           
         ))}
+          <h1 className="text-base font-semibold">Note</h1>
+            <FormField
+                    control={form.control}
+                    name="note"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center text-sm space-x-2">
+                        <FormControl>
+                        <Textarea className='text-xs' {...field} />
+                        </FormControl>
+                        <FormDescription>
+                        </FormDescription>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                  />
+
         </div>
+        
         
         <div className="w-full flex justify-between">
           <div className="space-x-2 h-fit">
@@ -258,7 +279,33 @@ const Page = () =>
             <Button className='text-xs' onClick={()=> {form.reset(); dispatch(addNewQuestion()); setIndex((prev)=> prev+1)}}>Add question</Button>
           </div>
           
-          <Button  className='text-xs' onClick={handleSubmit}>Finish</Button>
+          <Dialog open={openDialogue} onOpenChange={()=> setOpenDialogue(false)}>
+                  <Button className='text-xs' onClick={()=> setOpenDialogue(true)}>Finish</Button>
+                  <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                          <DialogTitle>Fints AML Mock</DialogTitle>
+                          <DialogDescription>
+                            {/* Account created on {FormatDate(user.createdAt)} */}
+                          </DialogDescription>
+                      </DialogHeader>
+
+                      <Input className="w-full h-12" value={mockTitle} placeholder='Mock title' onChange={(e)=> setMockTitle(e.target.value)}/>
+          
+                      <Select onValueChange={setSelectCourse}>
+                         <SelectTrigger className="w-full h-12">
+                            <SelectValue placeholder="Choose Batch" />
+                            </SelectTrigger>
+                              <SelectContent>
+                              {courses.map((course)=>
+                              (
+                                <SelectItem className='h-12' value={course._id} key={course._id}>{course.title}</SelectItem>
+                              ))}
+                          </SelectContent>
+                      </Select>
+                      <Button className='text-xs' onClick={handleSubmit}>Post Mock</Button>
+                  </DialogContent>
+              </Dialog>
+          
         </div>
         
         

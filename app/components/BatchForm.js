@@ -52,7 +52,7 @@ const formSchema = z.object({
   })
 })
 
-const BatchForm = ({newBatch, setNewBatch}) =>
+const BatchForm = ({newBatch, setNewBatch, getBatches}) =>
 {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ courses, setCourses ] = useState(null);
@@ -124,6 +124,7 @@ const BatchForm = ({newBatch, setNewBatch}) =>
             const url = '/api/batch'
             const response = await axios.post(url, batchDetails);
             toast(response.data.message);
+            getBatches()
             setNewBatch(false)
         }   
         catch(error)
@@ -138,7 +139,7 @@ const BatchForm = ({newBatch, setNewBatch}) =>
     return (
     <Dialog open={newBatch} onOpenChange={setNewBatch}>
         <DialogTrigger asChild>
-            <Button className='h-12 text-sm md:text-base'>New Batch</Button>
+            <Button className='h-10 text-xs md:text-sm'>New Batch</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

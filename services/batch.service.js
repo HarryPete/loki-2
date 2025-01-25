@@ -6,6 +6,8 @@ import { Mentor } from "@/models/mentor.model.js";
 import { Feedback } from "@/models/feedback.model.js";
 import { Enrollment } from "@/models/enrollment.model.js";
 import { Lecture } from "@/models/lecture.model.js";
+import { Test } from "@/models/test.model.js";
+import { Quiz } from "@/models/quiz.model.js";
 
 class batchService
 {
@@ -33,6 +35,7 @@ class batchService
             .populate({path: 'enrollments', model: Enrollment, populate: {path: 'user', model: User}})
             .populate({path: 'sessions', model: Session, populate: {path: 'lecture', model: Lecture}})
             .populate({path: 'mentor', model: Mentor})
+            .populate({path: 'mocks', populate: [{ path: 'results', model: Test, populate: {path: 'enrollment', model: Enrollment, populate: {path: 'user', model: User}}}, { path: 'quiz', model: Quiz}] })
             return batch 
         } 
         catch(error)
@@ -53,12 +56,64 @@ class batchService
         }
     }
 
+    async addQuizToBatch(batchId, quiz)
+    {
+        try
+        {
+            return await Batch.findByIdAndUpdate(batchId, {$push : {mocks: quiz}});
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async removeEnrollment(batchId, enrollmentId)
+    {
+        try
+        {
+            const batch = await Batch.findByIdAndUpdate(batchId, {$pull : {enrollments: enrollmentId }});
+            return
+        }
+        catch(error)
+        {
+            console.log(error)
+            throw error
+        }
+    }    
+
     async getById(id)
     {
         try
         {
             const batch = await Batch.findById(id);
             return batch
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateMocks(batchId, id, testId)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $addToSet: { 'mocks.$.results': testId }})
+            
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateMockStatus(batchId, id, status)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $set: { 'mocks.$.status': status }})
+            
         }
         catch(error)
         {

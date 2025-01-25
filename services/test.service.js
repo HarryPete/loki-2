@@ -1,12 +1,16 @@
+import { Batch } from "@/models/batch.model";
+import { Enrollment } from "@/models/enrollment.model";
+import { Quiz } from "@/models/quiz.model";
 import { Test } from "@/models/test.model";
+import { User } from "@/models/user.model";
 
 class testService
 {
-    async createNewTest(title, quiz)
+    async createNewTest(quiz, enrollment)
     {
         try
         {
-            const test = await Test.create({title, quiz});
+            const test = await Test.create({ quiz, enrollment });
             await test.save(); 
             return test            
         }
@@ -33,8 +37,26 @@ class testService
     {
         try
         {
-            const quiz = await Test.findById(id)
-            return quiz
+            const test = await Test.findById(id).populate([
+                {
+                    path: 'quiz',
+                    ref: Quiz
+                },
+                {
+                    path: 'enrollment',
+                    ref: Enrollment,
+                    populate:
+                    [{
+                        path: 'user',
+                        ref: User
+                    },
+                    {
+                        path: 'batch',
+                        ref: Batch
+                    }]
+                },
+            ])
+            return test
         }
         catch(error)
         {
@@ -42,11 +64,11 @@ class testService
         }
     }
 
-    async updateScores(quizId, score, answers)
+    async updateScores(mockId, mockDetails)
     {
         try
         {
-            return await Test.findByIdAndUpdate(quizId, {$set: {score, answers, status: 'Completed'}})
+            return await Test.findByIdAndUpdate(mockId, {$set: mockDetails})
         }
         catch(error)
         {

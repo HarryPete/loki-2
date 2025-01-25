@@ -240,17 +240,17 @@ class userService
     //     }
     // }
 
-    // async delete(id)
-    // {
-    //     try
-    //     {
-    //         return await User.findByIdAndDelete(id);
-    //     }
-    //     catch(error)
-    //     {
-    //         throw new Error('Failed to delete user');
-    //     }
-    // }
+    async removeEnrollment(id, enrollmentId)
+    {
+        try
+        {
+            return await User.findByIdAndUpdate(id, {$pull: {enrollments: enrollmentId }});
+        }
+        catch(error)
+        {
+            throw error;
+        }
+    }
 }
 
 export default userService

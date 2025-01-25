@@ -10,6 +10,9 @@ import Enrollment from '@/app/components/Enrollment'
 import { toast } from 'sonner'
 import Loading from '@/app/components/Loading'
 import defaultDP from '../../../../assets/defaultDP.png'
+import duplicateIcon from '../../../../assets/duplicate.png'
+import removeIcon from '../../../../assets/remove.png'
+import closeIcon from '../../../../assets/close-lg.png'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -20,6 +23,8 @@ import { Label } from '@/components/ui/label'
 import { FormatDate } from '@/utility/FormatDate'
 import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import UpdateDisplayPicture from '@/app/components/UpdateDisplayPicture'
+import MockReport from '@/app/components/MockReport'
+import { Users } from 'lucide-react'
 
 const Batch = () =>
 {
@@ -29,6 +34,26 @@ const Batch = () =>
     const { batchId } = useParams();
     const [ editInfo, setEditInfo ] = useState(false)
     const [ editDP, setEditDP ] = useState(false)
+    const [ selectedMock, setSelectedMock ] = useState(null);
+    const [ duplicates, setDuplicates ] = useState([]);
+    const [ removeDuplicates, setRemoveDuplicates ] = useState(false);
+
+    const findDuplicates = () => 
+    {
+        const userCounts = {};
+    
+        batch.enrollments.forEach(enrollment => {
+          const userId = enrollment.user._id; 
+          if (userCounts[userId]) {
+            userCounts[userId] += 1;
+          } else {
+            userCounts[userId] = 1;
+          }
+        });
+    
+        const duplicateUserIds = Object.keys(userCounts).filter(userid => userCounts[userid] > 1);
+        setDuplicates(duplicateUserIds); 
+    };
    
     const getBatch = async () =>
     {
@@ -114,13 +139,47 @@ const Batch = () =>
         }
     }
 
+    const handleDuplicates = async (enrollment) =>
+    {
+        try
+        {
+            const url = `/api/enrollment/${enrollment.user._id}`
+            const response = await axios.put(url, {batchId: batch._id, enrollmentId:enrollment._id});
+            toast.success(response.data.message)
+            getBatch();
+            setRemoveDuplicates(false)
+        }
+        catch(error)
+        {
+            toast.error(error.message)
+        }
+    }
+
     if(isLoading)
         return <Loading/>
 
     return(
         <div className='space-y-4'>
-            <div className=''>
+            <div className='relative'>
                 <Progress batchData={batch} level='admin' getBatch={getBatch}/>
+                <Image className='fixed cursor-pointer text-xs bottom-4 right-4 h-10 w-fit p-2.5 bg-yellow-500 rounded-full'
+                 src={removeDuplicates ? closeIcon : duplicateIcon} alt='icon' onClick={()=>
+                    {
+                        if(!removeDuplicates)
+                        {
+                            setRemoveDuplicates(true);
+                            findDuplicates();
+                        }
+                        else
+                            setRemoveDuplicates(false);
+                    }
+                }/>
+            </div>
+            <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4'>
+                {batch.course.mocks.map((mock, index)=>
+                (
+                    <MockReport key={mock} index={index} batch={batch} getBatch={getBatch} mock={mock} selectedMock={selectedMock} setSelectedMock={setSelectedMock}/>
+                ))}
             </div>
             <div className='grid lg:grid-cols-2 grid-cols-1 gap-4 relative'>
                 <div className='space-y-4'>
@@ -130,16 +189,17 @@ const Batch = () =>
                 ))}
                 </div>
                 
-                <div className='flex flex-col gap-3'>
+                <div className='space-y-4'>
                 {batch.enrollments.length ? 
-                batch.enrollments.map((enrollment, index)=>
-                (
-                    <Card key={enrollment._id} className="p-4 flex items-center gap-4 h-fit">
+                batch.enrollments.map((enrollment)=>
+                {                       
+                    return(
+                    <Card key={enrollment._id} className={`${removeDuplicates && duplicates.includes(enrollment.user._id) && 'bg-red-500 text-white'} p-4 flex items-center gap-4 h-fit`}>
                     <Image className='h-6 w-6 object-cover object-top rounded-full' src={enrollment?.user?.imageURL ? enrollment?.user?.imageURL : defaultDP} alt={enrollment.user.name} width={100} height={100}/>
-                    <div className="text-sm space-y-1 flex justify-between w-full">
+                    <div className="text-sm flex justify-between items-center w-full">
                         <h1>{enrollment.user.name}</h1>
-                            <Button className='h-6 text-xs' onClick={() => handleOpenDialog(enrollment.user._id)}>Details</Button>
-                       
+                        {removeDuplicates ? <Image className='cursor-pointer h-5 w-fit' onClick={()=> handleDuplicates(enrollment)} src={removeIcon} alt='remove'/> : <Button className='h-6 text-xs' onClick={() => handleOpenDialog(enrollment.user._id)}>Details</Button>
+                       }
                         <Dialog open={openUserId === enrollment.user._id} onOpenChange={handleCloseDialog}>
                         <DialogContent className="sm:max-w-[425px] text-sm">
                             <DialogHeader>
@@ -205,8 +265,8 @@ const Batch = () =>
                         </Dialog>    
                     </div>
                     
-                    </Card>
-                )) : 
+                    </Card>)
+                }) : 
                 <p className='text-center text-xl mt-4 font-semibold'>No Enrollments</p>
                 }
                 </div>

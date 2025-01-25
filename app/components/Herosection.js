@@ -10,6 +10,7 @@ import RequestForm from './RequestForm'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 const numbers =
 [
@@ -54,14 +55,15 @@ const HeroSection = () =>
                     <div className='space-y-8 w-full'>
                         {/* <span className='border border-gray-400 text-xs font-semibold text-white p-2 rounded-xl'>For Professionals</span> */}
                         <h1 className='lg:text-3xl md:text-2xl text-xl text-yellow-400 font-semibold'>CAMS & CGSS Certification Pathway</h1>
-                        <p className='text-gray-300 lg:text-base md:text-sm text-xs'>Unlock your potential in anti-money laundering and sanctions compliance with expert-led learning, practical applications, and real-world case studies.</p>
+                        <p className='text-gray-300 lg:text-base leading-relaxed md:text-sm text-xs'>Unlock your potential in anti-money laundering and sanctions compliance with expert-led learning, practical applications, and real-world case studies.</p>
                         <div className='space-y-2 space-x-2'>
                             <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Live classes</span>
-                            <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Real world cases</span>
-                            <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Forum</span>
+                            {/* <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Real world cases</span> */}
+                            <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>Mocks</span>
+                            <span className='border border-gray-400 text-xs font-semibold text-gray-300 p-1 rounded-xl'>1:1 sessions</span>
                             <p></p>
                         </div>
-                        <div className='flex items-center lg:gap-8 md:gap-4 gap-2 z-10 shadow-xl rounded-xl w-fit border bg-white border-blue-950'>
+                        <Card className='flex items-center lg:gap-8 md:gap-4 gap-2 z-10 w-fit'>
                         {numbers.map((data)=>
                         (
                             <div className='p-4 text-center space-y-1' key={data.id}>
@@ -70,7 +72,7 @@ const HeroSection = () =>
                                 
                             </div>
                         ))}
-                        </div>
+                        </Card>
                         {/* <Image className='md:h-16 h-12 w-fit z-10' src={subheading} alt='icon'/> */}
                         {/* <div className='bg-[rgba(0,0,0,0.5)] shadow-xl border border-gray-800 md:p-8 p-4 rounded-xl'>
                             <h1 className='md:text-base text-sm text-center text-gray-100'><span className='text-yellow-400 font-semibold'>CAMS-149</span> commences on January 17, 2025</h1>

@@ -1,17 +1,19 @@
 import mongoose, {Schema} from "mongoose";
 
 const testSchema = new Schema({
-    title:
+    quiz:
     {
-        type: String
-    },
-    questions:
-    {
-        type: [Schema.Types.Mixed]
+        type: Schema.Types.ObjectId,
+        ref: 'Quiz'
     },
     answers:
     {
-        type: [[Number]]
+        type: [Schema.Types.Mixed]
+    },
+    enrollment:
+    {
+        type: Schema.Types.ObjectId,
+        ref: 'Enrollment'
     },
     status:
     {

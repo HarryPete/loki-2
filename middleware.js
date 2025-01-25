@@ -23,8 +23,6 @@ export default async function middleware(req)
     const userRoute = userRoutes.some((route)=> nextUrl.pathname.startsWith(route));
     const adminRoute = adminRoutes.some((route)=> nextUrl.pathname.startsWith(route));
     const authRoute = authRoutes.some((route)=> nextUrl.pathname.startsWith(route));
-       
-    console.log(userRoute, adminRoute, authRoute)
 
     if(user?.role === 'visitor' || !user )
         if(userRoute || adminRoute)

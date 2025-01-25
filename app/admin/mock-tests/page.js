@@ -7,6 +7,7 @@ import Loading from "@/app/components/Loading"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import mockIcon from '../../../assets/mock.png'
+import deleteIcon from '../../../assets/delete.png'
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -40,6 +41,23 @@ const Page = () =>
             setIsLoading(false);
         }
     }
+
+    const deleteMock = async (e, quizId) =>
+    {
+      e.preventDefault();
+
+      try
+      {
+        const url = `/api/quiz/${quizId}`
+        const response = await axios.delete(url);
+        toast.success(response.data.message);
+        getMocks();
+      }
+      catch(error)
+      {
+        toast.error(error.message)
+      }
+    } 
     
     if(isLoading)
         return <Loading/>
@@ -51,11 +69,12 @@ const Page = () =>
         {mocks.map((mock)=>
         (
           <Link key={mock._id} href={`/admin/mock-tests/${mock.title}?mockId=${mock._id}`}>
-            <Card className='p-4 space-y-2 flex flex-col items-center'>
-            <h1 className="font-semibold">{mock.title.split('-')[1]}</h1>
-            <Image src={mockIcon} alt='icon'/>
-            <span className="text-sm">Test {mock.title.split('-')[0][0]}</span>
-          </Card>
+            <Card className='p-4 space-y-2 flex flex-col items-center relative'>
+              <h1 className="font-semibold">{mock.title.split('-')[1]}</h1>
+              <Image src={mockIcon} alt='icon'/>
+              <span className="text-sm">Test {mock.title.split('-')[0][0]}</span>
+              <Image onClick={(e)=> deleteMock(e, mock._id)} className="h-6 w-fit absolute top-2 p-1 bg-gray-100 rounded-full shadow-md right-4" src={deleteIcon} alt="icon"/>
+            </Card>
           </Link>
         ))}
       </div>

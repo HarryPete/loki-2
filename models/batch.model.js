@@ -13,23 +13,15 @@ const batchSchema = new Schema(
         },
         mocks:
         [{
-            mock: 
+            quiz: 
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Quiz'
             },
             results:
             [{
-                test:
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'Test'
-                },
-                user:
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'User'
-                }
+                type: Schema.Types.ObjectId,
+                ref: 'Test'
             }],
             status:
             {

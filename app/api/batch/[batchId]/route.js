@@ -25,10 +25,27 @@ export async function PUT(req, {params})
     {
         await dbConnect();
 
-        const {batchId} = params;
-        const {access} = await req.json();
-        await batchInstance.updateBatchAccess(batchId, access);
-        return NextResponse.json({message: access === 'true' ? 'Batch Access Granted' : 'Batch Access Revoked'})
+        const {batchId} = await params;
+        const batchDetails = await req.json();
+        const { type } = batchDetails
+
+        if(type === "assign")
+        {
+            await batchInstance.addQuizToBatch(batchId, batchDetails.mock);
+            return NextResponse.json({message: 'Mock is assigned to batch'})
+        }
+
+        if(type === "retake")
+        {
+            await batchInstance.updateMockStatus(batchId, batchDetails.id, batchDetails.status);
+            return NextResponse.json({message: `Mock retake ${batchDetails.status.toLowerCase()}`})
+        }
+
+        if(type === "access")
+        {
+            await batchInstance.updateBatchAccess(batchId, batchDetails.access);
+            return NextResponse.json({message: access === 'true' ? 'Batch Access Granted' : 'Batch Access Revoked'})
+        }
     }
     catch(error)
     {

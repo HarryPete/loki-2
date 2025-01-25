@@ -13,17 +13,9 @@ const enrollmentSchema = new Schema({
     },
     mocks:
     [{
-        mock:
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Test'
-        },
-        status:
-        {
-            type: String,
-            enum: ['Pending', 'Completed'],
-            default : 'Pending'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Test'
+        
     }],
     access:
     {

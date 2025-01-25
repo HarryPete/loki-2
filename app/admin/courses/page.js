@@ -22,7 +22,6 @@ const Courses = () =>
     {
         try
         {
-            setIsLoading(true);
             const url = `/api/course`
             const response = await axios.get(url);
             setCourses(response.data);

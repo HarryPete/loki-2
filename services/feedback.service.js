@@ -18,12 +18,36 @@ class feedbackService
         }
     }
 
+    async updateFeedback(feedbackId, feedbackDetails)
+    {
+        try
+        {
+            return await Feedback.findByIdAndUpdate(feedbackId, {$set: feedbackDetails})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async getAllFeedbacks()
     {
         try
         {
             const feedbacks = await Feedback.find({}).populate({ path: 'user', model: User }) 
             return feedbacks
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async deleteFeedback(feedbackId)
+    {
+        try
+        {
+            return await Feedback.findByIdAndDelete(feedbackId)
         }
         catch(error)
         {

@@ -43,7 +43,7 @@ const ProgressBar = ({batch}) =>
     ]
 
     return (
-    <Card className="flex flex-col lg:sticky lg:top-28 h-fit text-lg">
+    <Card className="flex flex-col h-fit text-lg">
       <CardHeader className="items-center pb-0">
         <CardTitle>{batch.course.title}</CardTitle>
         <CardDescription>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>

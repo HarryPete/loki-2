@@ -303,10 +303,61 @@ const Home = () =>
     }
 
     return(
-        <div className='text-sm md:leading-7 leading-5'>
+        <div className='md:text-sm text-xs md:leading-7 leading-5'>
             <HeroSection />
+            <div className='sm:px-[10vw] px-[15vw] py-12'>
+            <Carousel >
+            <CarouselContent>
+              <CarouselItem className='h-max lg:basis-1/3'>
+                <Card className='p-6'>
+                  <h1 className='text-center text-lg font-semibold'>CAMS - 0</h1>
+                  <p className='text-center text-gray-400'>Fastrack Batch</p>
+                  {/* <p className='text-start text-gray-400'>An accelerated course for individuals aiming to quickly prepare for the CAMS certification.</p>
+                  <h1 className='font-semibold'>Highlights</h1> */}
+                  <ul className='pt-2'>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Intensive and fast-paced learning</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Expert-curated resources</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Covers all critical topics in a condensed timeframe with focused study</li>
+                  </ul>
+                </Card>
+              </CarouselItem>
+
+              <CarouselItem className='h-max lg:basis-1/3'>
+                <Card className='p-6'>
+                  <h1 className='text-center text-lg font-semibold'>CAMS - 150</h1>
+                  <p className='text-center text-gray-400'>Coming soon</p>
+                  {/* <p className='text-start text-gray-400'>Comprehensive learning program for aspirants preparing for CAMS certification.</p>
+                  <h1 className='font-semibold'>Highlights</h1> */}
+                  <ul className='pt-2'>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Full syllabus coverage in a structured manner</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Interactive sessions with trainers</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Suitable for both working professionals and full-time learners</li>
+                  </ul>
+                </Card>
+              </CarouselItem>
+
+              
+              <CarouselItem className='h-max lg:basis-1/3'>
+                <Card className='p-6'>
+                  <h1 className='text-center text-lg font-semibold'>CGSS - 4</h1>
+                  <p className='text-center text-gray-400'>Coming soon</p>
+                  {/* <p className='text-start text-gray-400'>Comprehensive learning program for aspirants preparing for CGSS certification.</p>
+                  <h1 className='font-semibold'>Highlights</h1> */}
+                  <ul className='pt-2'>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Focuses on global sanctions and their impact</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Curated videos and learning materials</li>
+                    <li className='flex gap-2'><Image className='md:mt-1.5 mt-0.5 h-4 w-fit' src={verified} alt='icon'/>Ideal for compliance officers and AML professionals</li>
+                  </ul>
+                </Card>
+              </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious/>
+              <CarouselNext />
+            </Carousel>
+          </div>
+
             <div className='space-y-6 text-center items-center py-12'>
-            <h1 className='font-semibold text-center text-2xl'>CAMS Graduates, December 2024</h1>
+            <h1 className='font-semibold text-center md:text-xl lg:text-2xl text-lg'>CAMS Graduates, December 2024</h1>
                 <Marquee className="justify-center overflow-hidden [--duration:60s] [--gap:2rem] w-[100%]">
                 {isLoading ? 
                 [1,2,3,4,5,6,7,8].map((_, index)=>
@@ -336,11 +387,11 @@ const Home = () =>
                 </div> */}
 
                 <div className='sm:px-[10vw] px-[15vw] py-12'>
-            <h1 className='font-semibold w-full flex items-center justify-center gap-2 text-2xl mb-8'>Job Openings <span className='bg-yellow-400 px-1 p-2 rounded-full text-xs'>New</span></h1>
+            <h1 className='font-semibold w-full flex items-center justify-center gap-2 md:text-xl lg:text-2xl text-lg mb-8'>Fints AML Referrals</h1>
             {isLoading ?
             <div className='grid md:grid-cols-3 grid-cols-1 w-full rounded gap-5'>
             {[1,2,3].map((_,index)=>(
-              <div className='space-y-6 shadow-md p-8 rounded bg-white' key={index}>
+              <Card className='space-y-6 p-8' key={index}>
                   <div className='space-y-4'>
                     <Skeleton className='w-[60%] p-2 shadow-md bg-gray-200 rounded'/>
                     <Skeleton className='w-[50%] p-2 shadow-md bg-gray-200 rounded'/>
@@ -360,44 +411,44 @@ const Home = () =>
                   </div>
                     <Skeleton className='p-4 rounded bg-gray-200 w-20'/>
                   </div>
-              </div>
+              </Card>
             ))}
             </div> :
             <Carousel >
             <CarouselContent>
             
             {displayData?.recentJobs?.map((job, index) => (
-            <CarouselItem key={job._id} className='lg:basis-1/3 p-2 space-y-1'>
-              <>
-                <CardContent className="p-6 bg-white rounded shadow-md text-start">
-                   <div className="flex flex-col font-semibold pb-4">
-                      <span className='text-start'>{job.title}</span>
-                      <span className="text-muted-foreground">{job.company}</span>
+            <CarouselItem key={job._id} className='lg:basis-1/3'>
+              <Card>
+                <CardContent className="p-6 text-start">
+                   <div className="font-semibold">
+                      <p className='text-start'>{job.title}</p>
+                      <p className="text-muted-foreground">{job.company}</p>
                     </div>
                     
-                  <div >
+                  <div>
                     <p><span>Experience : </span>{job.experience} years</p>
                     <p className="pb-4"><span>Location : </span>{job.city +', ' +job.country}</p>
                     {/* <p className="pb-4"><span>Openings : </span>{job.openings}</p> */}
                   </div>
-                                      {/* <p className="border-t py-4">{job.description}</p> */}
-                  <footer className="flex md:flex-row flex-col justify-between md:items-end items-start space-y-2 w-full border-t pt-6">
+                  {/* <p className="border-t py-4">{job.description}</p> */}
+                  <footer className="flex text-xs md:flex-row flex-col justify-between md:items-end items-start space-y-2 w-full border-t pt-6">
                     <div className='md:space-y-2 space-y-4'>
-                    <div className="space-x-2 text-xs">
-                      <span className="bg-gray-100 shadow-md p-1 rounded">{job.jobType}</span>
-                      <span className="bg-gray-100 shadow-md p-1 rounded">{job.workplaceType}</span>
+                    <div className="space-x-2">
+                      <span className="bg-gray-200 p-1 rounded">{job.jobType}</span>
+                      <span className="bg-gray-200 p-1 rounded">{job.workplaceType}</span>
                     </div>
                     <p className="text-muted-foreground">Posted on {FormatDate(job.createdAt)}</p>
                     </div>
                     {data?.user?.id && 
-                    (!job.interests.includes(data.user.id) ? (applyLoading ? <Button className='w-20'><Loader2 className='animate-spin'/></Button> : <Button className='lg:h-8 lg:text-sm text-xs' onClick={()=> handleInterest(job)}>Show interest</Button>) : 
+                    (!job.interests.includes(data.user.id) ? (applyLoading ? <Button className='w-20'><Loader2 className='animate-spin'/></Button> : <Button className='h-8 text-xs' onClick={()=> handleInterest(job)}>Show interest</Button>) : 
                     <div className='rounded p-2 py-0.5 gap-1 bg-gray-100 flex items-center'>
                       <span>Applied</span>
                       <Image className='h-4 w-4' src={verified} alt='icon'/>
                     </div>)}
                   </footer>     
                 </CardContent>
-              </>
+              </Card>
           </CarouselItem>
           ))}
           </CarouselContent>
@@ -409,7 +460,7 @@ const Home = () =>
             
 
             <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
-                <h1 className='font-semibold text-center text-2xl'>Why CAMS & CGSS ?</h1>
+                <h1 className='font-semibold text-center md:text-xl lg:text-2xl text-lg'>Why CAMS & CGSS ?</h1>
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
                     {whyCamsAndCgss.map((data, index)=>
                     (
@@ -423,14 +474,14 @@ const Home = () =>
             </div>
 
             <div className='lg:px-[10vw] space-y-16 px-[5vw] bg-white py-12'>
-            <h1 className='font-semibold w-full text-center text-2xl mb-8'>Course benefits</h1>
+            <h1 className='font-semibold w-full text-center md:text-xl lg:text-2xl text-lg mb-8'>Course benefits</h1>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
                 {heroData.map((data, index)=>
                 (
                     <div className='flex flex-col gap-2' key={data.id}>
                         <Image className='lg:h-12 h-10 w-fit text-sm md:text-base' src={data.image} alt='icon'/>
                         <h1 className='md:text-base text-sm font-semibold mt-4'>{data.header}</h1>
-                        <p className='text-gray-400'>{data.detail}</p>
+                        <p className='text-muted-foreground'>{data.detail}</p>
                     </div>
                 ))}
                 </div>    
@@ -439,7 +490,7 @@ const Home = () =>
             <div className='lg:px-[10vw] px-[5vw] space-y-12 text-white relative py-12 flex flex-col gap-4' style={{backgroundColor: 'var(--primary-color)'}}>            
                 <div className='flex lg:flex-row flex-col lg:items-start items-center gap-8'>
                   <div className='lg:w-[50%] space-y-4 lg:sticky top-[5%]'>
-                    <p className='font-semibold text-2xl lg:text-start text-center'>Course timeline</p>
+                    <p className='font-semibold md:text-xl lg:text-2xl text-lg lg:text-start text-center'>Course timeline</p>
                     <p className='text-gray-400'>Master the essentials, refine your skills, and excel with a structured 11-week roadmap for certification excellence.</p>
                     <Image className='md:h-20 h-16 w-fit' src={success} alt='icon'/>
                   </div>
@@ -477,11 +528,11 @@ const Home = () =>
             
 
             <div className='sm:px-[10vw] px-[15vw] py-12'>
-            <h1 className='font-semibold w-full text-center text-2xl mb-8'>Testimonials</h1>
+            <h1 className='font-semibold w-full text-center md:text-xl lg:text-2xl text-lg mb-8'>Testimonials</h1>
             {isLoading ?
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full rounded gap-5'>
             {[1,2,3].map((_,index)=>(
-              <div className='space-y-6 shadow-md p-6 rounded h-84 bg-white' key={index}>
+              <Card className='space-y-6 p-6 h-84' key={index}>
                   <Skeleton className='h-16 w-16 shadow-md bg-gray-100 rounded-full'/>
                   <div className='space-y-3'>
                     <Skeleton className='p-2 rounded-xl bg-gray-200'/>
@@ -494,7 +545,7 @@ const Home = () =>
                   <Skeleton className='p-2 rounded-xl bg-gray-200 w-56'/>
                   <Skeleton className='p-2 rounded-xl bg-gray-200 w-40'/>
                   </div>
-              </div>
+              </Card>
             ))}
             </div> :
             <Carousel >
@@ -502,8 +553,8 @@ const Home = () =>
             
             {displayData?.feedbacks?.map((feed, index) => (
             <CarouselItem key={index} className='lg:basis-1/3 h-max'>
-              <>
-                <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4 bg-white rounded shadow-md">
+              <Card>
+                <CardContent className="flex flex-col items-start gap-4 justify-center md:p-6 p-4">
                         <Link className='relative' href={feed.user?.linkedIn ?? ''}>
                           <Image className='h-20 text-sm md:text-base aspect-square w-fit object-cover rounded-full' src={feed.user?.imageURL ? feed.user?.imageURL : defaultDP} width={100} height={100} alt='user'/>
                           <Image className='h-8 w-fit absolute bottom-0 right-0' src={linkedin} alt={feed.user.name}/>
@@ -515,7 +566,7 @@ const Home = () =>
                         <Rating value={feed.rating}/>
                         </div>
                 </CardContent>
-              </>
+              </Card>
           </CarouselItem>
           ))}
           </CarouselContent>
@@ -527,18 +578,16 @@ const Home = () =>
           
 
           <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-6 items-center' >
-              <p className='font-semibold text-2xl mb-4'>FAQs</p>
-              <div className='flex flex-col gap-8 w-full'>
+              <p className='font-semibold md:text-xl lg:text-2xl text-lg mb-4'>FAQs</p>
+              <div className='flex flex-col gap-4 w-full'>
               {faqData.map((data, index)=>
               (
                 <Accordian data={data} key={data.id} index={index} showFaq={showFaq} setShowFaq={setShowFaq}/>
               ))}
               </div>
           </div>
-
-          
-          <Footer/>
-        </div>
+        <Footer/>
+      </div>
     )
 }
 
