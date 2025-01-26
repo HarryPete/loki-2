@@ -31,7 +31,7 @@ class batchService
         try
         {
             const batch = await Batch.findOne({title})
-            .populate({path: 'course', model: Course, populate:{path: 'feedbacks', model: Feedback}})
+            .populate({path: 'course', model: Course, populate:[{path: 'feedbacks', model: Feedback}, { path: 'mocks', model: Quiz}]})
             .populate({path: 'enrollments', model: Enrollment, populate: {path: 'user', model: User}})
             .populate({path: 'sessions', model: Session, populate: {path: 'lecture', model: Lecture}})
             .populate({path: 'mentor', model: Mentor})

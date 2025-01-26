@@ -1,8 +1,11 @@
 
 import dbConnect from "@/dbConfig/dbConnect";
-import quizService from "@/services/quiz.service";
-import { NextResponse } from "next/server";
 const quizInstance = new quizService();
+import quizService from "@/services/quiz.service";
+
+import courseService from "@/services/course.service";
+const courseInstance = new courseService();
+import { NextResponse } from "next/server";
 
 export async function POST(req)
 {
@@ -11,7 +14,8 @@ export async function POST(req)
         await dbConnect();
 
         const { title, course, reference } = await req.json();
-        await quizInstance.createQuiz(title, course, reference)
+        const quiz = await quizInstance.createQuiz(title, course, reference);
+        await courseInstance.addMockToCourse(course, quiz._id.toString())
         return NextResponse.json({message: 'Quiz created'})
     }
     catch(error)

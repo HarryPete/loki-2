@@ -45,6 +45,11 @@ const courseSchema = new Schema({
     [{
         type: Schema.Types.ObjectId,
         ref: 'Feedback'
+    }],
+    mocks:
+    [{
+        type: Schema.Types.ObjectId,
+        ref: 'Quiz'
     }]
 },{timestamps: true})
 

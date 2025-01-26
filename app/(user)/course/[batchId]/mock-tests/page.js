@@ -56,7 +56,7 @@ const Batch = () =>
         {
             const url = `/api/enrollment/${enrolmentId}`
             const response = await axios.get(url);
-            if(!response.data.batch.access)
+            if(!response.data.batch.access || !response.data.access)
             {
                 router.push('/dashboard')
                 toast('Access Denied')
@@ -87,13 +87,13 @@ const Batch = () =>
     }, [status]);
 
 
-    const handleMock = async (mock, index) =>
+    const handleMock = async (mock) =>
     {
         // if(mock.status === 'Locked')
         //     return toast.error('Access denied')
 
-        if(index+1 <= enrollment.mocks.length)
-            return toast.error(`Set ${index+1} is already assigned`)
+        // if(mock.id <= enrollment.mocks.length)
+        //     return toast.error(`Set ${index+1} is already assigned`)
 
         try
         {
@@ -143,25 +143,30 @@ const Batch = () =>
 
     return(
         <div className="space-y-6">
-            <div className="space-y-4 pb-4">
-            {<h1 className="text-base font-semibold">All Mock Tests</h1>}
+            {enrollment.batch.mocks.length === 0 ?
+            <div className="md:text-lg text-base font-semibold text-center">
+                No Mocks Available
+            </div>
+            :<div className="space-y-4 pb-4">
+            {(enrollment.batch.mocks.length > enrollment.mocks.length) && <h1 className="text-base font-semibold">Weekly Mock Test</h1>}
                 <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4">
-                {enrollment.batch.mocks.map((data, index)=>
+                {enrollment.batch.mocks.map((data)=>
                 (
-                    <Card key={data._id} className='p-4 space-y-2 cursor-pointer' onClick={()=> handleMock(data, index)}>
+                    <Card key={data._id} className='p-4 space-y-1 cursor-pointer' onClick={()=> handleMock(data)}>
                         <div className="flex justify-center items-center p-8 bg-gray-100 rounded">
                             <Image className='h-12 w-fit' src={mockIcon} alt='test'/>
                         </div>
-                        <div className='flex justify-between gap-4 items-center md:text-sm text-xs'>
-                            <h1>Set {data.id}</h1>
-                            {data.status === 'Locked' || index+1 <= enrollment.mocks.length && <Image className='h-5 w-fit' src={locked} alt={data.status}/>}
-                        </div>
+                        {/* <div className='flex justify-between gap-4 items-center '>
+                            
+                            <Image className='h-5 w-fit' src={locked} alt={data.status}/>
+                        </div> */}
+                        <h1 className="text-center md:text-sm text-xs">Set {data.id}</h1>
                     </Card>
-                ))}
+                )).slice(enrollment.mocks.length)}
                 </div>
-            </div>
-            <div className="space-y-4 border-t pt-6">
-            <h1 className="text-base font-semibold">Unlocked Mock Tests</h1>
+            </div>}
+            {enrollment.mocks.length>0 && <div className="space-y-4">
+            <h1 className="text-base font-semibold">Enrolled Mock Tests</h1>
                 <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4">
                 {enrollment.mocks.map((data, index)=>
                 (
@@ -171,7 +176,7 @@ const Batch = () =>
                         <div className="space-y-2">
                             <div className="flex flex-col justify-center items-center p-8 space-y-2 bg-gray-100 rounded">
                                 <Image className='h-12 w-fit' src={mockIcon} alt='test'/>
-                                {(enrollment.batch.mocks[index].status === 'Unlocked' && data.status === 'Completed') && <Button className='h-6 text-xs' onClick={(e)=> handleRetake(e, data._id)}>Retake</Button>}
+                                {(enrollment.batch.mocks[index]?.status === 'Unlocked' && data?.status === 'Completed') && <Button className='h-6 text-xs' onClick={(e)=> handleRetake(e, data._id)}>Retake</Button>}
                             </div>
                             <div className='flex justify-between gap-4 items-center md:text-sm text-xs'>
                                 <h1>Mock {index+1}</h1>
@@ -182,7 +187,7 @@ const Batch = () =>
                     </Link>
                 ))}
             </div>
-            </div>
+            </div>}
         </div>
     )
 }

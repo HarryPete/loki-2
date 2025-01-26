@@ -12,7 +12,8 @@ class quizService
         try
         {
             const newQuiz = await Quiz.create({title, course, reference});
-            return await newQuiz.save();
+            await newQuiz.save();
+            return newQuiz
         }
         catch(error)
         {

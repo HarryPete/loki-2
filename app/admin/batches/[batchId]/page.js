@@ -155,6 +155,8 @@ const Batch = () =>
         }
     }
 
+    console.log(batch)
+
     if(isLoading)
         return <Loading/>
 

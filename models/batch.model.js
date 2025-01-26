@@ -12,7 +12,12 @@ const batchSchema = new Schema(
             ref: 'Course'
         },
         mocks:
-        [{
+        [{  
+            id:
+            {
+                type: Number, 
+                required: true
+            },
             quiz: 
             {
                 type: Schema.Types.ObjectId,

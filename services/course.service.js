@@ -82,6 +82,18 @@ class courseService
         }
     }
 
+    async addMockToCourse(courseId, mockId)
+    {
+        try
+        {
+            return await Course.findByIdAndUpdate(courseId, {$push: {mocks: mockId}})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async addFeedbacktoCourse(courseId, feedback)
     {
         try

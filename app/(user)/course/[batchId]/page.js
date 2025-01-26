@@ -128,6 +128,7 @@ const Batch = () =>
             <div>
             <div className="flex flex-col gap-2 lg:sticky lg:top-28">
                 <ProgressBar batch={enrollment.batch}/>
+                {enrollment.batch.mocks.length > 0 && 
                 <div className="grid grid-cols-3 gap-3 pt-2">
                 <Link className="" href={`${pathname}/mock-tests?eId=${enrollment._id}`}>
                     <Card className='p-5 text-center'>
@@ -142,7 +143,7 @@ const Batch = () =>
                         <span>Assigned mocks</span>
                         <span className="p-0.25 px-2 bg-orange-500 rounded-full text-white">{enrollment.mocks.length}</span>
                     </Card>
-                </div>
+                </div>}
             </div>
             </div>
             <div className='grid grid-cols-1 gap-4'>
