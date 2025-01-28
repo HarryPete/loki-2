@@ -48,9 +48,15 @@ const batchSchema = new Schema(
         },
         access:
         {
-            type: String,
+            type: Boolean,
             enum: [true, false],
             default : true
+        },
+        enrollmentStatus:
+        {
+            type: Boolean,
+            enum: [true, false],
+            default : false
         },
         sessions:
         [{

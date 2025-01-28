@@ -115,7 +115,22 @@ const MockTestBar = ({mockData}) =>
       <div className="flex flex-col text-center justify-between gap-2 text-sm w-full">
           <p><span className="font-semibold">Name</span> {mockData.enrollment.user.name}</p>
           <p className="text-gray-400 text-xs">Latest attempt on {FormatDate(mockData.updatedAt)}</p>
-      </div>
+     
+          <div className="flex text-center justify-around text-xs">
+            <div className="flex items-center gap-1">
+              <p className="font-semibold">Questions</p>
+              <p className="bg-blue-500 p-0.5 px-2 w-fit rounded-full text-white">{total}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="font-semibold">Correct</p>
+              <p className="bg-green-500 p-0.5 px-2 w-fit rounded-full text-white">{correct}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="font-semibold">Incorrect</p>
+              <p className="bg-red-500 p-0.5 px-2 w-fit rounded-full text-white">{incorrect}</p>
+            </div>
+          </div>
+           </div>
       
       </CardFooter>
       

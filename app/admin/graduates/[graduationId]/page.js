@@ -80,16 +80,18 @@ const Page = () =>
             <div ref={divRef} className="bg-white p-12 space-y-4 flex flex-col items-center" style={{backgroundColor: 'var(--primary-bg)'}}>
             
 
-            <div className="w-full flex justify-between items-center p-4 text-white">
-                <div className="flex items-center gap-4">
-                <Image className="h-12 w-fit" src={logo} alt='FINTS AML'/>
-                <p>www.fintsaml.com</p>
+            <div className="w-full grid grid-cols-2 p-4 text-white">
+                <div className="flex justify-start items-center gap-4">
+                    <Image className="h-10 w-fit" src={logo} alt='FINTS AML'/>
+                    <p className="text-sm">www.fintsaml.com</p>
                 </div>
-                <Image className="h-16 w-fit" src={trophy} alt='trophy'/>
-                <div className="space-y-2">
                 
-                <p className="text-base font-semibold">CAMS Result - {graduates.month +', ' +graduates.year}</p>
+                <div className="flex justify-end items-center gap-2">
+                    <p className="text-sm text-end">CAMS Results - {graduates.month +', ' +graduates.year}</p>
+                    <Image className="h-12 w-fit" src={trophy} alt='trophy'/>
                 </div>
+                
+                
             </div>
             <Table className='bg-white rounded'>
                 <TableHeader className='rounded'>

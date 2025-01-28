@@ -24,8 +24,21 @@ class graduateService
     {
         try
         {
-            const graduates = await Graduate.find({});
+            const graduates = await Graduate.find();
             return graduates
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateGraduationList(graduationId, enrollmentId)
+    {
+        try
+        {
+            await Graduate.findByIdAndUpdate(graduationId, { $push: { enrollments: enrollmentId } });
+            return
         }
         catch(error)
         {

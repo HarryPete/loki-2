@@ -8,6 +8,7 @@ import { Enrollment } from "@/models/enrollment.model.js";
 import { Lecture } from "@/models/lecture.model.js";
 import { Test } from "@/models/test.model.js";
 import { Quiz } from "@/models/quiz.model.js";
+import { Graduate } from "@/models/graduate.model.js";
 
 class batchService
 {
@@ -32,7 +33,7 @@ class batchService
         {
             const batch = await Batch.findOne({title})
             .populate({path: 'course', model: Course, populate:[{path: 'feedbacks', model: Feedback}, { path: 'mocks', model: Quiz}]})
-            .populate({path: 'enrollments', model: Enrollment, populate: {path: 'user', model: User}})
+            .populate({path: 'enrollments', model: Enrollment, populate: [{path: 'user', model: User}, {path: 'graduationBatch', model: Graduate}]})
             .populate({path: 'sessions', model: Session, populate: {path: 'lecture', model: Lecture}})
             .populate({path: 'mentor', model: Mentor})
             .populate({path: 'mocks', populate: [{ path: 'results', model: Test, populate: {path: 'enrollment', model: Enrollment, populate: {path: 'user', model: User}}}, { path: 'quiz', model: Quiz}] })
@@ -49,6 +50,18 @@ class batchService
         try
         {
             return await Batch.findByIdAndUpdate(batchId, {$set : {access}});
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateBatchEnrollmentStatus(batchId, enrollmentStatus)
+    {
+        try
+        {
+            return await Batch.findByIdAndUpdate(batchId, {$set : {enrollmentStatus}});
         }
         catch(error)
         {

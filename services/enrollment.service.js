@@ -102,6 +102,18 @@ class enrollmentService
         }
     }
 
+    async updateGraduation(enrollmentId, graduationBatch)
+    {
+        try
+        {
+            return await Enrollment.findByIdAndUpdate(enrollmentId, {$set : {graduationBatch}})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async removeEnrollment(enrollmentId)
     {
         try

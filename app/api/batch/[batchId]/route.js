@@ -1,7 +1,9 @@
 import dbConnect from "@/dbConfig/dbConnect";
-import batchService from "@/services/batch.service";
 import { NextResponse } from "next/server";
 const batchInstance = new batchService();
+import batchService from "@/services/batch.service";
+const courseInstance = new courseService();
+import courseService from "@/services/course.service";
 
 export async function GET(req, {params})
 {
@@ -32,19 +34,29 @@ export async function PUT(req, {params})
         if(type === "assign")
         {
             await batchInstance.addQuizToBatch(batchId, batchDetails.mock);
-            return NextResponse.json({message: 'Mock is assigned to batch'})
+            return NextResponse.json({message: 'Mock Assigned'})
         }
 
         if(type === "retake")
         {
             await batchInstance.updateMockStatus(batchId, batchDetails.id, batchDetails.status);
-            return NextResponse.json({message: `Mock retake ${batchDetails.status.toLowerCase()}`})
+            return NextResponse.json({message: `Mock Retake ${batchDetails.status}`})
         }
 
         if(type === "access")
         {
             await batchInstance.updateBatchAccess(batchId, batchDetails.access);
-            return NextResponse.json({message: access === 'true' ? 'Batch Access Granted' : 'Batch Access Revoked'})
+            return NextResponse.json({message: batchDetails.access ? 'Batch Access Granted' : 'Batch Access Revoked'})
+        }
+
+        if(type === "enrollmentStatus")
+        {
+            await batchInstance.updateBatchEnrollmentStatus(batchId, batchDetails.enrollmentStatus);
+            if(batchDetails.enrollmentStatus)
+                await courseInstance.enableEnrollment(batchDetails.courseId, batchId)
+            else
+                await courseInstance.disableEnrollment(batchDetails.courseId, batchId )
+            return NextResponse.json({message: !batchDetails.enrollmentStatus ? 'Enrollment Disabled' : 'Enrollment Enabled'})
         }
     }
     catch(error)

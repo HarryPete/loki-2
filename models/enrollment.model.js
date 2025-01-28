@@ -22,6 +22,11 @@ const enrollmentSchema = new Schema({
         type: Boolean,
         enum: [true, false],
         default : true
+    }, 
+    graduationBatch:
+    {
+        type: Schema.Types.ObjectId,
+        ref: 'Graduate'
     }
 })
 

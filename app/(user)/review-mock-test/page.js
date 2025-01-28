@@ -199,7 +199,7 @@ const Mock = () =>
                             <p>{ind+1 +'. ' +data.option}</p>
                             {(mock.quiz.reference[que].answers.includes(ind+1) || mock.answers[que].answers.includes(ind+1)) && 
                                 <Image className='h-5 w-fit' 
-                                src={(mock.answers[que].answers.includes(ind+1) || mock.answers[que].isFlagged) ? correctIcon : wrongIcon} alt='correct'/>}
+                                src={(mock.quiz.reference[que].answers.includes(ind+1) || mock.answers[que].isFlagged) ? correctIcon : wrongIcon} alt='correct'/>}
                         </div>
                     ))}
                     </div>

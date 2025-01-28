@@ -94,6 +94,30 @@ class courseService
         }
     }
 
+    async enableEnrollment(courseId, batchId)
+    {
+        try
+        {
+            return await Course.findByIdAndUpdate(courseId, {$push: {batches: batchId}})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async disableEnrollment(courseId, batchId)
+    {
+        try
+        {
+            return await Course.findByIdAndUpdate(courseId, {$pull: {batches: batchId}})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
     async addFeedbacktoCourse(courseId, feedback)
     {
         try

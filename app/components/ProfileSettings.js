@@ -13,6 +13,7 @@ import { FormatDate } from "@/utility/FormatDate"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import Image from "next/image"
+import { Card } from "@/components/ui/card"
 
 const ProfileSettings = () =>
 {
@@ -40,14 +41,20 @@ const ProfileSettings = () =>
                 {/* <Link className=' hover:bg-yellow-400 p-4 rounded' href='/about'>About</Link> */}
                 {status === 'unauthenticated' && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/signup' >Signup</Link>}
             </div>  
-            <h1 className="text-lg py-4 font-semibold">Upcoming batch</h1>
-            <div className="bg-gray-100 rounded space-y-2 p-4 shadow-lg ">
+            <h1 className="text-lg py-4 font-semibold">Ongoing batches</h1>
+            <div className="space-y-3">
+            <Card className="bg-gray-100 space-y-2 p-4">
+                <h1>CAMS - 148</h1>
+                <p className="text-gray-400">December 20, 2024</p>
+            </Card>
+            <Card className="bg-gray-100 space-y-2 p-4">
                 <h1>CAMS - 149</h1>
-                <p className="text-gray-400">Starting from Jaunuary 17, 2025</p>
-            </div>
-            <div className="mt-4 rounded p-4 space-y-2 shadow-md" style={{backgroundColor: 'var(--action-color)'}}>
-                <h1 className="text-white text-xl font-semibold">New year Sale</h1>
+                <p className="text-gray-400">Jaunuary 17, 2025</p>
+            </Card>
+            <Card className=" p-4 space-y-2 " style={{backgroundColor: 'var(--action-color)'}}>
+                <h1 className="text-white text-xl font-semibold">Extended New year Sale</h1>
                 <p>Avail all courses at 20% off</p>
+            </Card>
             </div>
             {/* <h1 className="md:text-xl text-lg py-4 font-semibold">Offers</h1>
             <div className="bg-gray-100 rounded space-y-2 p-4 shadow-lg" >

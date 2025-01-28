@@ -73,7 +73,7 @@ const Page = () =>
               <h1 className="font-semibold">{mock.title.split('-')[1]}</h1>
               <Image src={mockIcon} alt='icon'/>
               <span className="text-sm">Test {mock.title.split('-')[0][0]}</span>
-              <Image onClick={(e)=> deleteMock(e, mock._id)} className="h-6 w-fit absolute top-2 p-1 bg-gray-100 rounded-full shadow-md right-4" src={deleteIcon} alt="icon"/>
+              {/* <Image onClick={(e)=> deleteMock(e, mock._id)} className="h-6 w-fit absolute top-2 p-1 bg-gray-100 rounded-full shadow-md right-4" src={deleteIcon} alt="icon"/> */}
             </Card>
           </Link>
         ))}
