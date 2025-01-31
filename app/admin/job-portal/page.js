@@ -11,14 +11,14 @@ import { Suspense, useEffect, useState } from "react"
 import { toast } from "sonner";
 import defaultDP from '../../../assets/defaultDP.png'
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Page = () =>
 {
     const [ jobs, setJobs ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ jobId, setJobId ] = useState(null);
-
-    console.log(jobId)
+    const router = useRouter();
 
     const handleOpenDialog = (jobId) => 
     {
@@ -53,18 +53,16 @@ const Page = () =>
         }
     }
 
-    console.log(jobs)
-
     if(isLoading)
         return <Loading/>
 
     return(
         <div className="space-y-4">
-            {/* <JobForm showJobForm={showJobForm} setShowJobForm={setShowJobForm}/> */}
             <div>
                 <h1 className="font-semibold text-lg">Listed Jobs</h1>
                 <p className="text-xs text-muted-foreground">Last updated {FormatDate(jobs[jobs.length-1].createdAt)}</p>
             </div>
+            <Button onClick={()=> router.push('/job-portal')}>Post Job</Button>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
             {jobs.map((job)=>
             (

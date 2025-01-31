@@ -22,18 +22,23 @@ const routes =
     },
     {
         id: 4,
-        title: 'Graduates',
-        route: '/admin/graduates'
+        title: 'Forum',
+        route: '/forum'
     },
     {
         id: 5,
-        title: 'Mock Tests',
-        route: '/admin/mock-tests'
+        title: 'Graduates',
+        route: '/admin/graduates'
     },
     {
         id: 6,
         title: 'Job Portal',
         route: '/admin/job-portal'
+    },
+    {
+        id: 7,
+        title: 'Mock Tests',
+        route: '/admin/mock-tests'
     }
 ]
 

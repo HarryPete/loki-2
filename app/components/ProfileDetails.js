@@ -125,14 +125,13 @@ const ProfileDetails = ({userData, setEditInfo, editInfo, getUserData, getBatch,
         try
         {
             setIsLoading(true);
-            const url = `api/user/${userData._id}`
+            const url = `/api/user/${userData._id}`
             const response = await axios.put(url, data);
+            toast(response.data.message);
             if(level === 'admin')
                 getBatch();
             else
                 getUserData();
-            getUserData();
-            toast(response.data.message);
             setEditInfo(false)
         }   
         catch(error)

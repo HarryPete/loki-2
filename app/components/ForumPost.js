@@ -104,7 +104,7 @@ const ForumPost = ({getDiscussions, getTopics, newDiscussion, setNewDiscussion})
     return(
         <Dialog open={newDiscussion} onOpenChange={setNewDiscussion}>
         <DialogTrigger asChild>
-            <Button className='text-sm'>New Discussion</Button>
+            <Button className='text-sm w-fit'>New Discussion</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

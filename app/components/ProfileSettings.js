@@ -38,7 +38,7 @@ const ProfileSettings = () =>
             <div className='flex flex-col gap-2'>
                 {(data?.user?.role === 'user' || data?.user?.role === 'admin') && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/dashboard'>Dashboard</Link>}
                 <Link className=' hover:bg-yellow-400 p-4 rounded' href='/courses'>Courses</Link>
-                {/* <Link className=' hover:bg-yellow-400 p-4 rounded' href='/about'>About</Link> */}
+                <Link className=' hover:bg-yellow-400 p-4 rounded' href='/forum'>Forum</Link>
                 {status === 'unauthenticated' && <Link className=' hover:bg-yellow-400 p-4 rounded' href='/signup' >Signup</Link>}
             </div>  
             <h1 className="text-lg py-4 font-semibold">Ongoing batches</h1>

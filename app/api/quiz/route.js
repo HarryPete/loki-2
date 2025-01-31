@@ -14,7 +14,8 @@ export async function POST(req)
         await dbConnect();
 
         const { title, course, reference } = await req.json();
-        const quiz = await quizInstance.createQuiz(title, course, reference);
+        const id = title.split('-')[0][0]
+        const quiz = await quizInstance.createQuiz(id, title, course, reference);
         await courseInstance.addMockToCourse(course, quiz._id.toString())
         return NextResponse.json({message: 'Quiz created'})
     }

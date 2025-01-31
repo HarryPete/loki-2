@@ -7,17 +7,17 @@ import { Quiz } from "@/models/quiz.model";
 
 class quizService
 {
-    async createQuiz(title, course, reference)
+    async createQuiz(id, title, course, reference)
     {
         try
         {
-            const newQuiz = await Quiz.create({title, course, reference});
+            const newQuiz = await Quiz.create({id, title, course, reference});
             await newQuiz.save();
             return newQuiz
         }
         catch(error)
         {
-            throw error
+            return error
         }
     }
 
