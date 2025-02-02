@@ -70,7 +70,7 @@ const CourseDetail = ({course, level}) =>
                     {course.lectures.map((lecture)=>
                     (
                         <Lecturecard course={course} lecture={lecture} level={level} key={lecture._id}/>  
-                    )).slice(0,16)}
+                    )).slice(0,17)}
                     </div>
                     </AccordionContent>
                 </AccordionItem>

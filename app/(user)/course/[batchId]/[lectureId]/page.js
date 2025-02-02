@@ -54,7 +54,7 @@ const Page = () =>
 
     return(
         <div className='flex flex-col gap-4 space-y-4 md:text-base text-sm'>
-            <h1 className='text-2xl font-semibold'>{course.toUpperCase() +' > '} Leture {id}</h1>
+            <h1 className='text-2xl font-semibold'>{course.toUpperCase() +' > '} Lecture {id}</h1>
             <div className='bg-white shadow-lg rounded'>
                 <div className='flex items-center gap-2 bg-gray-200 p-4'>
                 <Image className='h-6 w-fit' src={lectureIcon} alt='icon'/>
