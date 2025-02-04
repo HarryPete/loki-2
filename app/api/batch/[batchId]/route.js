@@ -31,15 +31,27 @@ export async function PUT(req, {params})
         const batchDetails = await req.json();
         const { type } = batchDetails
 
-        if(type === "assign")
+        if(type === "assignTrigger")
+        {
+            await batchInstance.addSimulationToBatch(batchId, batchDetails.simulation);
+            return NextResponse.json({message: 'Trigger Assigned'})
+        }
+
+        if(type === "retakeTrigger")
+        {
+            await batchInstance.updateSimulationStatus(batchId, batchDetails.id, batchDetails.isLocked);
+            return NextResponse.json({message: `Mock Retake ${batchDetails.isLocked ? 'Locked' : 'Unlocked'}`})
+        }
+
+        if(type === "assignMock")
         {
             await batchInstance.addQuizToBatch(batchId, batchDetails.mock);
             return NextResponse.json({message: 'Mock Assigned'})
         }
 
-        if(type === "retake")
+        if(type === "retakeMock")
         {
-            await batchInstance.updateMockStatus(batchId, batchDetails.id, batchDetails.status);
+            await batchInstance.updateMockStatus(batchId, batchDetails.id, batchDetails.isLocked);
             return NextResponse.json({message: `Mock Retake ${batchDetails.status}`})
         }
 

@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 const BillingCard = ({course, selectedBatch}) =>
 {
@@ -44,30 +45,33 @@ const BillingCard = ({course, selectedBatch}) =>
     }
 
     return(
-        <div className='rounded p-4 flex flex-col gap-4 shadow-md'>
-            <p className='text-center font-semibold text-lg'>PRICE DETAILS</p>
+        <div className='space-y-4'>
+        <Card className='p-4'>
+            <p className='text-green-500 text-center'>You saved ${course.price - course.offerPrice} on this</p>
+        </Card>
+        <Card className='p-4 space-y-6'>
+            <p className='text-center font-semibold text-base'>PRICE DETAILS</p>
             <div className='flex justify-between'>
                 <p className=''>Price (1 Item)</p>
                 <p className=''>${course.price}</p>
             </div>
-            <div className='flex justify-between border-b border-gray-300 pb-3'>
+            <div className='flex justify-between border-b border-muted pb-8'>
                 <p className=''>Discount</p>
                 <p className=''>${course.price - course.offerPrice}</p>
             </div>
             <div className='flex justify-between'>
                 <p className=''>Total Amount</p>
                 <p className=''>${course.offerPrice}</p>
-            </div>
-            <p className='text-green-500 font-semibold'>You saved ${course.price - course.offerPrice} on this</p>
-            
+            </div>            
             {isLoading ? <Button className='lg:h-12 h-10 text-md'>
                 <Loader2 className='animate-spin'/>
                 Enrolling...
             </Button> :
-            <Button className='lg:h-12 h-10 text-md' onClick={handleBuy}>
+            <Button className='text-xs' onClick={handleBuy}>
                 Register now
             </Button>}
             
+        </Card>
         </div>
     )
 }

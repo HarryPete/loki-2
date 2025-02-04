@@ -52,10 +52,10 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
                 <Image className='rounded object-cover' src={batch.course.imageURL} alt={batch.title} layout='fill'/>
             </div>
             <div className='flex justify-between items-center text-sm'>
-                <p className='font-semibold'>{batch.title}</p>
-                <p>{batch.status}</p>
+                <p className='font-semibold'>{level === 'user' ? batch.course.title : batch.title}</p>
+                {level !== 'user' && <p className='absolute top-6 right-6 bg-black p-1 text-xs rounded'>{batch.isCompleted ? "Completed" : "Ongoing"}</p>}
             </div>
-            {/* <p className='absolute top-6 right-6 bg-gray-300 p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p> */}
+            {level === 'user' && <p className='absolute top-6 right-6 bg-black p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p>}
              {/* 
             <div className='flex justify-between items-end text-sm'>
                 {level === "admin" ? (type === 'batch' ? <p> Enrollments : {batch.enrollments.length}</p> : <p> Participants : {participants}</p>) : <p>{batch.sessions.length} lectures</p>}

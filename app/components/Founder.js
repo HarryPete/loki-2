@@ -8,6 +8,7 @@ import mashreqLogo from '@/assets/mashreq.png'
 import westernLogo from '@/assets/western-union.png'
 import brightLogo from '@/assets/bright-money.png'
 import Marquee from '@/components/ui/marquee'
+import { Card } from '@/components/ui/card'
 const lokeshNaikHighlights = [
     {
       title: "10+ Years of Expertise",
@@ -47,7 +48,7 @@ const Founder = () =>
 {
 
     return(
-        <div className='rounded-xl relative flex flex-col gap-4 md:p-12 bg-white shadow-md p-6 lg:w-[800px] md:w-[600px] w-full'>
+        <Card className='md:text-sm text-xs relative flex flex-col gap-4 md:p-12 p-6 lg:w-[800px] md:w-[600px] w-full'>
              <div className='space-y-8 flex flex-col items-center pb-4'>
                 <div className='flex flex-col lg:flex-row justify-between gap-4 w-full'>
                     <div className='z-10 flex lg:flex-row flex-col lg:items-end justify-end items-center gap-4'>
@@ -88,7 +89,7 @@ const Founder = () =>
                 <Image className='sm:h-16 sm:w-16 h-10 w-10 bg-gray-100 rounded-full' src={brightLogo} alt='logo'/>
                 </div>
             
-        </div>
+        </Card>
     )
 }
 

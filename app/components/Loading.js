@@ -25,15 +25,15 @@ const Loading = () =>
     }, []);
 
   return (
-    <div className="fixed top-0 left-0 z-50 w-[100vw] bg-white h-[100vh] flex justify-center items-center">
-        <div className="relative rounded-full" style={{backgroundColor: 'var(--primary-color)'}}>
+    <div className="fixed top-0 left-0 z-50 w-[100vw] bg-black h-[100vh] flex justify-center items-center">
+        <div className="relative rounded-full">
         <AnimatedCircularProgressBar
         max={100}
         min={0}
         value={value}
-        gaugePrimaryColor="var(--action-color)"
+        gaugePrimaryColor="gray"
         gaugeSecondaryColor="rgba(0,0,0,0.1)"/>
-        <Image className="absolute top-[50%] left-[50%] h-12 w-fit translate-x-[-50%] translate-y-[-50%]" src={logo} alt='FINTS AML'/>
+        <Image className="absolute top-[50%] left-[50%] h-8 w-fit bg-black translate-x-[-50%] translate-y-[-50%]" src={logo} alt='FINTS AML'/>
         </div>
     </div>
   );

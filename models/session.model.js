@@ -11,11 +11,11 @@ const sessionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Lecture'
     },
-    status:
+    isCompleted:
     {
-        type : String,
-        enum : ['Upcoming', 'Completed'],
-        default: 'Upcoming'
+        type : Boolean,
+        enum : [true, false],
+        default: false
     }
 },
 {

@@ -15,11 +15,11 @@ const testSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Enrollment'
     },
-    status:
+    isCompleted:
     {
-        type : String,
-        enum : ['Pending', 'Completed'],
-        default: 'Pending'
+        type : Boolean,
+        enum : [true, false],
+        default: false
     },
     score: Number,
     takes: Number

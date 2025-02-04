@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 const options = { year: 'numeric', month: 'long', day: 'numeric' };
 export const pendingSessions = (sessions) =>
 {
-    return sessions.filter((session) => session.status === 'Upcoming').length
+    return sessions.filter((session) => !session.isCompleted).length
 }
 
 const Progress = ({batchData, getBatch}) =>
@@ -33,22 +33,25 @@ const Progress = ({batchData, getBatch}) =>
     
     return(
         <div className='space-y-4'>
+            <div className='flex justify-between items-end'>
+            <div className='text-2xl space-y-2'>
+                <p className='font-semibold'>{batchData.title.split('-')[1]}</p>
+                <p className='text-sm text-muted-foreground'>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>
+            </div>
+            <div className="flex justify-between space-x-4">
+                <div className="flex items-center gap-2 justify-between">
+                   <Label>Batch access</Label>
+                    <Switch checked={batchData.access} onCheckedChange={()=> updateBatch(batchData.enrollmentStatus, !batchData.access, "access")}/>
+                </div>
+                <div className="flex items-center gap-2 justify-between">
+                    <Label>Enrollment status</Label>
+                    <Switch checked={batchData.enrollmentStatus}  onCheckedChange={()=> updateBatch(!batchData.enrollmentStatus, batchData.access, "enrollmentStatus")}/>
+                </div>
+            </div>
+            
+            </div>
             <div className='flex flex-col text-sm md:text-base h-[60vh] text-white justify-center items-center rounded p-6 relative'>
                 <Image className='object-cover rounded-xl' src={batchData.course.imageURL} alt={batchData.course.title} layout='fill'/>
-                <div className='text-3xl absolute bottom-4 text-center space-y-2 mb-2 z-50'>
-                    <p className='font-semibold'>{batchData.title.split('-')[1]}</p>
-                    <p className='bg-gray-700 p-2 rounded z-50 text-xs'>{new Date(batchData.startDate).toLocaleDateString('en-US', options)} - {new Date(batchData.endDate).toLocaleDateString('en-US', options)}</p>
-                </div>
-                <div className="flex justify-between gap-4 absolute top-6 right-4">
-                    <div className="flex items-center gap-2 justify-between">
-                        <Label>Batch access</Label>
-                        <Switch checked={batchData.access} onCheckedChange={()=> updateBatch(batchData.enrollmentStatus, !batchData.access, "access")}/>
-                    </div>
-                    <div className="flex items-center gap-2 justify-between">
-                        <Label>Enrollment status</Label>
-                        <Switch checked={batchData.enrollmentStatus}  onCheckedChange={()=> updateBatch(!batchData.enrollmentStatus, batchData.access, "enrollmentStatus")}/>
-                    </div>
-                </div>
             </div>
             
             <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-4'>
@@ -56,19 +59,25 @@ const Progress = ({batchData, getBatch}) =>
                     <h1 className='text-xl font-semibold'>{Math.ceil((batchData.sessions?.length - pendingSessions(batchData.sessions))*100/batchData.sessions.length)}%</h1>
                     <p>Completion</p>
                 </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
+                {/* <Card className='p-4 text-center text-sm space-y-1'>
                     <h1 className='text-xl font-semibold'>{pendingSessions(batchData.sessions)}</h1>
                     <p>Sessions pending</p>
-                </Card>
+                </Card> */}
                 <Card className='p-4 text-center text-sm space-y-1'>
                     <h1 className='text-xl font-semibold'>{batchData.enrollments.length}</h1>
                     <p>Enrollments</p>
+                </Card>
+                <Card className='p-4 text-center text-sm space-y-1'>
+                    <h1 className='text-xl font-semibold'>{batchData.simulations.length}</h1>
+                    <p>Simulations</p>
                 </Card>
                 <Card className='p-4 text-center text-sm space-y-1'>
                     <h1 className='text-xl font-semibold'>{batchData.mocks.length}</h1>
                     <p>Mocks</p>
                 </Card>
             </div>
+
+            
         </div>
     )
 }

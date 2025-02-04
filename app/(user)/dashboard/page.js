@@ -23,8 +23,8 @@ const Dashboard = () =>
             const url = `/api/user/${data.user.id}`
             const response = await axios.get(url);
             setUserData(response.data);
-            if(!response.data.isProfileComplete)
-                router.push('/settings')
+            // if(!response.data.isProfileComplete)
+            //     router.push('/settings')
         }
         catch(error)
         {

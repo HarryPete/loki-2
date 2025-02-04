@@ -28,12 +28,36 @@ const batchSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Test'
             }],
-            status:
+            isLocked:
             {
-                type: String,
-                enum: ['Locked', 'Unlocked'],
-                default : 'Locked'
+                type: Boolean,
+                enum: [true, false],
+                default : true
             },
+        }],
+        simulations:
+        [{  
+            id:
+            {
+                type: Number, 
+                required: true
+            },
+            trigger: 
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Trigger'
+            },
+            responses:
+            [{
+                type: Schema.Types.ObjectId,
+                ref: 'TriggerResponse'
+            }],
+            isLocked:
+            {
+                type: Boolean,
+                enum: [true, false],
+                default : true
+            }
         }],
         enrollments:
         [{

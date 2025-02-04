@@ -9,6 +9,8 @@ import { Lecture } from "@/models/lecture.model.js";
 import { Test } from "@/models/test.model.js";
 import { Quiz } from "@/models/quiz.model.js";
 import { Graduate } from "@/models/graduate.model.js";
+import { TriggerResponse } from "@/models/triggerResponse.model.js";
+import { Trigger } from "@/models/trigger.model.js";
 
 class batchService
 {
@@ -32,11 +34,12 @@ class batchService
         try
         {
             const batch = await Batch.findOne({title})
-            .populate({path: 'course', model: Course, populate:[{path: 'feedbacks', model: Feedback}, { path: 'mocks', model: Quiz}]})
-            .populate({path: 'enrollments', model: Enrollment, populate: [{path: 'user', model: User}, {path: 'graduationBatch', model: Graduate}]})
+            .populate({path: 'course', model: Course, populate:[{path: 'feedbacks', model: Feedback}, { path: 'mocks', model: Quiz},{ path: 'simulations', model: Trigger}]})
+            .populate({path: 'enrollments', model: Enrollment, populate: {path: 'user', model: User}})
             .populate({path: 'sessions', model: Session, populate: {path: 'lecture', model: Lecture}})
             .populate({path: 'mentor', model: Mentor})
             .populate({path: 'mocks', populate: [{ path: 'results', model: Test, populate: {path: 'enrollment', model: Enrollment, populate: {path: 'user', model: User}}}, { path: 'quiz', model: Quiz}] })
+            .populate({path: 'simulations', populate: [{ path: 'responses', model: TriggerResponse, populate: {path: 'enrollment', model: Enrollment, populate: {path: 'user', model: User}}}, { path: 'trigger', model: Trigger}] })
             return batch 
         } 
         catch(error)
@@ -74,6 +77,18 @@ class batchService
         try
         {
             return await Batch.findByIdAndUpdate(batchId, {$push : {mocks: quiz}});
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async addSimulationToBatch(batchId, simulation)
+    {
+        try
+        {
+            return await Batch.findByIdAndUpdate(batchId, {$push : {simulations: simulation}});
         }
         catch(error)
         {
@@ -121,11 +136,37 @@ class batchService
         }
     }
 
-    async updateMockStatus(batchId, id, status)
+    async updateSimulations(batchId, id, triggerId)
     {
         try
         {
-            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $set: { 'mocks.$.status': status }})
+            return await Batch.findOneAndUpdate({ _id: batchId, 'simulations.id': id }, { $addToSet: { 'simulations.$.responses': triggerId }})
+            
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateMockStatus(batchId, id, isLocked)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'mocks.id': id }, { $set: { 'mocks.$.isLocked': isLocked }})
+            
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async updateSimulationStatus(batchId, id, isLocked)
+    {
+        try
+        {
+            return await Batch.findOneAndUpdate({ _id: batchId, 'simulations.id': id }, { $set: { 'simulations.$.isLocked': isLocked }})
             
         }
         catch(error)

@@ -28,6 +28,7 @@ import { Loader2, Users } from 'lucide-react'
 import LoadingMini from '@/app/components/LoadingMini'
 import mockIcon from '@/assets/mock.png'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import triggerIcon from '../../../../assets/course.png'
 
 const Batch = () =>
 {
@@ -129,11 +130,12 @@ const Batch = () =>
     {
         try
         {
-            const updatedStatus = status === 'Upcoming' ? 'Completed' : 'Upcoming'
-            const url = `/api/session/${sessionId}`
-            await axios.put(url, {status : updatedStatus});
-            toast(`Session updated to ${updatedStatus}`)
-            getBatch();
+            toast(status)
+            // const updatedStatus = status === 'Upcoming' ? 'Completed' : 'Upcoming'
+            // const url = `/api/session/${sessionId}`
+            // await axios.put(url, {status});
+            // toast(`Session updated to ${updatedStatus}`)
+            // getBatch();
         }
         catch(error)
         {
@@ -201,13 +203,34 @@ const Batch = () =>
         }
     }
 
-    const updateMock = async (mock, id, status="", type) =>
+    const updateMock = async (mock, id, status, type) =>
     {
       try
       {
           setIsLoading(true)
           const url = `/api/batch/${batch._id}`
-          const batchDetails = { mock: {quiz:mock._id, id}, id, status, type }
+          const batchDetails = { mock: {quiz:mock._id, id}, id, isLocked: status, type }
+          const response = await axios.put(url, batchDetails);
+          toast.success(response.data.message);
+          getBatch()
+      }
+      catch(error)
+      {
+        toast.error(error.message)
+      }
+      finally
+      {
+        setIsLoading(false)
+      }
+    }
+
+    const updateTrigger = async (simulation, id, status, type) =>
+    {
+      try
+      {
+          setIsLoading(true)
+          const url = `/api/batch/${batch._id}`
+          const batchDetails = { simulation: {trigger:simulation._id, id}, id, isLocked: status, type }
           const response = await axios.put(url, batchDetails);
           toast.success(response.data.message);
           getBatch()
@@ -228,10 +251,10 @@ const Batch = () =>
         return <Loading/>
 
     return(
-        <div className='space-y-4'>
+        <div className='space-y-4 md:text-sm text-xs'>
             <div className='relative'>
                 <Progress batchData={batch} level='admin' getBatch={getBatch}/>
-                <Image className='fixed cursor-pointer text-xs bottom-4 right-4 h-10 w-fit p-2.5 bg-yellow-500 rounded-full'
+                <Image className='fixed cursor-pointer text-xs bottom-4 right-4 h-10 w-fit p-2.5 bg-red-600 rounded-full'
                  src={removeDuplicates ? closeIcon : duplicateIcon} alt='icon' onClick={()=>
                     {
                         if(!removeDuplicates)
@@ -244,29 +267,61 @@ const Batch = () =>
                     }
                 }/>
             </div>
-            <h1 className='font-semibold text-base pt-4'>Mocks</h1>
+            <h1 className='font-semibold text-base pt-4'>Simulations</h1>
             <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
             
-                {batch.course.mocks.map((mock, index)=>
+                {batch.course?.simulations?.map((simulation, index)=>
                 (
-                    <Card className={`${batch.mocks[index] ? 'border-green-500' : 'border-red-500' } border-2 p-4 text-sm`} key={mock.id}>
+                    <div key={simulation.id} className='space-y-2 text-center'>
+                        <Card className={`${batch.simulations[index] && 'border-green-500'} border-2 p-4 text-sm relative`}>
                         {isLoading ? <LoadingMini/> :
-                        <div className="space-y-3">
-                            <div className='bg-gray-100 p-6 gap-2 flex flex-col items-center rounded relative'>
-                                <Image className='h-12 w-fit' src={mockIcon} alt='mock'/>
-                                <p>Set {mock.id}</p>
+                        <div className="space-y-4 flex flex-col justify-center items-center relative">
+                            <div className='bg-gray-800 w-fit rounded-full p-6 gap-2 flex flex-col items-center'>
+                                <Image className='h-8 w-fit' src={triggerIcon} alt='mock'/>
+                                
+                                {batch.simulations[index] && 
+                                <div className="absolute top-0 right-0">
+                                    <Switch checked={!batch.simulations[index]?.isLocked} onCheckedChange={()=> updateTrigger(simulation, batch.mocks[index].id, !batch.mocks[index].isLocked, "retakeTrigger")}/>
+                                </div>}
+                            </div>
+                            <div className="flex justify-center">
+                            {batch.simulations[index] ? 
+                            <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/simulation-responses?trigger=${simulation.id}`)}>Responses</Button> :
+                                <Button className='text-xs h-6' onClick={()=> updateTrigger(simulation, simulation.id, true ,"assignTrigger")}>Assign</Button>}
+                            </div>
+                        </div>}
+                        </Card>      
+                        <p>Trigger {index+1}</p>  
+                    </div>        
+                ))}
+            </div>
+
+            <h1 className='font-semibold text-base pt-4'>Assessments</h1>
+            <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
+            
+                {batch.course?.mocks?.map((mock, index)=>
+                (
+                    <div key={mock.id} className='space-y-2 text-center'>
+                        <Card className={`${batch.mocks[index] && 'border-green-500'} border-2 p-4 text-sm relative`}>
+                        {isLoading ? <LoadingMini/> :
+                        <div className="space-y-4 flex flex-col justify-center items-center relative">
+                            <div className='bg-gray-800 w-fit rounded-full p-6 gap-2 flex flex-col items-center'>
+                                <Image className='h-8 w-fit' src={mockIcon} alt='mock'/>
+                                
                                 {batch.mocks[index] && 
-                                <div className="absolute top-2 right-2">
-                                    <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, batch.mocks[index].status === 'Locked' ? 'Unlocked' : 'Locked', "retake")}/>
+                                <div className="absolute top-0 right-0">
+                                    {/* <Switch checked={batch.mocks[index]?.status === 'Unlocked'} onCheckedChange={()=> updateMock(mock, batch.mocks[index].id, !batch.mocks[index].isLocked, "retakeMock")}/> */}
                                 </div>}
                             </div>
                             <div className="flex justify-center">
                             {batch.mocks[index] ? 
                             <Button className='text-xs h-6' onClick={()=> router.push(`${pathname}/mock-report?set=${mock.id}`)}>Report card</Button> :
-                                <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, "Locked" ,"assign")}>Assign</Button>}
+                                <Button className='text-xs h-6' onClick={()=> updateMock(mock, mock.id, true ,"assignMock")}>Assign</Button>}
                             </div>
                         </div>}
-                  </Card>                
+                        </Card>      
+                        <p>Assessment {mock.id}</p>  
+                    </div>        
                 ))}
             </div>
             <div className='grid lg:grid-cols-2 grid-cols-1 gap-4 relative border-t pt-8'>
@@ -275,7 +330,7 @@ const Batch = () =>
                 <h1 className='font-semibold text-base'>Sessions</h1>
                 {batch.sessions.map((session, index) =>
                 (
-                    <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus} setActiveAgenda={setActiveAgenda} activeAgenda={activeAgenda}/>
+                    <SessionCard key={session._id} level="admin" session={session} index={index} updateSessionStatus={updateSessionStatus}/>
                 ))}
                 </div>
                 
@@ -302,40 +357,40 @@ const Batch = () =>
                                     <UpdateDisplayPicture level="admin" userData={enrollment.user} getBatch={getBatch} editDP={editDP} setEditDP={setEditDP}/> 
                                     <ProfileDetails level="admin" userData={enrollment.user} getBatch={getBatch} editInfo={editInfo} setEditInfo={setEditInfo}/> 
                                 </div>
-                                <h1 className="font-semibold border-b border-gray-300 pb-2">Profile details</h1>
+                                <h1 className="font-semibold border-b border-muted pb-4">Profile details</h1>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Enrollment Id</span>
+                                        <span className="text-muted-foreground">Enrollment Id</span>
                                         <span>{enrollment._id}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Email</span>
+                                        <span className="text-muted-foreground">Email</span>
                                         <span>{enrollment.user?.email}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Contact</span>
+                                        <span className="text-muted-foreground">Contact</span>
                                         <span>{enrollment.user?.contact}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Experience</span>
+                                        <span className="text-muted-foreground">Experience</span>
                                         <span>{enrollment.user?.experience}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Domain</span>
+                                        <span className="text-muted-foreground">Domain</span>
                                         <span>{enrollment.user?.domain}</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Country</span>
+                                        <span className="text-muted-foreground">Country</span>
                                         <span>{enrollment.user?.country}</span>
                                     </div>
                                     {enrollment.graduationBatch && 
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Graduation</span>
+                                        <span className="text-muted-foreground">Graduation</span>
                                         <span>{enrollment.graduationBatch.month +' ' +enrollment.graduationBatch.year}</span>
                                     </div>}
                                 </div>
                             </div>
-                            <div className='flex justify-between border-t space-y-2 pt-4'>
+                            <div className='flex justify-between border-t space-y-2 pt-2'>
                             
                             
                                 
@@ -349,39 +404,7 @@ const Batch = () =>
                             </div>
                             </div>  
                             
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    {!enrollment.graduationBatch && <Button>Graduation</Button>}
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Graduation</DialogTitle>
-                                    <DialogDescription>
-                                        Graduate {enrollment.user.name} 
-                                    </DialogDescription>
-                                </DialogHeader>
-                                {graduationBatches && <div className="grid gap-4 py-4">
-                                    <Select onValueChange={setGraduationBatch}>
-                                        <SelectTrigger className="w-full h-12">
-                                            <SelectValue placeholder="Choose Graduation Batch" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                        {graduationBatches.map((batch)=>
-                                        (
-                                            <SelectItem className='h-12' value={batch._id} key={batch._id}>{batch.month +' ' +batch.year}</SelectItem>
-                                        ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>}
-                                <DialogFooter>
-                                    {isButtonLoading ? 
-                                    <Button onClick={()=>updateGraduation(enrollment._id)}>
-                                        <Loader2 className='animate-spin'/>
-                                    </Button>
-                                    : <Button onClick={()=>updateGraduation(enrollment._id)}>Update</Button>}
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>                        
+                                   
                         </DialogContent>
                         </Dialog>    
                     </div>

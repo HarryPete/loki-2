@@ -70,13 +70,13 @@ const UpdateDisplayPicture = ({ level, userData, getUserData, editDP, setEditDP,
                 </DialogDescription>
             </DialogHeader>
             
-            <label htmlFor="file-input" className='hover:bg-gray-100 p-3 text-sm md:text-base flex items-center gap-4 rounded cursor-pointer'>
-                <Image className='h-7 w-fit' src={device} width={100} height={100} alt='user'/>
+            <label htmlFor="file-input" className='hover:bg-stone-900 p-3 text-xs md:text-sm flex items-center gap-4 rounded cursor-pointer'>
+                {/* <Image className='h-7 w-fit' src={device} width={100} height={100} alt='user'/> */}
                 <span>Upload from device</span>
             </label>
-            <Input type='file' id="file-input" className='md:h-12 h-10 md:text-base text-sm hidden' onChange={handleFileChange} />
-            <div className='hover:bg-gray-100 p-3 text-sm md:text-base flex items-center gap-4 rounded'>
-                <Image className='h-7 w-fit' src={close} width={100} height={100} alt='user'/>
+            <Input type='file' id="file-input" className='md:h-12 h-10 md:text-sm text-xs hidden' onChange={handleFileChange} />
+            <div className='hover:bg-stone-900 p-3 text-xs md:text-sm flex items-center gap-4 rounded'>
+                {/* <Image className='h-7 w-fit' src={close} width={100} height={100} alt='user'/> */}
                 <span>Remove display picture</span>
             </div>
             <Input type='file' id="file-input" className='md:h-12 h-10 md:text-base text-sm hidden' onChange={handleFileChange} />

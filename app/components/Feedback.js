@@ -119,7 +119,7 @@ const Feedback = ({ feedbackForm, setFeedbackForm }) =>
             {rating.map((count)=>
             (
                 <div className='flex flex-col gap-2 items-center text-xs' key={count.id}>
-                    <Button className={`h-10 w-fit rounded-full ${count.value === value ? 'bg-yellow-400 text-white' : ''}`} variant='outline' onClick={()=> setValue(count.value)}>{count.value}</Button>
+                    <Button className={`h-10 w-fit rounded-full ${count.value === value ? 'bg-red-600 text-white' : ''}`} variant='outline' onClick={()=> setValue(count.value)}>{count.value}</Button>
                     <span>{count.description}</span>
                 </div>
             ))}

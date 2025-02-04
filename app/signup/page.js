@@ -12,6 +12,7 @@ import GoogleAuth from '../components/GoogleAuth';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Card } from '@/components/ui/card';
 
 const Signup = () =>
 {   
@@ -93,37 +94,39 @@ const Signup = () =>
     }
 
     return(
-        <div className='h-[100vh] flex items-center justify-center' style={{backgroundColor:'var(--primary-bg)'}}>
-            <div className='bg-white rounded w-96 p-6'> 
-                <div className='flex justify-center mb-4'>
-                    <Image className='h-16 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>
+        <div className='h-[100vh] flex items-center justify-center'>
+            <Image className='object-cover z-10 h-[100%]' src='https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='FINTS AML' layout='fill' priority={true} />
+                        
+            <Card className='sm:p-8 p-4 sm:w-96 w-[85%] z-10'> 
+                <div className='flex justify-center mb-10'>
+                    <Image className='h-7 w-fit cursor-pointer' src={logo} alt='logo' onClick={()=> router.push('/')}/>
                 </div>
                 <div className='w-full flex flex-col gap-4 items-center'>
-                    <form className='flex flex-col w-full gap-4'onSubmit={handleSubmit}>
-                        <Input className='h-12' name="name" type="text" placeholder="Name" />
-                        <Input className='h-12' name="email" type="text" placeholder="Email" />
-                        <Input className='h-12' name="password" type="text" placeholder="Password" />
+                    <form className='flex flex-col w-full gap-4 sm:text-sm text-xs'onSubmit={handleSubmit}>
+                        <Input className='sm:h-12 h-10 border sm:text-sm text-xs border-muted ' name="name" type="text" placeholder="Name" />
+                        <Input className='sm:h-12 h-10 border sm:text-sm text-xs border-muted ' name="email" type="text" placeholder="Email" />
+                        <Input className='sm:h-12 h-10 border sm:text-sm text-xs border-muted ' name="password" type="text" placeholder="Password" />
 
                         {error && 
-                        <div className='flex gap-2 items-center text-sm'>
+                        <div className='flex gap-2 items-center sm:text-sm text-xs'>
                             <Image className='h-6 w-fit' src={erroricon} alt='error'/>
                             <p className='text-red-600'>{errorMessage}</p>
                         </div>}
 
                         {success && 
-                       <div className='flex gap-2 items-center text-sm'>
+                       <div className='flex gap-2 items-center sm:text-sm text-xs'>
                        <Image className='h-6 w-fit' src={successicon} alt='error'/>
                        <p className='text-green-600'>{successMessage}</p>
                    </div>}
                         <Button className='' type='submit'>Sign up</Button>
                     </form>
 
-                    <p className=''>or</p>
+                    <p className='text-white'>or</p>
                     <GoogleAuth/>
                 </div>
-                <p className='text-center mt-2 text-sm text-gray-400'>Already a user? 
-                    <Link href='/login' className='pl-1 hover:text-yellow-300 cursor-pointer'>Login</Link></p>
-           </div>
+                <p className='text-center mt-4 sm:text-sm text-xs text-muted-foreground'>Already a user? 
+                    <Link href='/login' className='pl-1 hover:text-red-500 cursor-pointer'>Login</Link></p>
+           </Card>
         </div>
     )
 }

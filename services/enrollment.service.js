@@ -3,8 +3,10 @@ import { Course } from "@/models/course.model";
 import { Enrollment } from "@/models/enrollment.model";
 import { Lecture } from "@/models/lecture.model";
 import { Mentor } from "@/models/mentor.model";
+import { Quiz } from "@/models/quiz.model";
 import { Session } from "@/models/session.model";
 import { Test } from "@/models/test.model";
+import { TriggerResponse } from "@/models/triggerResponse.model";
 import { User } from "@/models/user.model";
 
 class enrollmentService
@@ -36,7 +38,12 @@ class enrollmentService
                 populate:
                 [{
                     path: 'course',
-                    model: Course
+                    model: Course,
+                    populate:
+                    {
+                        path: 'mocks',
+                        model: Quiz
+                    }
                 },
                 {
                     path: 'sessions',
@@ -55,6 +62,10 @@ class enrollmentService
             {
                 path: 'mocks', 
                 model: Test,
+            },
+            {
+                path: 'simulations', 
+                model: TriggerResponse,
             }])
 
             return enrollment
@@ -95,6 +106,18 @@ class enrollmentService
         try
         {
             return await Enrollment.findByIdAndUpdate(enrollmentId, {$push : { mocks : testId }})
+        }
+        catch(error)
+        {
+            throw error
+        }
+    }
+
+    async assignTrigger(enrollmentId, triggerId)
+    {
+        try
+        {
+            return await Enrollment.findByIdAndUpdate(enrollmentId, {$push : { simulations : triggerId }})
         }
         catch(error)
         {

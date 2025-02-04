@@ -17,16 +17,16 @@ const enrollmentSchema = new Schema({
         ref: 'Test'
         
     }],
+    simulations:
+    [{
+        type: Schema.Types.ObjectId,
+        ref: 'TriggerResponse'
+    }],
     access:
     {
         type: Boolean,
         enum: [true, false],
         default : true
-    }, 
-    graduationBatch:
-    {
-        type: Schema.Types.ObjectId,
-        ref: 'Graduate'
     }
 })
 

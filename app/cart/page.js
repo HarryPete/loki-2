@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Slash } from "lucide-react"
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 const Checkout = () =>
 {
@@ -89,7 +90,7 @@ const Checkout = () =>
     //     </div>)
 
     return(
-        <div className='md:text-base text-sm mt-12'>
+        <div className='md:text-sm text-xs mt-12'>
             <Header/>
             {(course ? 
             <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4'>
@@ -106,18 +107,18 @@ const Checkout = () =>
                     </BreadcrumbItem>
                 </BreadcrumbList>
                 </Breadcrumb>
-                <h1 className='lg:text-5xl md:text-2xl text-2xl font-bold' style={{color:'var(--primary-bg)'}}>Your Cart</h1>
+                {/* <h1 className='lg:text-4xl md:text-2xl text-2xl font-bold text-green-500'>Your Cart</h1> */}
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                 
                  
                 <div className='flex flex-col gap-4'>
-                    <div className='flex justify-between items-center gap-4 p-4 rounded shadow-md'>
+                    <Card className='flex justify-between items-center gap-4 p-4'>
                         <div className='flex gap-4 items-center'>
-                            <Image className='h-16 w-fit rounded-full' src={course.imageURL} alt={course.id} width={150} height={150} style={{backgroundColor: 'var(--primary-color)'}}/>
-                            <p className='font-semibold'>{course.title}</p>
+                            <Image className='h-8 w-8 object-cover rounded-full' src={course.imageURL} alt={course.id} width={150} height={150} style={{backgroundColor: 'var(--primary-color)'}}/>
+                            <p className=''>{course.title}</p>
                         </div>
-                        <Button onClick={clearCart} className=''>Remove</Button>
-                    </div> 
+                        <Button onClick={clearCart} className='text-xs'>Remove</Button>
+                    </Card> 
                     <Select onValueChange={setSelectedBatch}>
                         <SelectTrigger className="w-full h-14">
                             <SelectValue placeholder="Choose Batch" />

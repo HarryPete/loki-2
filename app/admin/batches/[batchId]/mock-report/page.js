@@ -39,6 +39,8 @@ const MockReport = () =>
     const pathname = usePathname();
     const batchId = pathname.split('/')[3]
 
+    console.log(batch)
+
     useEffect(()=>
     {
         getBatch();
@@ -46,46 +48,40 @@ const MockReport = () =>
 
     const getUserMockResult = (resultId) =>
     {
-      setViewResult(resultId)
-      const numbers =  Array.from({ length: batch.mocks[index].quiz.reference.length }, (_, i) => i)
-      setAnswers(numbers)
-      setActive(numbers)
+            setViewResult(resultId)
+            const numbers =  Array.from({ length: batch.mocks[index].quiz.reference.length }, (_, i) => i)
+            setAnswers(numbers)
+            setActive(numbers)
 
-      const flaggedAnswers = [];
-      const correctAnswers = [];
-      const incorrectAnswers = [];
-      const partiallyCorrectAnswers = [];
-      const mockAnswers = batch.mocks[index].results[resultId].answers
+            const correctAnswers = [];
+            const incorrectAnswers = [];
+            const partiallyCorrectAnswers = [];
+            const mockAnswers = batch.mocks[index].results[resultId].answers
 
-      for (let i = 0; i < mockAnswers.length; i++) 
-        {
-            const isFlagged = mockAnswers[i].isFlagged;
-            const referenceAnswers = batch.mocks[index].quiz.reference[i].answers; 
-            const userAnswers = mockAnswers[i].answers; 
-
-            if (isFlagged) 
-                flaggedAnswers.push(i);
-            else
+            for (let i= 0; i< mockAnswers.length; i++) 
             {
-                const allCorrect =
-                userAnswers.every((answer) => referenceAnswers.includes(answer)) &&
-                userAnswers.length === referenceAnswers.length;
+                const referenceAnswers = batch.mocks[index].quiz.reference[i].answers; 
+                const userAnswers = mockAnswers[i]; 
 
-                const someCorrect = userAnswers.some((answer) => referenceAnswers.includes(answer));
+                
+                    const allCorrect =
+                    userAnswers.every((answer) => referenceAnswers.includes(answer)) &&
+                    userAnswers.length === referenceAnswers.length;
 
-                if (allCorrect) 
-                    correctAnswers.push(i);
-                else if (someCorrect) 
-                    partiallyCorrectAnswers.push(i);
-                else 
-                    incorrectAnswers.push(i);
+                    const someCorrect = userAnswers.some((answer) => referenceAnswers.includes(answer));
+
+                    if (allCorrect) 
+                        correctAnswers.push(i);
+                    else if (someCorrect) 
+                        partiallyCorrectAnswers.push(i);
+                    else 
+                        incorrectAnswers.push(i);
+                
             }
-        }
-        
-        setFlaggedAnswers(flaggedAnswers);
-        setCorrectAnswers(correctAnswers);
-        setPartiallyCorrectAnswers(partiallyCorrectAnswers);
-        setIncorrectAnswers(incorrectAnswers);
+            
+            setCorrectAnswers(correctAnswers);
+            setPartiallyCorrectAnswers(partiallyCorrectAnswers);
+            setIncorrectAnswers(incorrectAnswers);
     }
 
     const getBatch = async () =>
@@ -121,13 +117,13 @@ const MockReport = () =>
               <div className="space-y-2 max-h-[80vh] overflow-y-scroll pr-4">
               {batch.mocks[index].results.map((result, resultId)=>
               (
-                <Card className={`${viewResult === resultId && 'bg-yellow-400'} flex justify-between items-center md:text-sm text-xs p-4 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
+                <Card className={`${viewResult === resultId && 'bg-red-600'} flex justify-between items-center md:text-sm text-xs p-4 cursor-pointer`} key={result._id} onClick={()=> getUserMockResult(resultId)}>
                   <div className="flex items-center gap-1">
                     <Image className="h-5 w-5 rounded-full object-cover object-top" width={100} height={100} src={result.enrollment.user?.imageURL ? result.enrollment.user?.imageURL : defaultDP} alt={result.enrollment.user.name}/>
                     <p>{result.enrollment.user.name}</p>
                   </div>
                   <div className="space-x-2">
-                    <span className="text-muted-foreground">{FormatDate(result.updatedAt)}</span>
+                    <span className="">{FormatDate(result.updatedAt)}</span>
                   </div>
                 </Card>
               ))}
@@ -142,12 +138,12 @@ const MockReport = () =>
                 {/* <span className="font-semibold">Score : {correctAnswers.length}/{batch.mocks[index].quiz.reference.length}</span> */}
                 
                 
-                <Card className="grid grid-cols-5 md:text-sm text-xs font-semibold">
-                  <div className={`${active.length === answers.length && 'bg-gray-50'} hover:bg-gray-50 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(answers)}>Questions<span className="ml-1 md:text-sm text-xs font-normal bg-blue-500 text-white w-fit p-0.5 px-2  rounded-full">{answers.length}</span></div>
-                  <div className={`${active.length === correctAnswers.length && 'bg-gray-50'} hover:bg-gray-50 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(correctAnswers)}>Correct<span className="ml-1 md:text-sm text-xs font-normal bg-green-500 text-white w-fit p-0.5 px-2  rounded-full">{correctAnswers.length}</span></div>
-                  <div className={`${active.length === partiallyCorrectAnswers.length && 'bg-gray-50'} hover:bg-gray-50 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(partiallyCorrectAnswers)}>Partial<span className="ml-1 md:text-sm text-xs font-normal bg-orange-500 text-white w-fit p-0.5 px-2  rounded-full">{partiallyCorrectAnswers.length}</span></div>
-                  <div className={`${active.length === incorrectAnswers.length && 'bg-gray-50'} hover:bg-gray-50 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(incorrectAnswers)}>Incorrect<span className="ml-1 md:text-sm text-xs font-normal bg-red-500 text-white w-fit p-0.5 px-2  rounded-full">{incorrectAnswers.length}</span></div>
-                  <div className={`${active.length === flaggedAnswers.length && 'bg-gray-50'} hover:bg-gray-50 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(flaggedAnswers)}>Flagged<span className="ml-1 md:text-sm text-xs font-normal bg-yellow-400 text-white w-fit p-0.5 px-2  rounded-full">{flaggedAnswers.length}</span></div>    
+                <Card className="grid grid-cols-4 md:text-sm text-xs font-semibold">
+                  <div className={`${active.length === answers.length && 'bg-stone-800'} hover:bg-stone-800 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(answers)}>Questions<span className="ml-1 text-xs font-normal bg-blue-500 text-white w-fit p-0.5 px-2  rounded-full">{answers.length}</span></div>  
+                  <div className={`${active.length === correctAnswers.length && 'bg-stone-900'} hover:bg-stone-900 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(correctAnswers)}>Correct<span className="ml-1 md:text-sm text-xs font-normal bg-green-500 text-white w-fit p-0.5 px-2  rounded-full">{correctAnswers.length}</span></div>
+                  <div className={`${active.length === partiallyCorrectAnswers.length && 'bg-stone-900'} hover:bg-stone-900 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(partiallyCorrectAnswers)}>Partial<span className="ml-1 md:text-sm text-xs font-normal bg-orange-500 text-white w-fit p-0.5 px-2  rounded-full">{partiallyCorrectAnswers.length}</span></div>
+                  <div className={`${active.length === incorrectAnswers.length && 'bg-stone-900'} hover:bg-stone-900 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(incorrectAnswers)}>Incorrect<span className="ml-1 md:text-sm text-xs font-normal bg-red-500 text-white w-fit p-0.5 px-2  rounded-full">{incorrectAnswers.length}</span></div>
+                  {/* <div className={`${active.length === flaggedAnswers.length && 'bg-stone-900'} hover:bg-stone-900 items-center flex flex-col gap-1 lg:p-4 px-2 p-4 cursor-pointer`} onClick={()=> setActive(flaggedAnswers)}>Flagged<span className="ml-1 md:text-sm text-xs font-normal bg-yellow-400 text-white w-fit p-0.5 px-2  rounded-full">{flaggedAnswers.length}</span></div>     */}
                 </Card>
                 <div className="w-full space-y-3 leading-relaxed">
                 {active.map((que, queIndex)=>
@@ -157,9 +153,9 @@ const MockReport = () =>
                     <div className="space-y-2">
                     {batch.mocks[index].quiz.reference[que].options.map((data, ind)=>
                     (
-                      <div className="bg-gray-100 p-4 rounded flex items-start justify-between gap-4" key={ind}>
-                        <p>{ind+1 +'. ' +data.option}</p>
-                        {(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].answers.includes(ind+1)) && 
+                      <div className="bg-stone-900 p-4 rounded flex items-start justify-between gap-4" key={ind}>
+                        <p>{data}</p>
+                        {(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].includes(ind+1)) && 
                         <Image className='h-5 w-fit' 
                         src={(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].isFlagged) ? correctIcon : wrongIcon} alt='correct'/>}
                       </div>

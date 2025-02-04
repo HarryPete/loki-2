@@ -38,14 +38,6 @@ export const details =
 
 const CourseDetail = ({course, level}) =>
 {
-    const router = useRouter();
-
-    const handleClick = () =>
-    {
-        localStorage.setItem('selectedCourse', course.id)
-        router.push('/cart')
-    }
-
     return (
         <div className='flex flex-col gap-4 w-full'>
             <p className='lg:text-3xl md:text-2xl text-xl font-bold' style={{color:'var(--primary-color)'}}>{course.title}</p>
@@ -75,10 +67,6 @@ const CourseDetail = ({course, level}) =>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
-            
-            <h1 className='lg:text-xl text-lg font-bold'></h1>
-            
-            {level === 'visitor' && <Button onClick={handleClick} className='w-fit'>Join Now</Button>}
         </div>
     )
 }

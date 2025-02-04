@@ -42,9 +42,9 @@ const Lecturecard = ({course, lecture, level}) =>
     return(
         <Link href={level === 'visitor' ? '' : ( level === 'user' ?`/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}` : `/admin/courses/${course?.id}/lecture?lectureId=${lecture._id}`) }>
             
-                <Card className='flex items-start gap-2 justify-between p-6 z-10 relative'>
-                    <p>{lecture.title}</p>
-                    <span className='text-gray-400 md:text-sm text-xs'>2 hours</span>
+                <Card className='space-y-2 p-6 z-10 relative'>
+                    <p className='leading-loose'>{lecture.title}</p>
+                    {/* <p className='text-gray-400 md:text-sm text-xs'>2 hours</p> */}
                 </Card>
             
            

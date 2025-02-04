@@ -43,7 +43,7 @@ const MockTestBar = ({mockData}) =>
     const chartData = 
     [
         { label: 'Correct', value: correct, fill:'#4CAF50'},
-        { label: 'Incorrect', value: incorrect, fill:'#F5F5F5'},
+        { label: 'Incorrect', value: incorrect, fill:'transparent'},
     ]
 
     const downloadReport = 
@@ -69,10 +69,10 @@ const MockTestBar = ({mockData}) =>
 
     return (
     <Card className="">
-      <div className="flex flex-col bg-white" ref={divRef}>
+      <div className="flex flex-col bg-black" ref={divRef}>
       <CardHeader className="items-center pb-0">
-      <h1 className="font-semibold text-center text-lg">Mock Report</h1>
-      <p className="text-gray-400">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p>
+      <h1 className="font-semibold text-center text-lg">Assessment Report</h1>
+      {/* <p className="text-gray-400">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p> */}
       </CardHeader>
       <CardContent className="flex gap-2 pb-0 items-center">
         
@@ -91,7 +91,7 @@ const MockTestBar = ({mockData}) =>
               data={chartData}
               dataKey="value"
               nameKey="label"
-              innerRadius={55}
+              innerRadius={50}
               strokeWidth={5}
             >
             <Label
@@ -116,16 +116,16 @@ const MockTestBar = ({mockData}) =>
           <p><span className="font-semibold">Name</span> {mockData.enrollment.user.name}</p>
           <p className="text-gray-400 text-xs">Latest attempt on {FormatDate(mockData.updatedAt)}</p>
      
-          <div className="flex text-center justify-around text-xs">
-            <div className="flex items-center gap-1">
+          <div className="space-y-2 text-center text-xs  mt-2">
+            <div className="flex items-center justify-between gap-1 border p-4 rounded border-muted">
               <p className="font-semibold">Questions</p>
               <p className="bg-blue-500 p-0.5 px-2 w-fit rounded-full text-white">{total}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-1 border p-4 rounded border-muted">
               <p className="font-semibold">Correct</p>
               <p className="bg-green-500 p-0.5 px-2 w-fit rounded-full text-white">{correct}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-1 border p-4 rounded border-muted">
               <p className="font-semibold">Incorrect</p>
               <p className="bg-red-500 p-0.5 px-2 w-fit rounded-full text-white">{incorrect}</p>
             </div>

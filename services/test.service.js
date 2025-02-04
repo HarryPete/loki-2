@@ -1,4 +1,5 @@
 import { Batch } from "@/models/batch.model";
+import { Course } from "@/models/course.model";
 import { Enrollment } from "@/models/enrollment.model";
 import { Quiz } from "@/models/quiz.model";
 import { Test } from "@/models/test.model";
@@ -40,7 +41,12 @@ class testService
             const test = await Test.findById(id).populate([
                 {
                     path: 'quiz',
-                    ref: Quiz
+                    ref: Quiz,
+                    populate:
+                    {
+                        path: 'course',
+                        model: Course
+                    }
                 },
                 {
                     path: 'enrollment',

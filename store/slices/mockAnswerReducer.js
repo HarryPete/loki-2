@@ -13,24 +13,21 @@ const slice = createSlice({
             const { length } = action.payload;
             Array.from({length}).forEach(()=>
             {
-                state.responses.push({
-                    answers: [],
-                    isFlagged: false
-                })
+                state.responses.push([])
             })
         },
         updateAnswer(state, action)
         {
-            const { index, answer, isFlagged } = action.payload
-            const existingAnswers = state.responses[index]?.answers;
+            const { index, answer } = action.payload
+            const existingAnswers = state.responses[index];
             const updatedAnswers = [...existingAnswers, answer]
-            state.responses[index] = { answers: updatedAnswers, isFlagged };
+            state.responses[index] = updatedAnswers;
         },
         updateOptions(state, action)
         {
-            const { index, option, isFlagged } = action.payload;
-            const updatedAnswers = state.responses[index].answers.filter((opt)=> opt !== option)
-            state.responses[index] = { answers: updatedAnswers, isFlagged };
+            const { index, option } = action.payload;
+            const updatedAnswers = state.responses[index].filter((opt)=> opt !== option)
+            state.responses[index] = updatedAnswers;
         },
         flagQuestion(state, action)
         {

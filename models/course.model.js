@@ -50,6 +50,11 @@ const courseSchema = new Schema({
     [{
         type: Schema.Types.ObjectId,
         ref: 'Quiz'
+    }],
+    simulations:
+    [{
+        type: Schema.Types.ObjectId,
+        ref: 'Trigger'  
     }]
 },{timestamps: true})
 

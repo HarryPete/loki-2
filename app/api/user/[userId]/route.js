@@ -17,6 +17,8 @@ export async function PUT(req, {params})
         const { userId } = await params;
         let updates = await req.json();
 
+        console.log(updates)
+
         if(updates?.imageURL)
         {
             cloudinary.config({ 
@@ -29,6 +31,8 @@ export async function PUT(req, {params})
             {
                 folder: "profiles/",
             });
+
+            console.log(result)
 
             await userInstance.updateProfile(userId, {imageURL: result.secure_url});
             return NextResponse.json({message: 'Display picture updated'})

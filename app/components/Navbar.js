@@ -8,17 +8,21 @@ import Link from 'next/link'
 import HamburgerMenu from './HamburgerMenu'
 import SlidingMenu from './SlidingMenu'
 import ProfileSettings from './ProfileSettings'
+import { Button } from '@/components/ui/button'
 
 
 
-const Navbar = () =>
+const Navbar = ({ scrollIntoSection, section4 }) =>
 {
     const router = useRouter();
 
     return(
-        <div className='absolute top-12 flex justify-between py-6 rounded lg:left-[10%] w-[90%] left-[5%] lg:w-[80%]  z-10'>
-            <Image className='md:h-12 h-10 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>  
-            <ProfileSettings/>
+        <div className='z-10 absolute bg-[rgba(0,0,0,0.5)] top-0 left-0 w-[100%] flex justify-between p-5 text-white'>
+            <Image className='h-7 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>  
+            <div className='sm:space-x-4 space-x-2'>
+                <Button className='sm:text-sm text-xs md:p-4 p-2' onClick={()=> scrollIntoSection(section4)}>Request Callback</Button>
+                <Button className='sm:text-sm text-xs md:p-4' variant='outline'  onClick={()=> router.push('/login')}>Login</Button>
+            </div>
         </div>
     )
 }

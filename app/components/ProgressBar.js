@@ -22,32 +22,32 @@ const chartConfig =
 {
     completed: {
       label: "Completed",
-      color: "hsl(var(--chart-1))",
+      color: "hsl(0 72.2% 50.6%)",
     },
     upcoming: {
       label: "Upcoming",
-      color: "hsl(var(--chart-2))",
+      color: "hsl(0 0% 9%)",
     },
 };
 
 const ProgressBar = ({batch}) =>
 {
 
-    const completed = batch.sessions.filter((session) => session.status === 'Completed').length;
+    const completed = batch.sessions.filter((session) => session.isCompleted).length;
     const pending = batch.sessions.length - completed;
 
     const chartData = 
     [
-        { label: 'Completed', value: completed, fill:'hsl(var(--chart-1))'},
-        { label: 'Upcoming', value: pending, fill:'hsl(var(--chart-2))'},
+        { label: 'Completed', value: completed, fill:'hsl(0 72.2% 50.6%)'},
+        { label: 'Upcoming', value: pending, fill:'hsl(0 0% 9%)'},
     ]
 
     return (
     <Card className="flex flex-col h-fit text-lg">
-      <CardHeader className="items-center pb-0">
+      {/* <CardHeader className="items-center pb-0">
         <CardTitle>{batch.course.title}</CardTitle>
         <CardDescription>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
@@ -89,7 +89,7 @@ const ProgressBar = ({batch}) =>
         {batch.title} <span className="text-gray-500 font-medium">instructed by</span> {batch.mentor.name}
         </div>
         <div className="space-x-2 text-white mt-2">
-          <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link>
+          {/* <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link> */}
           {/* <Link href='/forum' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Forum</Link> */}
           {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
         </div>
