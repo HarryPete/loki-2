@@ -160,7 +160,7 @@ const Batch = () =>
             </div>
                 
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                <ProgressBar batch={enrollment.batch}/>
+                <ProgressBar batch={enrollment.batch} enrollment={enrollment}/>
                 <div className='grid grid-cols-1 gap-4'>
                 {enrollment.batch.sessions.map((session, index)=>
                 (
@@ -188,7 +188,7 @@ const Batch = () =>
             {enrollment.simulations.map((simulation, index)=>
             (
                 <div className="space-y-2" key={index}>
-                <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${simulation.isCompleted && 'border border-green-500'}`}>
+                <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${simulation.isCompleted && 'border-2 border-green-500'}`}>
                     <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
                         <Image className='h-6 w-fit rounded-lg' src={triggerIcon} alt='simulation'/>
                     </div>                    
@@ -224,31 +224,8 @@ const Batch = () =>
 
             
             <h1 className="text-base font-semibold">Assessments</h1>
-            <div className="grid lg:grid-cols-5 grid-cols-1 gap-4">
-                
-              
-                {enrollment.mocks.length>0 && 
-                <div className="space-y-4">
-                {enrollment.mocks.map((data, index)=>
-                (
-                    <div key={data._id} className="text-center space-y-2">
-                        <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${data.isCompleted && 'border border-green-500'}`}>
-                        {cardLoading ? <LoadingMini/> :
-                        <div className="space-y-4 flex flex-col justify-center items-center w-full">
-                            <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
-                                <Image className='h-6 w-fit rounded-lg' src={mockIcon} alt='test'/>
-                            </div>
-                            <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
-                                <Button className='text-xs h-6' onClick={()=> !data.isCompleted ? router.push(`/assessment?assessmentId=${data._id}`) : router.push(`/review-assessment?assessmentId=${data._id}`)}>{data.isCompleted ? 'Review' : 'Continue'}</Button>
-                                {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
-                            </div>
-                        </div>}
-                        </Card>
-                        <h1>Assessment {index+1}</h1>
-                    </div>
-                ))}
-            </div>}
-            {enrollment.batch.mocks.map((data)=>
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+                {enrollment.batch.mocks.map((data)=>
                 (
                     <div key={data._id} className="text-center space-y-2">
                         <Card className='p-8 space-y-4' onClick={()=> handleMock(data)}>
@@ -266,6 +243,24 @@ const Batch = () =>
                         <h1 className="text-center md:text-sm text-xs">Assessment {data.id}</h1>
                     </div>
                 )).slice(enrollment.mocks.length)}
+                {enrollment.mocks.map((data, index)=>
+                (
+                    <div key={data._id} className="text-center space-y-2">
+                        <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${data.isCompleted && 'border-2 border-green-500'}`}>
+                        {cardLoading ? <LoadingMini/> :
+                        <div className="space-y-4 flex flex-col justify-center items-center w-full">
+                            <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
+                                <Image className='h-6 w-fit rounded-lg' src={mockIcon} alt='test'/>
+                            </div>
+                            <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
+                                <Button className='text-xs h-6' onClick={()=> !data.isCompleted ? router.push(`/assessment?assessmentId=${data._id}`) : router.push(`/review-assessment?assessmentId=${data._id}`)}>{data.isCompleted ? 'Review' : 'Continue'}</Button>
+                                {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
+                            </div>
+                        </div>}
+                        </Card>
+                        <h1>Assessment {index+1}</h1>
+                    </div>
+                ))}            
         </div>
             
             {/* <h1 className='text-base font-semibold'>Assessments</h1>

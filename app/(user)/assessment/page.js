@@ -77,8 +77,6 @@ const Mock = () =>
         }
     }
 
-    console.log(mockAnswers)
-
     const getMockTest = async () =>
     {
         try

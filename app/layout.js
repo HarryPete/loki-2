@@ -4,11 +4,12 @@ import SessionWrapper from "./SessionWrappper";
 import { Toaster } from "sonner";
 import ReduxProvider from "./ReduxProvider";
 
+const poppins = Poppins({ subsets: ["latin"], weight: ['300', '400', '600', '700', '800', '900'] });
 
 export const metadata = 
 {
-  title: "FINTS AML - FinCrime Trusted Source AML",
-  description: "Fastrack your CAMS & CGSS journey today",
+  title: "FINTS - FinCrime Trusted Source | Expert Solutions for Financial Crime Prevention",
+  description: "FinCrime Trusted Source",
   icons: {
     icon: [
       //! Android Icons
@@ -46,11 +47,11 @@ export const metadata =
 };
 
 
-const poppins = Poppins({
-  subsets: ['latin'], // Add subsets as per your need
-  weight: ['400', '600', '700'], // Specify font weights
-  variable: '--font-poppins', // Optional: Define a CSS variable
-});
+// const poppins = Poppins({
+//   subsets: ['latin'], // Add subsets as per your need
+//   weight: ['400', '600', '700'], // Specify font weights
+//   variable: '--font-poppins', // Optional: Define a CSS variable
+// });
 
 
 export default async function RootLayout({ children }) 

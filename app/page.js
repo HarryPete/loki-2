@@ -546,7 +546,6 @@ hoverFillColor='#222'
               </div>
           </div>
 
-          
           <Footer/>
         </div>
     )

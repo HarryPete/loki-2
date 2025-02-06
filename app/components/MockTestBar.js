@@ -20,6 +20,7 @@ import downloadIcon from '../../assets/download.png'
 import Image from "next/image";
 import { toPng } from "html-to-image";
 import { Button } from "@/components/ui/button";
+import { calculateResult } from "@/utility/calculateScores";
 
 const chartConfig = 
 {
@@ -69,7 +70,9 @@ const MockTestBar = ({mockData}) =>
 
     return (
     <Card className="">
-      <div className="flex flex-col bg-black" ref={divRef}>
+      <div className="flex flex-col bg-black relative" ref={divRef}>
+        
+      <p className={`text-xs absolute top-6 right-4 p-1 rounded ${calculateResult(correct,20) ? 'bg-green-600' : 'bg-orange-500'}`}>{calculateResult(correct, 20) ? 'Qualified' : 'Fell short'}</p>
       <CardHeader className="items-center pb-0">
       <h1 className="font-semibold text-center text-lg">Assessment Report</h1>
       {/* <p className="text-gray-400">{mockData.enrollment.batch.title} | Mock set {mockData.quiz.title.split('-')[0][0]}</p> */}
@@ -115,7 +118,6 @@ const MockTestBar = ({mockData}) =>
       <div className="flex flex-col text-center justify-between gap-2 text-sm w-full">
           <p><span className="font-semibold">Name</span> {mockData.enrollment.user.name}</p>
           <p className="text-gray-400 text-xs">Latest attempt on {FormatDate(mockData.updatedAt)}</p>
-     
           <div className="space-y-2 text-center text-xs  mt-2">
             <div className="flex items-center justify-between gap-1 border p-4 rounded border-muted">
               <p className="font-semibold">Questions</p>
