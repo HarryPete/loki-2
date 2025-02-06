@@ -182,7 +182,7 @@ const ProgressBar = ({batch, enrollment}) =>
                 <Image className="w-fit h-400px" src={template} alt='certificate'/>
                   <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
                   <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{batch.course.title}</p>
-                  <p className="absolute text-[9px] left-[17%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
+                  <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
                 </div>
                 <Button className='text-xs' onClick={downloadCertification}>Download certificate</Button>
               </div>}
