@@ -49,7 +49,7 @@ const ProgressBar = ({batch, enrollment}) =>
 
   const { data } = useSession();
   const divRef = useRef(null);
-  const [ unlockCertificate, setUnlockCertificate ] = useState(false);
+  const [ unlockCertificate, setUnlockCertificate ] = useState(true);
 
     const completed = batch.sessions.filter((session) => session.isCompleted).length;
     const pending = batch.sessions.length - completed;
@@ -60,33 +60,33 @@ const ProgressBar = ({batch, enrollment}) =>
         { label: 'Upcoming', value: pending, fill:'hsl(0 0% 9%)'},
     ]
 
-    useEffect(()=>
-    {
-      if(batch.isAssessment)
-        {
-            if(!enrollment.mocks.length)
-                return
+    // useEffect(()=>
+    // {
+    //   if(batch.isAssessment)
+    //     {
+    //         if(!enrollment.mocks.length)
+    //             return
             
-            const isAssessmentCompleted = enrollment.mocks.filter((mock)=> mock.isCompleted);
+    //         const isAssessmentCompleted = enrollment.mocks.filter((mock)=> mock.isCompleted);
     
-            if(!isAssessmentCompleted.length)
-                return
+    //         if(!isAssessmentCompleted.length)
+    //             return
     
-            const isAssessmentCleared = calculateResult(isAssessmentCompleted[isAssessmentCompleted?.length - 1].score, 20)
+    //         const isAssessmentCleared = calculateResult(isAssessmentCompleted[isAssessmentCompleted?.length - 1].score, 20)
 
-            console.log(isAssessmentCleared)
-            if(!isAssessmentCleared)
-                return
-        }
+    //         console.log(isAssessmentCleared)
+    //         if(!isAssessmentCleared)
+    //             return
+    //     }
 
-        if(!batch.isAssessment)
-          return 
+    //     if(!batch.isAssessment)
+    //       return 
 
-        if(!pendingSessions(batch.sessions))
-          return
+    //     if(!pendingSessions(batch.sessions))
+    //       return
 
-        setUnlockCertificate(true)
-    },[])
+    //     setUnlockCertificate(true)
+    // },[])
 
     const downloadCertification = 
     useCallback(() => 
