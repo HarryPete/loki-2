@@ -199,7 +199,7 @@ const Batch = () =>
                             {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
                     </div>
                 </Card>
-                <p className='text-center'>Trigger {simulation.id}</p>
+                <p className='text-center'>Trigger {index+1}</p>
                 </div>
             ))}
             {enrollment.batch.simulations.map((simulation)=>
