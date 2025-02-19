@@ -8,6 +8,10 @@ import Header from '../components/Header'
 import CourseCard from '../components/CourseCard'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Slash } from "lucide-react"
+import BoxReveal from '@/components/ui/box-reveal'
+import Image from 'next/image'
+import { Card } from '@/components/ui/card'
+import Link from 'next/link'
 
 const Courses = () =>
 {
@@ -60,24 +64,25 @@ const Courses = () =>
             <Header/>
 
             <div className='lg:px-[10vw] px-[5vw] py-12 flex flex-col gap-4'>
-            <Breadcrumb>
-                <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator>
-                    <Slash />
-                    </BreadcrumbSeparator>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="/courses">Courses</BreadcrumbLink>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+            
 
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             {courses?.map((course) =>
             (
-                <CourseCard level="user" key={course._id} course={course} removeCourse={removeCourse}/>
+                <Link href={`/courses/${course.id}`} key={course._id}>
+                <Card  className='space-y-2 p-4 '>
+                    <div className='relative h-40'>
+                        <Image className='rounded w-[100%] object-cover' src={course.imageURL} layout='fill' alt={course.title}/>
+                    </div>
+                    <h1 className='font-semibold'>{course.title}</h1>
+                    <p className='bg-muted-foreground text-black text-xs py-0.5 px-2 rounded-xl w-fit'>{course.level}</p>
+                    
+                    <div className='flex items-center gap-2'>
+                        <p className='font-semibold'>${course.offerPrice}</p>
+                        <p className='line-through text-xs'>${course.price}</p>
+                    </div>
+                </Card>
+                </Link>
             ))}
             </div>
             </div>

@@ -81,7 +81,7 @@ const RequestForm = () =>
                     <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 text-sm' {...field} />
+                        <Input className='md:h-12 h-10 text-sm bg-black' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -96,7 +96,7 @@ const RequestForm = () =>
                     <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 text-sm' {...field} />
+                        <Input className='md:h-12 h-10 text-sm bg-black' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>
@@ -111,7 +111,7 @@ const RequestForm = () =>
                     <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                        <Input className='md:h-12 h-10 text-sm' {...field} />
+                        <Input className='md:h-12 h-10 text-sm bg-black' {...field} />
                         </FormControl>
                         <FormDescription>
                         </FormDescription>

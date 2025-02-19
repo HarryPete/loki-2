@@ -1,10 +1,5 @@
-export const Feedback = [
-    {
-        id: 1,
-        name: 'Ravi kumar',
-        rating: 5,
-        comment: 'An immense knowledge about the subject. Marvelous training attitude. The best in the industry so far'
-    },
+export const userFeedbackData = [
+    
     {
         id: 2,
         name: 'Monica',
@@ -24,10 +19,10 @@ export const Feedback = [
         comment: 'Clear understanding of concepts. Adoptive teaching methodology as per individuals need'
     },
     {
-        id: 5,
-        name: 'Tanu',
+        id: 1,
+        name: 'Ravi kumar',
         rating: 5,
-        comment: 'Good. I strongly recommend this training for those who are looking forward to it'
+        comment: 'An immense knowledge about the subject. Marvelous training attitude. The best in the industry so far'
     },
     {
         id: 6,
@@ -54,12 +49,6 @@ export const Feedback = [
         comment: 'Provides the guidance and support needed to help us stay focused and motivated. His commitment to our success is truly commendable.'
     },
     {
-        id: 10,
-        name: 'Umesh',
-        rating: 4,
-        comment: 'Good'
-    },
-    {
         id: 11,
         name: 'Soumyashree Panda',
         rating: 5,
@@ -70,12 +59,6 @@ export const Feedback = [
         name: 'Shinu Purushothaman',
         rating: 5,
         comment: 'Incredibly grateful for the guidance and expertise during ACAMS training. Deep knowledge, clear explanations, and real-world insights made complex topics Engaging'
-    },
-    {
-        id: 13,
-        name: 'Rasheeda Samsudeen',
-        rating: 5,
-        comment: 'Excellent'
     },
     {
         id: 14,
