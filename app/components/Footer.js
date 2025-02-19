@@ -19,13 +19,13 @@ const Footer = () => {
   const isInView = useInView(ref, { triggerOnce: true, threshold: 0.2 });
 
   return (
-    <div className='4'>
+    <div className='p-4'>
       <motion.div
         ref={ref}
         initial='hidden'
         animate={isInView ? 'visible' : 'hidden'}
         variants={fadeInVariant}
-        className='px-[10vw] space-y-12 justify-center py-24 text-white md:text-sm text-xs bg-stone-900 shadow-2xl
+        className='px-[10vw] space-y-12 justify-center py-24 text-white md:text-sm text-xs rounded-xl bg-stone-800 shadow-2xl
         '
       >
         <div className='grid lg:grid-cols-2 grid-cols-1 gap-6'>

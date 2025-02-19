@@ -129,9 +129,6 @@ const Home = () =>
       }
     }
 
-    if(isLoading)
-      return <Loading/>
-
     return(
         <div className='md:text-sm text-xs leading-relaxed relative'>
            
@@ -141,9 +138,9 @@ const Home = () =>
             <GridPattern width={30} height={30} x={-8} y={-1}strokeDasharray={"0.5 2"} className={cn("[mask-image:radial-gradient(3250px_circle_at_center,white,transparent)]")}/>
               <div className='lg:px-[10vw] space-y-8 px-[5vw] py-12 relative'>
                 <Fints360/>
-                <CorporateTrainings corporateCourses={corporateCourses}/>
+                {!isLoading && <CorporateTrainings corporateCourses={corporateCourses}/>}
                 <Corporatefeedbacks/>
-                <CertificationTrainings certificationCourses={certificationCourses}/>
+                {!isLoading && <CertificationTrainings certificationCourses={certificationCourses}/>}
                 <UserFeedbacks/>
                 <AMLCourses/>
                 <CourseHighlights/>
