@@ -33,7 +33,6 @@ const Loading = () =>
         src={logo}// Replace with your logo path
         alt="Logo"
         className="w-fit h-16"
-       
       />
     </motion.div>
     </div>

@@ -136,7 +136,7 @@ const Home = () =>
             
             <div className='relative'>
             <GridPattern width={30} height={30} x={-8} y={-1}strokeDasharray={"0.5 2"} className={cn("[mask-image:radial-gradient(3250px_circle_at_center,white,transparent)]")}/>
-              <div className='lg:px-[10vw] space-y-8 px-[5vw] py-12 relative'>
+              <div className='space-y-8 px-[5vw] py-12 relative'>
                 <Fints360/>
                 {!isLoading && <CorporateTrainings corporateCourses={corporateCourses}/>}
                 <Corporatefeedbacks/>
