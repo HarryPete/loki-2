@@ -18,7 +18,7 @@ const Navbar = ({ scrollIntoSection, section4 }) =>
 
     return(
         <div className='z-10 absolute top-0 left-0 w-[100%] flex flex-col justify-between text-white'>
-            <div className='text-center bg-red-600 py-2'>New batch starts from 17th March | Transaction Monitoring | <Link href='/courses/transaction-monitoring' className='text-blue-600 hover:text-blue-800 font-semibold'>Explore!</Link></div>
+            {/* <div className='text-center bg-red-600 py-2'>New batch starts from 17th March | Transaction Monitoring | <Link href='/courses/transaction-monitoring' className='text-blue-600 hover:text-blue-800 font-semibold'>Explore!</Link></div> */}
             <div className='flex justify-between bg-[rgba(0,0,0,0.5)] p-5'>
                 <Image className='h-7 w-fit' src={logo} alt='logo' onClick={()=> router.push('/')}/>  
                 <div className='sm:space-x-4 space-x-2'>

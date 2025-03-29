@@ -25,16 +25,17 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { toPng } from "html-to-image"
 import { useSession } from "next-auth/react"
 import { calculateResult } from "@/utility/calculateScores"
+import { Confetti } from "@/utility/confetti"
 
 const chartConfig = 
 {
     completed: {
       label: "Completed",
-      color: "hsl(0 72.2% 50.6%)",
+      color: "#4CAF50",
     },
     upcoming: {
       label: "Upcoming",
-      color: "hsl(0 0% 9%)",
+      color: "white",
     },
 };
 
@@ -56,41 +57,46 @@ const ProgressBar = ({batch, enrollment}) =>
 
     const chartData = 
     [
-        { label: 'Completed', value: completed, fill:'hsl(0 72.2% 50.6%)'},
-        { label: 'Upcoming', value: pending, fill:'hsl(0 0% 9%)'},
+        { label: 'Completed', value: completed, fill:'#4CAF50'},
+        { label: 'Upcoming', value: pending, fill:'white'},
     ]
 
-    // useEffect(()=>
-    // {
-    //   if(batch.isAssessment)
-    //     {
-    //         if(!enrollment.mocks.length)
-    //             return
+    useEffect(()=>
+    {
+      if(batch.isAssessment)
+        {
+            if(!enrollment.mocks.length)
+                return
+
+            // if(enrollment.mocks.length === 0)
+            //   setUnlockCertificate(false)
+
             
-    //         const isAssessmentCompleted = enrollment.mocks.filter((mock)=> mock.isCompleted);
+            const isAssessmentCompleted = enrollment.mocks.filter((mock)=> mock.isCompleted);
     
-    //         if(!isAssessmentCompleted.length)
-    //             return
+            if(!isAssessmentCompleted.length)
+                return
     
-    //         const isAssessmentCleared = calculateResult(isAssessmentCompleted[isAssessmentCompleted?.length - 1].score, 20)
+            const isAssessmentCleared = calculateResult(isAssessmentCompleted[isAssessmentCompleted?.length - 1].score, 20)
 
-    //         console.log(isAssessmentCleared)
-    //         if(!isAssessmentCleared)
-    //             return
-    //     }
+            if(!isAssessmentCleared)
+                return
+        }
 
-    //     if(!batch.isAssessment)
-    //       return 
+        if(!batch.isAssessment)
+          return 
 
-    //     if(!pendingSessions(batch.sessions))
-    //       return
+        if(!pendingSessions(batch.sessions))
+          return
 
-    //     setUnlockCertificate(true)
-    // },[])
+        setUnlockCertificate(true)
+    },[])
 
-    const downloadCertification = 
-    useCallback(() => 
-    {   
+    const downloadCertification = ()=>
+    {
+      
+
+      console.log('Download')
         if(divRef.current === null) 
             return
 
@@ -112,85 +118,87 @@ const ProgressBar = ({batch, enrollment}) =>
             toast.error(err)
         })
 
-      }, [divRef])
+      }
 
-    return (
-    <Card className="flex flex-col h-fit text-lg">
-      {/* <CardHeader className="items-center pb-0">
-        <CardTitle>{batch.course.title}</CardTitle>
-        <CardDescription>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>
-      </CardHeader> */}
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[210px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="label"
-              innerRadius={50}
-              strokeWidth={5}
-            >
-            <Label
-              content={({ viewBox }) => {
-              return (
-              <text x={viewBox.cx}
-              y={viewBox.cy}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-black text-lg font-semibold">
-              {((completed / (completed + pending)) * 100).toFixed(1)}%
-            </text>);
-            }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="font-semibold">
+    // return (
+    // <Card className="flex flex-col h-fit text-lg y-6">
+    //   {/* <CardHeader className="items-center pb-0">
+    //     <CardTitle>{batch.course.title}</CardTitle>
+    //     <CardDescription>{FormatDate(batch.startDate) +' - ' +FormatDate(batch.endDate) }</CardDescription>
+    //   </CardHeader> */}
+    //   <CardContent className="flex-1 pb-0">
+    //     <ChartContainer
+    //       config={chartConfig}
+    //       className="mx-auto aspect-square max-h-[250px]"
+    //     >
+    //       <PieChart>
+    //         <ChartTooltip
+    //           cursor={false}
+    //           content={<ChartTooltipContent hideLabel />}
+    //         />
+    //         <Pie
+    //           data={chartData}
+    //           dataKey="value"
+    //           nameKey="label"
+    //           innerRadius={60}
+    //           strokeWidth={5}
+    //         >
+    //         <Label
+    //           content={({ viewBox }) => {
+    //           return (
+    //           <text x={viewBox.cx}
+    //           y={viewBox.cy}
+    //           textAnchor="middle"
+    //           fill="white"
+    //           dominantBaseline="middle"
+    //           className="text-black text-lg font-semibold">
+    //           {((completed / (completed + pending)) * 100).toFixed(1)}%
+    //         </text>);
+    //         }}
+    //           />
+    //         </Pie>
+    //       </PieChart>
+    //     </ChartContainer>
+    //   </CardContent>
+    //   <CardFooter className="flex-col gap-2 text-sm">
+    //     <div className="font-semibold">
           
-        </div>
-        <div className="flex items-center gap-2 font-semibold leading-none text-sm">
-        {batch.title} <span className="text-gray-500 font-medium">instructed by</span> {batch.mentor.name}
-        </div>
-        <div className="space-x-2 text-white mt-2">
-          {/* <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link> */}
-          {/* <Link href='/forum' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Forum</Link> */}
-          {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
-        </div>
-        <Dialog>
-        <DialogTrigger asChild>
-            <Button className='text-xs'>Unlock Certificate</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] space-y-0.5">
-            <DialogHeader>
-                <DialogTitle>Certificate</DialogTitle>
-                <DialogDescription>
-                    {batch.course.title}
-                </DialogDescription>
-            </DialogHeader>
-            {!unlockCertificate ? <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
-            <div>  
-              <div ref={divRef} className="relative text-[#e5c369]">
-                <Image className="w-fit h-400px" src={template} alt='certificate'/>
-                  <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
-                  <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{batch.course.title}</p>
-                  <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
-                </div>
-                <Button className='text-xs' onClick={downloadCertification}>Download certificate</Button>
-              </div>}
-            </DialogContent>
-        </Dialog>
-      </CardFooter>
-    </Card>
-  )
+    //     </div>
+    //     <div className="flex items-center gap-2 font-semibold leading-none text-sm">
+    //     {batch.title} <span className="text-gray-500 font-medium">instructed by</span> {batch.mentor.name}
+    //     </div>
+    //     <div className="space-x-2 text-white mt-2">
+    //       {/* <Link href={batch?.zoomLink ? batch?.zoomLink : ""} target="_blank" className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Zoom</Link> */}
+    //       {/* <Link href='/forum' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Forum</Link> */}
+    //       {/* <Link href='' className="bg-[hsl(var(--chart-1))] p-1 rounded shadow-lg" >Whatsapp</Link> */}
+    //     </div>
+    //     <Dialog>
+    //     <DialogTrigger asChild>
+    //         <Button className='text-xs'>Unlock Certificate</Button>
+    //     </DialogTrigger>
+    //     <DialogContent className="sm:max-w-[425px] space-y-0.5">
+    //         <DialogHeader>
+    //             <DialogTitle>Certificate</DialogTitle>
+    //             <DialogDescription>
+    //                 {batch.course.title}
+    //             </DialogDescription>
+    //         </DialogHeader>
+    //         {!unlockCertificate ? <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
+    //         <div>  
+    //           <div ref={divRef} className="relative text-[#e5c369]">
+    //             <Image className="w-fit h-400px" src={template} alt='certificate'/>
+    //               <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
+    //               <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{batch.course.title}</p>
+    //               <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
+    //             </div>
+                
+    //           </div>}
+    //         </DialogContent>
+    //     </Dialog>
+    //   </CardFooter>
+    // </Card>)
+  
+    return <Button className='text-xs absolute top-4 right-4' onClick={downloadCertification}>Download certificate</Button>
 }
 
 export default ProgressBar

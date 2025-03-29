@@ -44,7 +44,7 @@ const MockTestBar = ({mockData}) =>
     const chartData = 
     [
         { label: 'Correct', value: correct, fill:'#4CAF50'},
-        { label: 'Incorrect', value: incorrect, fill:'transparent'},
+        { label: 'Incorrect', value: incorrect, fill:'white'},
     ]
 
     const downloadReport = 
@@ -103,6 +103,7 @@ const MockTestBar = ({mockData}) =>
               <text x={viewBox.cx}
               y={viewBox.cy}
               textAnchor="middle"
+              fill="white"
               dominantBaseline="middle"
               className="text-black text-lg font-semibold">
               {((correct / (total)) * 100).toFixed(1)}%

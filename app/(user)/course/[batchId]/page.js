@@ -25,6 +25,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"  
+import { Loader } from "lucide-react";
 
 export const pendingSessions = (sessions) =>
 {
@@ -36,6 +37,13 @@ export const recordings = (sessions) =>
     const count = sessions.filter((session) => session.status === 'Completed').length
     return count === 0 ? 'NA' : count
 }
+
+const tabs = 
+[
+    { id: "sessions", label: "Sessions", image: agenda },
+    { id: "simulations", label: "Simulations", image: triggerIcon },
+    { id: "assessments", label: "Assessments", image: mockIcon }
+];
 
 const Page = () =>
 {
@@ -57,6 +65,7 @@ const Batch = () =>
     const [ pendingTests, setPendingTests ] = useState(null);
     const pathname = usePathname();
     const [ cardLoading, setCardloading ] = useState(false);
+    const [activeTab, setActiveTab] = useState("sessions");
     
     const getBatchData = async () =>
     {
@@ -152,19 +161,49 @@ const Batch = () =>
         <Loading/>   
     )
 
+
     return(
-        <div className='grid grid-cols-1 gap-4 relative md:text-sm text-xs'>
+        <div className='grid grid-cols-1 gap-8 relative md:text-sm text-xs'>
             <div className='space-y-2 text-base'>
                 <CardTitle>{enrollment.batch.course.title}</CardTitle>
                 <CardDescription>{FormatDate(enrollment.batch.startDate) +' - ' +FormatDate(enrollment.batch.endDate) }</CardDescription>
             </div>
+
+            
                 
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                <ProgressBar batch={enrollment.batch} enrollment={enrollment}/>
-                <div className='grid grid-cols-1 gap-4'>
+            <div className="grid grid-cols-1 gap-8 relative">
+                <div className="relative h-[50vh]">
+                    <Image className="h-[100%] object-cover rounded-xl" src={enrollment.batch.course.imageURL} alt={enrollment.batch.course.title} layout="fill"/>
+                </div>
+                {/* <ProgressBar batch={enrollment.batch} enrollment={enrollment}/> */}
+                  
+            </div>       
+
+            <div className="flex flex-col gap-4">
+                <div className="space-x-2 items-center flex mb-2">
+                {tabs.map((tab) =>
+                (
+                    <TooltipProvider key={tab.id}>
+                        <Tooltip>
+                        <TooltipTrigger className="flex space-y-1 flex-col items-center">
+                            <Image className={`${activeTab === tab.id ? 'bg-red-600' : 'bg-stone-900'} h-12 w-12 p-3 object-cover rounded-lg cursor-pointer`} onClick={()=> setActiveTab(tab.id)} src={tab.image} alt={tab.label}/> 
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{tab.label}</p>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    
+                ))}
+                </div>
+            <div className="w-full">
+
+    
+            {activeTab === 'sessions' && 
+            <div className='grid grid-cols-1 gap-4'>
                 {enrollment.batch.sessions.map((session, index)=>
                 (
-                    <Card className='flex gap-2 justify-between items-center p-6' 
+                    <Card className='flex gap-2 justify-between items-center p-6 bg-stone-900' 
                         key={session._id}>
                             <div className='flex items-center gap-2'>
                             <TooltipProvider>
@@ -177,90 +216,63 @@ const Batch = () =>
                             </TooltipProvider>
                             <p>Session {index+1}</p>
                             </div>
-                        <Image className='h-5 w-fit' src={session.isCompleted ? correctIcon : locked} alt={session.isCompleted ? "Completed" : "upcoming"}/>
+                        <Image className='h-6 w-fit' src={session.isCompleted ? correctIcon : locked} alt={session.isCompleted ? "Completed" : "upcoming"}/>
                     </Card>
                 ))}
-                </div>  
-            </div>       
+            </div>}
 
-            <h1 className='text-base font-semibold'>Simulations</h1>
-            <div className='w-full grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4'>
+            {activeTab === 'simulations' && 
+            <div className='w-full grid grid-cols-1 gap-4'>
             {enrollment.simulations.map((simulation, index)=>
             (
-                <div className="space-y-2" key={index}>
-                <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${simulation.isCompleted && 'border-2 border-green-500'}`}>
-                    <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
-                        <Image className='h-6 w-fit rounded-lg' src={triggerIcon} alt='simulation'/>
-                    </div>                    
+                <Card key={index} className={`p-6 h-fit flex items-center bg-stone-900 justify-between relative`}>
+                    <div className="flex items-center gap-2">
+                        <Image className='h-5 w-fit' src={triggerIcon} alt='simulation'/> 
+                        <p>Trigger {index+1}</p>    
+                    </div>           
                     {/* <Button className='text-xs h-6 w-fit absolute top-0 right-4'>Retake</Button> */}
                     {/* `${pathname}/simulations?activityId=${simulation._id}` */}
-                    <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
-                        <Button className='text-xs h-6' onClick={()=> router.push(`/simulations?activityId=${simulation._id}`)}>{simulation.isCompleted ? 'Review' : 'Continue'}</Button>
-                            {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
-                    </div>
+                    <Button className='text-xs h-6' onClick={()=> router.push(`/simulations?activityId=${simulation._id}`)}>{simulation.isCompleted ? 'Review' : 'Continue'}</Button>
                 </Card>
-                <p className='text-center'>Trigger {index+1}</p>
-                </div>
             ))}
             {enrollment.batch.simulations.map((simulation)=>
                 (
-                    <div key={simulation._id} className="text-center space-y-2">
-                        <Card className='p-8 space-y-4'>
-                        {cardLoading ? <LoadingMini/> :
-                        <div className="space-y-4 flex flex-col justify-center items-center w-full">
-                            <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
-                                <Image className='h-6 w-fit rounded-lg' src={triggerIcon} alt='simulation'/>
-                            </div> 
-                            <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
-                                <Button className='text-xs h-6' onClick={()=> handleTrigger(simulation)}>Start</Button>
-                                {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
-                            </div>
-                        </div>}
-                        </Card>
-                        <h1 className="text-center md:text-sm text-xs">Trigger {simulation.id}</h1>
-                    </div>
+                    <Card key={simulation._id} className={`p-6 h-fit flex items-center bg-stone-900 justify-between relative`}>
+                        <div className="flex items-center gap-2">
+                            <Image className='h-5 w-fit' src={triggerIcon} alt='simulation'/> 
+                            <p>Trigger {simulation.id}</p>    
+                        </div> 
+                        {cardLoading ? <Button><Loader className="animate-spin"></Loader></Button> : <Button className='text-xs h-6' onClick={()=> handleTrigger(simulation)}>Start</Button>}
+                    </Card>
                 )).slice(enrollment.simulations.length)}
-            </div>     
+            </div>}     
 
             
-            <h1 className="text-base font-semibold">Assessments</h1>
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+            {activeTab === 'assessments' && 
+            (enrollment.mocks.length > 0 ?
+            <div className="grid grid-cols-1 gap-4">
                 {enrollment.batch.mocks.map((data)=>
                 (
-                    <div key={data._id} className="text-center space-y-2">
-                        <Card className='p-8 space-y-4' onClick={()=> handleMock(data)}>
-                        {cardLoading ? <LoadingMini/> :
-                        <div className="space-y-4 flex flex-col justify-center items-center w-full">
-                            <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
-                                <Image className='h-6 w-fit rounded-lg' src={mockIcon} alt='test'/>
-                            </div>
-                            <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
-                                <Button className='text-xs h-6' onClick={()=> handleMock(data)}>Start</Button>
-                                {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
-                            </div>
-                        </div>}
-                        </Card>
-                        <h1 className="text-center md:text-sm text-xs">Assessment {data.id}</h1>
-                    </div>
+                    <Card key={data._id} className={`p-6 h-fit flex items-center justify-between relative bg-stone-900`}>
+                        <div className="flex items-center gap-2">
+                            <Image className='h-5 w-fit object-cover' src={mockIcon} alt='test'/>
+                             <h1>Assessment {data.id}</h1>
+                        </div>
+                       {cardLoading ? <Button><Loader className="animate-spin"></Loader></Button> : <Button className='text-xs h-6' onClick={()=> handleMock(data)}>Start</Button>}
+                    </Card>
                 )).slice(enrollment.mocks.length)}
                 {enrollment.mocks.map((data, index)=>
                 (
-                    <div key={data._id} className="text-center space-y-2">
-                        <Card className={`p-8 space-y-4 h-fit flex flex-col items-center relative ${data.isCompleted && 'border-2 border-green-500'}`}>
-                        {cardLoading ? <LoadingMini/> :
-                        <div className="space-y-4 flex flex-col justify-center items-center w-full">
-                            <div className="flex justify-center items-center bg-grey p-4 bg-gray-800 w-fit rounded-full">
-                                <Image className='h-6 w-fit rounded-lg' src={mockIcon} alt='test'/>
-                            </div>
-                            <div className='flex justify-center gap-4 items-center md:text-sm text-xs w-full'>
-                                <Button className='text-xs h-6' onClick={()=> !data.isCompleted ? router.push(`/assessment?assessmentId=${data._id}`) : router.push(`/review-assessment?assessmentId=${data._id}`)}>{data.isCompleted ? 'Review' : 'Continue'}</Button>
-                                {/* <Image className='h-5 w-fit' src={data.isCompleted ? correctIcon : pendingIcon} alt={data?.status? 'Completed': "Pending"}/> */}
-                            </div>
-                        </div>}
-                        </Card>
-                        <h1>Assessment {index+1}</h1>
-                    </div>
+                    <Card key={data._id} className={`p-6 h-fit flex items-center justify-between relative bg-stone-900`}>
+                        <div className="flex items-center gap-2">
+                            <Image className='h-5 w-fit object-cover' src={mockIcon} alt='test'/>
+                             <h1>Assessment {index+1}</h1>
+                        </div>
+                        <Button className='text-xs h-6' onClick={()=> !data.isCompleted ? router.push(`/assessment?assessmentId=${data._id}`) : router.push(`/review-assessment?assessmentId=${data._id}`)}>{data.isCompleted ? 'Review' : 'Continue'}</Button> 
+                    </Card>
                 ))}            
+            </div> : <p className="text-center py-6 text-muted-foreground">Assessments will be assigned soon</p>)}
+        </div>
         </div>
             
             {/* <h1 className='text-base font-semibold'>Assessments</h1>

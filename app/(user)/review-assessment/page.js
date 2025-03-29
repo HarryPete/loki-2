@@ -85,8 +85,6 @@ const Mock = () =>
       }
     }
 
-    console.log(mock)
-
     const getMockTest = async () =>
     {             
         try
