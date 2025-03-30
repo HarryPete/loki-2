@@ -177,6 +177,8 @@ const Batch = () =>
         }
     }
 
+    console.log(enrollment)
+
     const handleTrigger = async (simulation) =>
     {
         try
@@ -291,7 +293,7 @@ const Batch = () =>
 
             
             {activeTab === 'assessments' && 
-            (enrollment.mocks.length > 0 ?
+            (enrollment.batch.mocks.length > 0 ?
             <div className="grid grid-cols-1 gap-4">
                 {enrollment.batch.mocks.map((data)=>
                 (
