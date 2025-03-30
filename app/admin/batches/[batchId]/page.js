@@ -130,12 +130,10 @@ const Batch = () =>
     {
         try
         {
-            toast(status)
-            // const updatedStatus = status === 'Upcoming' ? 'Completed' : 'Upcoming'
-            // const url = `/api/session/${sessionId}`
-            // await axios.put(url, {status});
-            // toast(`Session updated to ${updatedStatus}`)
-            // getBatch();
+            const url = `/api/session/${sessionId}`
+            const response = await axios.put(url, {status});
+            toast.success(response.data.message)
+            getBatch();
         }
         catch(error)
         {

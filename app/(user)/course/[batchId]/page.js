@@ -8,7 +8,7 @@ import pendingIcon from '../../../../assets/pendingIcon.png'
 import agenda from '../../../../assets/agenda.png'
 import correctIcon from '../../../../assets/correct.png'
 import { useParams, usebatchId, useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from 'sonner';
 import Link from 'next/link';
 import Loading from '@/app/components/Loading';
@@ -16,6 +16,7 @@ import ProgressBar from '@/app/components/ProgressBar';
 import Lecturecard from '@/app/components/LectureCard';
 import mockIcon from '../../../../assets/mock.png'
 import triggerIcon from '../../../../assets/course.png'
+import certificate from '../../../../assets/certificate.png'
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { FormatDate } from "@/utility/FormatDate";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,11 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"  
 import { Loader } from "lucide-react";
+import { toPng } from "html-to-image";
+import template from '@/assets/template.png'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Confetti } from "@/utility/confetti";
+import { calculateResult } from "@/utility/calculateScores";
 
 export const pendingSessions = (sessions) =>
 {
@@ -42,7 +48,8 @@ const tabs =
 [
     { id: "sessions", label: "Sessions", image: agenda },
     { id: "simulations", label: "Simulations", image: triggerIcon },
-    { id: "assessments", label: "Assessments", image: mockIcon }
+    { id: "assessments", label: "Assessments", image: mockIcon },
+    { id: "certificate", label: "Certificate", image: certificate },
 ];
 
 const Page = () =>
@@ -66,7 +73,9 @@ const Batch = () =>
     const pathname = usePathname();
     const [ cardLoading, setCardloading ] = useState(false);
     const [activeTab, setActiveTab] = useState("sessions");
-    
+    const divRef = useRef(null);
+    const [ unlockCertificate, setUnlockCertificate ] = useState(false);
+
     const getBatchData = async () =>
     {
         try
@@ -79,8 +88,19 @@ const Batch = () =>
                 toast('Access Denied')
             }
             setEnrollment(response.data)
-            const pendingTests = response.data.batch.mocks.slice(response.data.mocks.length)
-            setPendingTests(pendingTests.length)
+
+            if(response.data.batch.mocks.length === 0 || response.data.mocks.length === 0)
+                return
+
+            const isAssessmentCompleted = response.data.mocks.filter((mock)=> mock.isCompleted);
+            if(isAssessmentCompleted.length === 0)
+                return
+            
+            const isAssessmentCleared = calculateResult(isAssessmentCompleted[isAssessmentCompleted.length - 1].score, 20)
+            if(!isAssessmentCleared)
+                return
+
+            setUnlockCertificate(true)
         }
         catch(error)
         {
@@ -104,6 +124,27 @@ const Batch = () =>
             setIsLoading(true);
             
     }, [status]);
+
+    const downloadCertification = () =>
+    {
+        if(divRef.current === null) 
+            return
+        
+        Confetti();
+    
+        toPng(divRef.current, { cacheBust: true, })
+        .then((dataUrl) => 
+        {
+            const link = document.createElement('a')
+            link.download = 'fintsacademy.png'
+            link.href = dataUrl
+            link.click()
+        })
+        .catch((err) => 
+        {
+            toast.error(err)
+        })
+    }
 
     const handleAccess = (session, index) =>
     {
@@ -176,7 +217,8 @@ const Batch = () =>
                     <Image className="h-[100%] object-cover rounded-xl" src={enrollment.batch.course.imageURL} alt={enrollment.batch.course.title} layout="fill"/>
                 </div>
                 {/* <ProgressBar batch={enrollment.batch} enrollment={enrollment}/> */}
-                  
+                {/* <Button className='text-xs absolute top-4 right-4' onClick={downloadCertification}>Download certificate</Button> */}
+                
             </div>       
 
             <div className="flex flex-col gap-4">
@@ -273,6 +315,28 @@ const Batch = () =>
                 ))}            
             </div> : <p className="text-center py-6 text-muted-foreground">Assessments will be assigned soon</p>)}
         </div>
+
+        {activeTab  === 'certificate' && 
+                <Dialog open={activeTab === "certificate"} onOpenChange={()=> setActiveTab("sessions")}>
+                    <DialogContent className="sm:max-w-[425px] space-y-0.5">
+                        <DialogHeader>
+                        <DialogTitle>Certificate</DialogTitle>
+                        <DialogDescription>{enrollment.batch.course.title}</DialogDescription>
+                        </DialogHeader>
+                        {!unlockCertificate ? 
+                        <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
+                        <div>  
+                            <div ref={divRef} className="relative text-[#e5c369]">
+                                <Image className="w-fit h-400px" src={template} alt='certificate'/>
+                                <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
+                                <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{enrollment.batch.course.title}</p>
+                                <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(enrollment.batch.endDate).toLocaleDateString()}</p>
+                            </div>
+                        </div>}
+              
+                        {unlockCertificate && <Button className='text-xs' onClick={downloadCertification}>Download certificate</Button>}
+                    </DialogContent>
+                </Dialog>}
         </div>
             
             {/* <h1 className='text-base font-semibold'>Assessments</h1>

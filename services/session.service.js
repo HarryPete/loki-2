@@ -12,7 +12,6 @@ class sessionService
         }
         catch(error)
         {
-            console.log(error);
             throw error
         }
     }
@@ -21,7 +20,7 @@ class sessionService
     {
         try
         {
-            await Session.findByIdAndUpdate(sessionId, {$set : {status : newStatus}},{new : true}) 
+            await Session.findByIdAndUpdate(sessionId, {$set : {isCompleted : newStatus}},{new : true}) 
         }
         catch(error)
         {

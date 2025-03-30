@@ -8,10 +8,11 @@ export async function PUT(req, {params})
     {
         await dbConnect();
 
-        const { sessionId } = params;
+        const { sessionId } = await params;
         const { status } = await req.json();
+
         await sessionInstance.updateSessionStatus(sessionId, status);
-        return new Response(JSON.stringify({message : 'updated'}));
+        return new Response(JSON.stringify({message : 'Session updated'}));
     }
     catch(error)
     {
