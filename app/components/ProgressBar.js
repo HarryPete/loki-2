@@ -183,16 +183,16 @@ const ProgressBar = ({batch, enrollment}) =>
     //                 {batch.course.title}
     //             </DialogDescription>
     //         </DialogHeader>
-    //         {!unlockCertificate ? <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
-    //         <div>  
-    //           <div ref={divRef} className="relative text-[#e5c369]">
-    //             <Image className="w-fit h-400px" src={template} alt='certificate'/>
-    //               <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
-    //               <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{batch.course.title}</p>
-    //               <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
-    //             </div>
+            // {!unlockCertificate ? <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
+            // <div>  
+            //   <div ref={divRef} className="relative text-[#e5c369]">
+            //     <Image className="w-fit h-400px" src={template} alt='certificate'/>
+            //       <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
+            //       <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{batch.course.title}</p>
+            //       <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(batch.endDate).toLocaleDateString()}</p>
+            //     </div>
                 
-    //           </div>}
+            //   </div>}
     //         </DialogContent>
     //     </Dialog>
     //   </CardFooter>
