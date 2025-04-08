@@ -12,6 +12,7 @@ import { Slash } from "lucide-react"
 import Image from 'next/image';
 import Lecturecard from '@/app/components/LectureCard';
 import { Button } from '@/components/ui/button';
+import cpdIcon from '@/assets/cpd.png'
 
 const Course = () =>
 {
@@ -64,6 +65,7 @@ const Course = () =>
             <div className='flex lg:flex-row flex-col gap-8 text-white'>
                 <div className='md:h-[70vh] lg:sticky lg:top-24 lg:w-[40%] w-full h-48 rounded flex items-center justify-center shadow-lg relative' style={{backgroundColor: ' var(--primary-color)'}}>
                     <Image className='h-[50%] w-fit rounded-xl object-cover' src={course.imageURL} alt={course.title} layout='fill'/>
+                    <Image className='lg:h-16 h-8 w-fit absolute rounded aspect-square top-4 right-4' src={cpdIcon} alt='CPD member icon'/>
                 </div>
                 <div className='lg:w-[60%] w-full space-y-4'>
                     <p className='md:text-4xl text-2xl font-semibold text-green-400'>{course.title}</p>

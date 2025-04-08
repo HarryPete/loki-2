@@ -6,6 +6,7 @@ import updated from '@/assets/updated.png'
 import risk from '@/assets/risk.png'
 import goal from '@/assets/goal.png'
 import BoxReveal from "@/components/ui/box-reveal"
+import cpdIcon from '@/assets/cpd.png'
 
 const corporateTrainingBenefits = [
   {
@@ -75,16 +76,22 @@ const CorporateTrainings = ({corporateCourses}) =>
             {corporateCourses.map((course)=>
             (
                 <Link href={`/courses/${course.id}`} key={course._id}>
-                <Card  className='space-y-2 p-4 '>
+                <Card  className='space-y-4 p-4 '>
                     <div className='relative h-40'>
                         <Image className='rounded w-[100%] object-cover' src={course.imageURL} layout='fill' alt={course.title}/>
                     </div>
-                    <h1 className='font-semibold'>{course.title}</h1>
-                    <p className='bg-muted-foreground text-black text-xs py-0.5 px-2 rounded-xl w-fit'>{course.level}</p>
                     
-                    <div className='flex items-center gap-2'>
-                        <p className='font-semibold'>${course.offerPrice}</p>
-                        <p className='line-through text-xs'>${course.price}</p>
+                    <div className="flex justify-between items-center">
+                        <div className='space-y-2'>
+                            <h1 className='font-semibold'>{course.title}</h1>
+                            <p className='bg-muted-foreground text-black text-xs py-0.5 px-2 rounded-xl w-fit'>{course.level}</p>
+                            <div className="flex items-center gap-2">
+                                <p className='font-semibold'>${course.offerPrice}</p>
+                                <p className='line-through text-xs'>${course.price}</p>
+                            </div>
+                        </div>
+                    
+                        <Image className='lg:h-10 h-8 w-fit' src={cpdIcon} alt='CPD member icon'/>
                     </div>
                 </Card>
                 </Link>
