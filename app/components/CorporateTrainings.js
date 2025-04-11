@@ -90,8 +90,7 @@ const CorporateTrainings = ({corporateCourses}) =>
                                 <p className='line-through text-xs'>${course.price}</p>
                             </div>
                         </div>
-                    
-                        <Image className='lg:h-10 h-8 w-fit' src={cpdIcon} alt='CPD member icon'/>
+                        {/* <Image className='lg:h-10 h-8 w-fit' src={cpdIcon} alt='CPD member icon'/> */}
                     </div>
                 </Card>
                 </Link>
