@@ -13,7 +13,7 @@ const certificationBenefits = [
   {
     focus: "Simulations",
     icon: simulate,
-    description: "Hands-on experience through simulations that mirror real-world challenges, enhancing problem-solving skills"
+    description: "Hands-on simulation experience that mirror real-world challenges, enhancing problem-solving skills"
   },
   {
     focus: "Networking",
@@ -66,10 +66,10 @@ const CertificationTrainings = ({certificationCourses}) =>
         </div>
         <BoxReveal boxColor='black' duration={0.5}>
         <h1 className='md:text-xl text-lg font-semibold relative pb-8'>Courses offered</h1>
-        <div className='grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 lg:w-[80vw] w-[90vw]'>
+        <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 w-[90vw]'>
         {certificationCourses.map((course)=>
         (
-            <Link href={`/courses/${course.id}`}  key={course._id}>
+            <Link href={`/courses/${course.id}`} key={course._id}>
                 <Card className='space-y-2 p-4'>
                     <div className='relative h-40'>
                         <Image className='rounded w-[100%] object-cover' src={course.imageURL} layout='fill' alt={course.title}/>

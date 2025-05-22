@@ -8,7 +8,7 @@ const courseWorkflowData =
     {
       id:1,
       title: "Foundation Module",
-      description: "Learn fundamental concepts and build a strong base through live classes & study materials"
+      description: "Learn fundamentals and build a strong base through live classes & study materials"
     },
     {
       id:2,
@@ -23,7 +23,7 @@ const courseWorkflowData =
     {
       id:4,
       title: "Query Resolution",
-      description: "Address any questions through live sessions or 1-on-1 mentoring before the assessment"
+      description: "Address any questions through live sessions before the assessment"
     },
     {
       id:5,
@@ -51,11 +51,10 @@ const CourseWorkflow = () =>
                 </div>
             </div>
             <div className='lg:w-[50%] w-full space-y-8'>
-                <div className='grid grid-cols-1 gap-4'>
+                <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
                 {courseWorkflowData.map((flow, index)=>
-                (
-                  <div key={flow.id} className="w-full">                
-                  <BoxReveal boxColor='black' duration={0.5}>
+                (       
+                  <BoxReveal boxColor='black' duration={0.5} key={flow.id}>
                     <Card key={flow.id} className='space-y-2 flex gap-6 xl:flex-row lg:flex-col flex-row p-4'>
                         <h1 className='w-[20%] text-8xl font-semibold text-muted'>{index+1}</h1>  
                         <div className='w-[80%] space-y-2'>
@@ -64,7 +63,6 @@ const CourseWorkflow = () =>
                         </div>
                     </Card>
                     </BoxReveal>
-                    </div>  
                 ))}
                 </div>
                 <BoxReveal boxColor='black' duration={0.5}>

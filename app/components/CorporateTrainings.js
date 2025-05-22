@@ -72,7 +72,7 @@ const CorporateTrainings = ({corporateCourses}) =>
 
         <BoxReveal boxColor='black' duration={0.5}>
         <h1 className='md:text-xl text-lg font-semibold relative pb-4'>Courses offered</h1>
-        <div className='grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:w-[80vw] w-[90vw] relative gap-4'>
+        <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 w-[90vw] relative gap-4'>
             {corporateCourses.map((course)=>
             (
                 <Link href={`/courses/${course.id}`} key={course._id}>

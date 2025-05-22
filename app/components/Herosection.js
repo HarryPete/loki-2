@@ -58,7 +58,7 @@ const HeroSection = ({scrollIntoSection, section4}) =>
                     </div>
                 ))}     
                 </div>
-                <Image className='md:h-32 md:w-32 h-16 w-16 object-fill' src={cpdIcon} alt='CPD Memeber icon' />
+                {/* <Image className='md:h-32 md:w-32 h-16 w-16 object-fill' src={cpdIcon} alt='CPD Memeber icon' /> */}
             </div>
         </div>
     )

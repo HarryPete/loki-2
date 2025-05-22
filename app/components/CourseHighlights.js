@@ -3,7 +3,7 @@ import material from '@/assets/material.png'
 import record from '@/assets/record.png'
 import mock from '@/assets/mock_dark.png'
 import discussion from '@/assets/discussion.png'
-import certificate from '@/assets/certificate.png'
+import certificate from '@/assets/certificateIcon.png'
 import Image from 'next/image'
 import { Card } from '@/components/ui/card'
 import BoxReveal from '@/components/ui/box-reveal'
@@ -44,7 +44,7 @@ const courseHighlightData =
         id: 6,
         image: certificate,
         header: 'Certified Expertise',
-        detail: 'Earn a recognized certification that boosts your career and credibility in the industry'
+        detail: 'Earn an industry recognized certification that boosts your career and credibility'
     }
 ]
 
