@@ -39,16 +39,16 @@ export const details =
 const CourseDetail = ({course, level}) =>
 {
     return (
-        <div className='flex flex-col gap-4 w-full'>
-            <p className='lg:text-3xl md:text-2xl text-xl font-bold' style={{color:'var(--primary-color)'}}>{course.title}</p>
+        <div className='flex flex-col gap-8 w-full'>
+            <p className='lg:text-3xl md:text-2xl text-xl font-bold'>{course.title}</p>
             <div className='md:h-[60vh] h-48 rounded flex items-center justify-center shadow-lg relative'>
                 <Image className='h-[100%] w-[100%] object-cover rounded' src={course.imageURL} alt={course.title} layout='fill'/>
             </div>
             <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>
             {details.map((data)=>
             (
-                <Card key={data.id} className='flex flex-col items-center p-4'>
-                    <h1 className='font-bold md:text-2xl text-xl'>{data.header}</h1>
+                <Card key={data.id} className='flex flex-col items-center p-6 bg-black space-y-2'>
+                    <h1 className='font-bold md:text-2xl text-xl text-red-600'>{data.header}</h1>
                     <span>{data.detail}</span>
                 </Card>
             ))}

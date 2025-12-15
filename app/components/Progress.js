@@ -32,7 +32,7 @@ const Progress = ({batchData, getBatch}) =>
     }
     
     return(
-        <div className='space-y-4'>
+        <div className='space-y-8'>
             <div className='flex justify-between items-end'>
             <div className='text-2xl space-y-2'>
                 <p className='font-semibold'>{batchData.title.split('-')[1]}</p>
@@ -55,23 +55,23 @@ const Progress = ({batchData, getBatch}) =>
             </div>
             
             <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-4'>
-                <Card className='p-4 text-center text-sm space-y-1'>
+                <Card className='p-6 text-center text-sm space-y-1 bg-black'>
                     <h1 className='text-xl font-semibold'>{Math.ceil((batchData.sessions?.length - pendingSessions(batchData.sessions))*100/batchData.sessions.length)}%</h1>
                     <p>Completion</p>
                 </Card>
-                {/* <Card className='p-4 text-center text-sm space-y-1'>
+                {/* <Card className='p-6 text-center text-sm space-y-1'>
                     <h1 className='text-xl font-semibold'>{pendingSessions(batchData.sessions)}</h1>
                     <p>Sessions pending</p>
                 </Card> */}
-                <Card className='p-4 text-center text-sm space-y-1'>
+                <Card className='p-6 text-center text-sm space-y-1 bg-black'>
                     <h1 className='text-xl font-semibold'>{batchData.enrollments.length}</h1>
                     <p>Enrollments</p>
                 </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
+                <Card className='p-6 text-center text-sm space-y-1 bg-black'>
                     <h1 className='text-xl font-semibold'>{batchData.simulations.length}</h1>
                     <p>Simulations</p>
                 </Card>
-                <Card className='p-4 text-center text-sm space-y-1'>
+                <Card className='p-6 text-center text-sm space-y-1 bg-black'>
                     <h1 className='text-xl font-semibold'>{batchData.mocks.length}</h1>
                     <p>Mocks</p>
                 </Card>

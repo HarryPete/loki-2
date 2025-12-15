@@ -266,16 +266,16 @@ const Batch = () =>
                 }/>
             </div>
             <h1 className='font-semibold text-base pt-4'>Simulations</h1>
-            <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
+            <div className='grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
             
                 {batch.course?.simulations?.map((simulation, index)=>
                 (
                     <div key={simulation.id} className='space-y-2 text-center'>
-                        <Card className={`${batch.simulations[index] && 'border-green-500'} border-2 p-4 text-sm relative`}>
+                        <Card className={`${batch.simulations[index] && 'border-green-500'} bg-black border-2 p-6 text-sm relative`}>
                         {isLoading ? <LoadingMini/> :
                         <div className="space-y-4 flex flex-col justify-center items-center relative">
-                            <div className='bg-gray-800 w-fit rounded-full p-6 gap-2 flex flex-col items-center'>
-                                <Image className='h-8 w-fit' src={triggerIcon} alt='mock'/>
+                            <div className='w-fit rounded-full gap-2 flex flex-col items-center'>
+                                <Image className='h-16 w-fit' src={triggerIcon} alt='mock'/>
                                 
                                 {batch.simulations[index] && 
                                 <div className="absolute top-0 right-0">
@@ -295,16 +295,16 @@ const Batch = () =>
             </div>
 
             <h1 className='font-semibold text-base pt-4'>Assessments</h1>
-            <div className='grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
+            <div className='grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-4 pb-8'>
             
                 {batch.course?.mocks?.map((mock, index)=>
                 (
                     <div key={mock.id} className='space-y-2 text-center'>
-                        <Card className={`${batch.mocks[index] && 'border-green-500'} border-2 p-4 text-sm relative`}>
+                        <Card className={`${batch.mocks[index] && 'border-green-500'} border-2 p-6 bg-black text-sm relative`}>
                         {isLoading ? <LoadingMini/> :
                         <div className="space-y-4 flex flex-col justify-center items-center relative">
-                            <div className='bg-gray-800 w-fit rounded-full p-6 gap-2 flex flex-col items-center'>
-                                <Image className='h-8 w-fit' src={mockIcon} alt='mock'/>
+                            <div className='w-fit rounded-full gap-2 flex flex-col items-center'>
+                                <Image className='h-16 w-fit' src={mockIcon} alt='mock'/>
                                 
                                 {batch.mocks[index] && 
                                 <div className="absolute top-0 right-0">

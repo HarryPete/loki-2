@@ -49,7 +49,7 @@ const Dashboard = () =>
             {routes.map((data)=>
             (
                 <Link href={data.route} key={data.id}>
-                    <Card className='p-8'>
+                    <Card className='bg-black p-8 hover:bg-red-600'>
                     {data.title}
                     </Card>
                 </Link>

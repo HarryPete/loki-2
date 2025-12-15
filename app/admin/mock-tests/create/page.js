@@ -177,7 +177,7 @@ const Page = () =>
                 <FormMessage />
                 </FormItem>)}
             /> */}
-            <div className="bg-white p-6 shadow-lg rounded-xl space-y-4">
+            <div className="bg-black p-6 shadow-lg rounded-xl space-y-4">
                 <div className="flex justify-between gap-2">
                   <h1 className="text-base font-semibold">Question {index+1}</h1>
                   {/* <Image className="h-7 w-fit cursor-pointer bg-gray-100 shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete' onClick={deleteQuestion}/> */}
@@ -213,7 +213,7 @@ const Page = () =>
                 <div className="flex items-center space-x-4">
                 
                 {fields.length > 2 && (
-                      <Image className="h-7 w-fit cursor-pointer bg-gray-100 shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete'
+                      <Image className="h-7 w-fit cursor-pointer shadow-lg rounded-full p-1.5" src={deleteIcon} alt='delete'
                         onClick={() => remove(index)}
                       />
                     )}
@@ -223,7 +223,7 @@ const Page = () =>
                       type="text"
                       placeholder={`Option ${index + 1}`}
                       {...field}
-                      className="flex-1 border p-2 text-sm rounded h-12"
+                      className="bg-black flex-1 border p-2 text-sm rounded h-12"
                     />
                   </FormControl>
 
@@ -283,7 +283,7 @@ const Page = () =>
                   <Button className='text-xs' onClick={()=> setOpenDialogue(true)}>Finish</Button>
                   <DialogContent className="sm:max-w-[425px]">
                       <DialogHeader>
-                          <DialogTitle>Fints AML Mock</DialogTitle>
+                          <DialogTitle>Fints Certification Mock</DialogTitle>
                           <DialogDescription>
                             {/* Account created on {FormatDate(user.createdAt)} */}
                           </DialogDescription>
@@ -313,7 +313,7 @@ const Page = () =>
               <div className="pt-8 flex flex-wrap justify-center gap-2">
               {Array(mock.length).fill(0).map((_, ind)=>
               (
-                <div className={`${( ind === index) && 'bg-yellow-400'} cursor-pointer rounded-full border w-10 text-center p-2`} onClick={()=> setIndex(ind)} key={ind}>{ind+1}</div>
+                <div className={`${( ind === index) && 'bg-red-600'} cursor-pointer rounded-full border w-10 text-center p-2`} onClick={()=> setIndex(ind)} key={ind}>{ind+1}</div>
               ))}
               </div>
               </Form>

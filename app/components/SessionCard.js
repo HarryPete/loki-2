@@ -17,7 +17,7 @@ const SessionCard = ({session, index, updateSessionStatus, level}) =>
 {
     
     return(
-        <Card className='flex justify-between items-center text-sm p-4'>
+        <Card className='flex justify-between items-center text-sm p-6 bg-black'>
             <div className='flex items-center gap-2'>
                 {/* <TooltipProvider>
                 <Tooltip>
@@ -27,7 +27,7 @@ const SessionCard = ({session, index, updateSessionStatus, level}) =>
                     </TooltipContent>
                 </Tooltip>
                 </TooltipProvider> */}
-                <p >Session {index+1}</p>
+                <p className='font-semibold'>Session {index+1}</p>
             </div>
             
             {level === "admin" ? 

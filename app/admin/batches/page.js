@@ -60,7 +60,7 @@ const Batches = () =>
     return(
         <div className='space-y-4'>
             <BatchForm newBatch={newBatch} setNewBatch={setNewBatch} getBatches={getBatches}/>
-            <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4'>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
             {batches.map((batch) =>
             (
                 <BatchCard type="batch" level="admin" key={batch._id} batch={batch} removeBatch={removeBatch}/>

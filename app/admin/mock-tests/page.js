@@ -63,15 +63,15 @@ const Page = () =>
         return <Loading/>
 
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <Button onClick={()=> router.push(`/admin/mock-tests/create`)}>Create Mock</Button>
         <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-4">
         {mocks.map((mock)=>
         (
           <Link key={mock._id} href={`/admin/mock-tests/${mock.title}?mockId=${mock._id}`}>
-            <Card className='p-4 space-y-2 flex flex-col items-center relative'>
+            <Card className='bg-black p-4 space-y-4 flex flex-col items-center relative'>
               <h1 className="font-semibold">{mock.title.split('-')[1]}</h1>
-              <Image src={mockIcon} alt='icon'/>
+              <Image src={mockIcon} className="h-16 w-auto" alt='icon'/>
               <span className="text-sm">Test {mock.title.split('-')[0][0]}</span>
               {/* <Image onClick={(e)=> deleteMock(e, mock._id)} className="h-6 w-fit absolute top-2 p-1 bg-gray-100 rounded-full shadow-md right-4" src={deleteIcon} alt="icon"/> */}
             </Card>

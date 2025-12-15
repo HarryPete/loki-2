@@ -43,7 +43,7 @@ const CourseCard = ({level, course}) =>
 
     return(
         <Link href={level === 'admin' ? `/admin/courses/${course.id}` : `/courses/${course.id}`} className='relative'>
-        <Card className='space-y-4 p-4'>
+        <Card className='space-y-6 p-4 bg-black'>
             <div className='flex flex-col items-center justify-center h-48 rounded relative'>
                 <Image className='h-[100%] w-full rounded object-cover' src={course.imageURL} alt={course.id} layout='fill'/>
             </div>

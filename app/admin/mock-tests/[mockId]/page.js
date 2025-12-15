@@ -48,20 +48,20 @@ const Page = () =>
         return <Loading/>
 
     return(
-        <div className="space-y-4">
+        <div className="space-y-6">
             <div className="flex justify-between items-center font-semibold">
                 <h1>Set {mock.title.split('-')[0][0]} - {mock.title.split('-')[1]}</h1>
-                <Button className='h-6 text-sm' onClick={()=> router.push(`${pathname}/edit?mockId=${mock._id}`)}>Edit</Button>
+                <Button className='h-8 text-sm' onClick={()=> router.push(`${pathname}/edit?mockId=${mock._id}`)}>Edit</Button>
             </div>
             <div className="space-y-6">
             {mock.reference.map((data, index)=>
             (
-                <Card key={index} className='p-4 text-sm space-y-2'>
+                <Card key={index} className='bg-black p-4 text-sm space-y-2'>
                     <h1 className="font-semibold leading-relaxed p-2">{index+1 +'. ' +data.question}</h1>
                     <div className="space-y-2">
                         {data.options.map((opt, ind)=>
                         (
-                            <div key={ind} className={`${opt.isCorrect && 'bg-gray-100 rounded'} p-3 flex items-start justify-between gap-4 lg:w-[70%] w-full`}>
+                            <div key={ind} className={`${opt.isCorrect && 'bg-gray-100 rounded text-black'} p-3 flex items-start justify-between gap-4 lg:w-[70%] w-full`}>
                                 <p className={`rounded`}>{ind+1 +'. ' +opt.option}</p>
                                 {opt.isCorrect && <Image className="h-5 w-5" src={correct} alt='correct'/>}
                             </div>

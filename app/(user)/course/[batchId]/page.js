@@ -76,6 +76,8 @@ const Batch = () =>
     const divRef = useRef(null);
     const [ unlockCertificate, setUnlockCertificate ] = useState(false);
 
+    console.log(enrollment)
+
     const getBatchData = async () =>
     {
         try
@@ -254,7 +256,7 @@ const Batch = () =>
                                 <Tooltip>
                                 <TooltipTrigger><Image className='h-4 w-fit' src={agenda} alt='agenda'/></TooltipTrigger>
                                 <TooltipContent>
-                                    <p>{session.lecture.title}</p>
+                                    {/* <p>{session.lecture.title}</p> */}
                                  </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -328,11 +330,11 @@ const Batch = () =>
                         {!unlockCertificate ? 
                         <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
                         <div>  
-                            <div ref={divRef} className="relative text-[#e5c369]">
+                            <div ref={divRef} className="relative text-[#d39800] font-sans">
                                 <Image className="w-fit h-400px" src={template} alt='certificate'/>
-                                <h1 className="absolute sm:text-lg text-base text w-full text-center top-[45%]">{enrollment.user.name}</h1>
-                                <p className="absolute sm:text-sm text-xs w-full text-center top-[57%]">{enrollment.batch.course.title}</p>
-                                <p className="absolute text-[9px] left-[18%] bottom-[15%]">{new Date(enrollment.batch.endDate).toLocaleDateString()}</p>
+                                <h1 className="absolute md:text-lg text-sm font-bold text w-full md:left-10 left-[10%] top-[40%]">{enrollment.user.name}</h1>
+                                <p className="absolute md:text-lg text-sm  font-bold w-full md:left-10 left-[10%] top-[50%]">{enrollment.batch.course.title}</p>
+                                <p className="absolute md:text-xs text-[8px] font-bold md:left-10 left-[10%] bottom-[24%]">{new Date(enrollment.batch.endDate).toLocaleDateString()}</p>
                             </div>
                         </div>}
               

@@ -47,13 +47,14 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
     }
 
     return(
-        <Card className='p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
-            <div className='rounded flex flex-col h-40 p-4 justify-center items-center shadow-md relative'>
+        <Card className='bg-black p-4 flex flex-col gap-4 relative cursor-pointer' onClick={()=>  {level === 'admin' ? (type === 'batch' ? router.push(`/admin/batches/${batch.title}`) : `${pathname}/${batchId}`) : checkAccess()}}>
+            <div className='rounded flex flex-col h-48 p-4 justify-center items-center shadow-md relative'>
                 <Image className='rounded object-cover' src={batch.course.imageURL} alt={batch.title} layout='fill'/>
             </div>
-            <div className='flex justify-between items-center text-sm'>
-                <p className='font-semibold'>{level === 'user' ? batch.course.title : batch.title}</p>
-                {level !== 'user' && <p className='absolute top-6 right-6 bg-black p-1 text-xs rounded'>{batch.isCompleted ? "Completed" : "Ongoing"}</p>}
+            <div className='flex flex-col gap-2 justify-between items-center text-sm'>
+                <p className='font-semibold'>{batch.course.title}</p>
+                {level !== 'user' && <p className='absolute top-6 right-6 bg-red-600 text-white p-2 text-xs rounded-md'>{batch.isCompleted ? "Completed" : "Ongoing"}</p>}
+                {level !== 'user' && <p>{batch.title.split('-')[2] +'-' +batch.title.split('-')[3]}</p>}
             </div>
             {level === 'user' && <p className='absolute top-6 right-6 bg-black p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p>}
              {/* 
