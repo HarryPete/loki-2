@@ -20,6 +20,7 @@ import certificate from '../../../../assets/certificate.png'
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { FormatDate } from "@/utility/FormatDate";
 import { Button } from "@/components/ui/button";
+import { Montserrat } from 'next/font/google';
 import {
     Tooltip,
     TooltipContent,
@@ -32,6 +33,8 @@ import template from '@/assets/template.png'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Confetti } from "@/utility/confetti";
 import { calculateResult } from "@/utility/calculateScores";
+
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const pendingSessions = (sessions) =>
 {
@@ -74,7 +77,7 @@ const Batch = () =>
     const [ cardLoading, setCardloading ] = useState(false);
     const [activeTab, setActiveTab] = useState("sessions");
     const divRef = useRef(null);
-    const [ unlockCertificate, setUnlockCertificate ] = useState(false);
+    const [ unlockCertificate, setUnlockCertificate ] = useState(true);
 
     console.log(enrollment)
 
@@ -179,8 +182,6 @@ const Batch = () =>
         }
     }
 
-    console.log(enrollment)
-
     const handleTrigger = async (simulation) =>
     {
         try
@@ -206,6 +207,23 @@ const Batch = () =>
         <Loading/>   
     )
 
+    const start = new Date(enrollment.batch.startDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    );
+
+    const end = new Date(enrollment.batch.endDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    );
 
     return(
         <div className='grid grid-cols-1 gap-8 relative md:text-sm text-xs'>
@@ -330,11 +348,11 @@ const Batch = () =>
                         {!unlockCertificate ? 
                         <div className="min-h-[40vh] flex text-center items-center text-muted-foreground text-sm">Certificate wil be unlocked on successful completion of sprint and assessment</div> : 
                         <div>  
-                            <div ref={divRef} className="relative text-[#d39800] font-sans">
+                            <div ref={divRef} className={`relative text-[#d39800] font-sans ${montserrat.className}`}>
                                 <Image className="w-fit h-400px" src={template} alt='certificate'/>
-                                <h1 className="absolute md:text-lg text-sm font-bold text w-full md:left-10 left-[10%] top-[40%]">{enrollment.user.name}</h1>
-                                <p className="absolute md:text-lg text-sm  font-bold w-full md:left-10 left-[10%] top-[50%]">{enrollment.batch.course.title}</p>
-                                <p className="absolute md:text-xs text-[8px] font-bold md:left-10 left-[10%] bottom-[24%]">{new Date(enrollment.batch.endDate).toLocaleDateString()}</p>
+                                <h1 className="absolute md:text-md sm:text-sm text-xs font-bold text w-full md:left-10 left-[10%] top-[46%]">{enrollment.user.name.toUpperCase()}</h1>
+                                <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[56%]">{enrollment.batch.course.title.toUpperCase()}</p>
+                                <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[66%]">{start.toUpperCase() +' - ' +end.toUpperCase()}</p>
                             </div>
                         </div>}
               
