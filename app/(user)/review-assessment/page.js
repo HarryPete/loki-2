@@ -188,7 +188,7 @@ const Mock = () =>
                             <span className="inline-block mt-4">{alphabets[ind].letter}.</span>
                             
                             <div className="bg-stone-900 w-full p-4 rounded flex items-start justify-between gap-4">
-                            <p>{data}</p>
+                            <p>{data.option}</p>
                             {(mock.quiz.reference[que].answers.includes(ind+1) || mock.answers[que].includes(ind+1)) && 
                                 <Image className='h-5 w-fit' 
                                 src={(mock.quiz.reference[que].answers.includes(ind+1)) ? correctIcon : wrongIcon} alt='correct'/>}

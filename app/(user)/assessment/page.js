@@ -104,6 +104,8 @@ const Mock = () =>
         }
     }
 
+    console.log(mock)
+
     useEffect(() => 
     {
         if(status === "authenticated")
@@ -144,7 +146,7 @@ const Mock = () =>
     
                             }}
                         />
-                    <p>{data}</p>
+                    <p>{data.option}</p>
                 </div>
                 ))}
 
