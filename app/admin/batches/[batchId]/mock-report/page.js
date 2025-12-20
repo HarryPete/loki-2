@@ -18,9 +18,13 @@ import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import axios from "axios"
 import { toast } from "sonner"
-import { Suspense, useEffect, useState } from "react"
+import { Suspense, useEffect, useState, useRef } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import Loading from "@/app/components/Loading"
+import template from '@/assets/template.png'
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 const MockReport = () =>
 {  
@@ -38,6 +42,8 @@ const MockReport = () =>
     const index = set-1
     const pathname = usePathname();
     const batchId = pathname.split('/')[3]
+    const [viewCertificate, setViewCertificate] = useState(false)
+    const divRef = useRef(null);
 
     console.log(batch)
 
@@ -102,14 +108,57 @@ const MockReport = () =>
         }
     }
 
+    const start = batch && (new Date(batch.startDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    ));
+
+    const end = batch && (new Date(batch.endDate).toLocaleString(
+    'en-IN',
+    {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }
+    ));
+
+    const downloadCertification = () =>
+    {
+        if(divRef.current === null) 
+            return
+        
+        Confetti();
+    
+        toPng(divRef.current, { cacheBust: true, })
+        .then((dataUrl) => 
+        {
+            const link = document.createElement('a')
+            link.download = 'fintsacademy.png'
+            link.href = dataUrl
+            link.click()
+        })
+        .catch((err) => 
+        {
+            toast.error(err)
+        })
+    }
+
     if(isLoading)
         return <Loading/>
     
     return (
         <div className="space-y-4">
-            <div>
+            <div className="flex items-start justify-between">
+              <div>
                 <h1 className="font-semibold">{batchId} / Set {set}</h1>
                 <h1 className="text-muted-foreground text-sm">{batch.mocks[index].results.length} Participants</h1>
+            </div>
+            {viewResult >= 0 && <Button className='text-xs' onClick={()=> setViewCertificate(true)}>Download certificate</Button>}
+
             </div>
             <div className="flex flex-col lg:flex-row gap-4 relative">
             <div className="lg:w-[40%] w-full">
@@ -128,6 +177,28 @@ const MockReport = () =>
                 </Card>
               ))}
               </div>
+
+             
+              
+              
+              {viewResult >= 0 && <Dialog open={viewCertificate} onOpenChange={()=> setViewCertificate(false)}>
+                  <DialogContent className="sm:max-w-[425px] space-y-0.5">
+                      <DialogHeader>
+                      <DialogTitle>Certificate</DialogTitle>
+                      <DialogDescription>{batch.course.title}</DialogDescription>
+                      </DialogHeader>
+                     <div>  
+                          <div ref={divRef} className={`relative text-[#d39800] font-sans ${montserrat.className}`}>
+                              <Image className="w-fit h-400px" src={template} alt='certificate'/>
+                              <h1 className="absolute md:text-md sm:text-sm text-xs font-bold text w-full md:left-10 left-[10%] top-[46%]">{batch.mocks[index].results[viewResult].enrollment.user.name.toUpperCase()}</h1>
+                              <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[56%]">{batch.course.title.toUpperCase()}</p>
+                              <p className="absolute md:text-md sm:text-sm text-xs font-bold w-full md:left-10 left-[10%] top-[66%]">{start.toUpperCase() +' - ' +end.toUpperCase()}</p>
+                          </div>
+                      </div>
+            
+                      <Button className='text-xs' onClick={downloadCertification}>Download certificate</Button>
+                  </DialogContent>
+              </Dialog>}
               
             </div>
                 
@@ -154,7 +225,7 @@ const MockReport = () =>
                     {batch.mocks[index].quiz.reference[que].options.map((data, ind)=>
                     (
                       <div className="bg-stone-900 p-4 rounded flex items-start justify-between gap-4" key={ind}>
-                        <p>{data}</p>
+                        <p>{data.option}</p>
                         {(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].includes(ind+1)) && 
                         <Image className='h-5 w-fit' 
                         src={(batch.mocks[index].quiz.reference[que].answers.includes(ind+1) || batch.mocks[index].results[viewResult].answers[que].isFlagged) ? correctIcon : wrongIcon} alt='correct'/>}
