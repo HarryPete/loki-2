@@ -77,7 +77,7 @@ const Batch = () =>
     const [ cardLoading, setCardloading ] = useState(false);
     const [activeTab, setActiveTab] = useState("sessions");
     const divRef = useRef(null);
-    const [ unlockCertificate, setUnlockCertificate ] = useState(true);
+    const [ unlockCertificate, setUnlockCertificate ] = useState(false);
 
     console.log(enrollment)
 
