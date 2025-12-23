@@ -24,6 +24,7 @@ import Loading from "@/app/components/Loading"
 import template from '@/assets/template.png'
 import { Montserrat } from 'next/font/google';
 import { Confetti } from "@/utility/confetti"
+import { toPng } from "html-to-image"
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
