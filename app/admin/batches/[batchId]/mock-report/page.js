@@ -23,6 +23,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import Loading from "@/app/components/Loading"
 import template from '@/assets/template.png'
 import { Montserrat } from 'next/font/google';
+import { Confetti } from "@/utility/confetti"
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
