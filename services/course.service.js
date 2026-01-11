@@ -74,7 +74,8 @@ class courseService
     {
         try
         {
-            return await Course.findOneAndUpdate({id: courseId}, {$push: {lectures: lectureId}})
+            const response = await Course.findOneAndUpdate({_id: courseId}, {$push: {lectures: lectureId}})
+            return response
         }
         catch(error)
         {

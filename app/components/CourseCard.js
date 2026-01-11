@@ -14,7 +14,7 @@ const extraData =
     },
     {
         id:2,
-        description: '10+ mock tests'
+        description: 'Mock tests'
     },
     {
         id:3,
@@ -27,10 +27,6 @@ const extraData =
     {
         id:5,
         description: 'Lifetime access to forum'
-    },
-    {
-        id:6,
-        description: 'Exam strategies'
     },
     {
         id:7,
@@ -61,7 +57,7 @@ const CourseCard = ({level, course}) =>
                         <p>{data.description}</p>
                     </div>
                 ))}
-                <p className='text-gray-400 mt-2 text-sm'>35 lectures, 60 hours</p>
+                <p className='text-gray-400 mt-2 text-sm'>4 lectures, 8 hours</p>
             </div>}
         </Card>
         </Link>

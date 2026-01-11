@@ -53,10 +53,11 @@ const BatchCard = ({type, level, enrollment, batch, participants, removeBatch, b
             </div>
             <div className='flex flex-col gap-2 justify-between items-center text-sm'>
                 <p className='font-semibold'>{batch.course.title}</p>
-                {level !== 'user' && <p className='absolute top-6 right-6 bg-red-600 text-white p-2 text-xs rounded-md'>{batch.isCompleted ? "Completed" : "Ongoing"}</p>}
+                {level !== 'user' && <p className='absolute top-6 right-6 text-red-600 bg-white p-2 text-xs rounded-md'>{batch.isCompleted ? "Completed" : "Ongoing"}</p>}
                 {level !== 'user' && <p>{batch.title.split('-')[2] +'-' +batch.title.split('-')[3]}</p>}
             </div>
             {level === 'user' && <p className='absolute top-6 right-6 bg-black p-1 rounded text-xs '>{FormatDate(batch.startDate)}</p>}
+            {level === 'admin' && <p className='text-red-600 bg-white font-bold text-sm rounded-md w-fit p-1 px-3 absolute left-6 top-6'>{batch.title.split('-')[0]}</p>}
              {/* 
             <div className='flex justify-between items-end text-sm'>
                 {level === "admin" ? (type === 'batch' ? <p> Enrollments : {batch.enrollments.length}</p> : <p> Participants : {participants}</p>) : <p>{batch.sessions.length} lectures</p>}

@@ -16,23 +16,23 @@ export const details =
 [
     {
         id: 1,
-        header: 11,
+        header: 2,
         detail: 'Weeks'
     },
     {
         id: 2,
-        header: 32,
+        header: 4,
         detail: 'Sessions'
     },
     {
         id: 3,
-        header: 16,
+        header: 2,
         detail: 'Learning Sessions'
     },
     {
         id: 4,
-        header: 16,
-        detail: 'Practice Sessions'
+        header: 2,
+        detail: 'Hands on Sessions'
     }
 ]
 
@@ -58,7 +58,7 @@ const CourseDetail = ({course, level}) =>
                 <AccordionItem value="item-1">
                     <AccordionTrigger className="text-base lg:text-lg font-semibold">Sessions in Brief</AccordionTrigger>
                     <AccordionContent>
-                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4'>
+                    <div className='grid grid-cols-1 gap-2'>
                     {course.lectures.map((lecture)=>
                     (
                         <Lecturecard course={course} lecture={lecture} level={level} key={lecture._id}/>  

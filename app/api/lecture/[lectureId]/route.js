@@ -5,23 +5,23 @@ import dbConnect from "@/dbConfig/dbConnect";
 import { NextResponse } from "next/server";
 const courseInstance = new courseService();
 
-// export async function POST(req, {params}) 
-// {
-//     try
-//     {
-//         await dbConnect();
+export async function POST(req, {params}) 
+{
+    try
+    {
+        await dbConnect();
 
-//         const { courseId } = params;
-//         const { description, duration } = await req.json();
-//         const lecture = await lectureInstance.addNewLecture(description, duration);
-//         await courseInstance.addLectureToCourse(courseId, lecture._id);
-//         return NextResponse.json({message:'Lecture added'}); 
-//     }   
-//     catch(error)
-//     {
-//         return NextResponse.json({error: error.message})
-//     } 
-// }
+        const { courseId } = params;
+        const { description, duration } = await req.json();
+        const lecture = await lectureInstance.addNewLecture(description, duration);
+        await courseInstance.addLectureToCourse(courseId, lecture._id);
+        return NextResponse.json({message:'Lecture added'}); 
+    }   
+    catch(error)
+    {
+        return NextResponse.json({error: error.message})
+    } 
+}
 
 export async function GET(req, {params}) 
 {
