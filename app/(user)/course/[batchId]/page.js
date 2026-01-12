@@ -79,8 +79,6 @@ const Batch = () =>
     const divRef = useRef(null);
     const [ unlockCertificate, setUnlockCertificate ] = useState(false);
 
-    console.log(enrollment)
-
     const getBatchData = async () =>
     {
         try
@@ -130,26 +128,39 @@ const Batch = () =>
             
     }, [status]);
 
-    const downloadCertification = () =>
+    const downloadCertification = async () => 
     {
-        if(divRef.current === null) 
-            return
-        
+        if (!divRef.current) return;
+
         Confetti();
-    
-        toPng(divRef.current, { cacheBust: true, })
-        .then((dataUrl) => 
-        {
-            const link = document.createElement('a')
-            link.download = 'fintsacademy.png'
-            link.href = dataUrl
-            link.click()
-        })
-        .catch((err) => 
-        {
-            toast.error(err)
-        })
-    }
+
+        const scale = 3; // 2–4 is ideal for certificates
+
+        const style = {
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            width: `${divRef.current.offsetWidth}px`,
+            height: `${divRef.current.offsetHeight}px`,
+        };
+
+        const param = {
+            cacheBust: true,
+            pixelRatio: scale,
+            style,
+            width: divRef.current.offsetWidth * scale,
+            height: divRef.current.offsetHeight * scale,
+        };
+
+        try {
+            const dataUrl = await toPng(divRef.current, param);
+            const link = document.createElement('a');
+            link.download = 'fintsacademy-certificate.png';
+            link.href = dataUrl;
+            link.click();
+        } catch (err) {
+            toast.error('Failed to download certificate');
+        }
+        };
 
     const handleAccess = (session, index) =>
     {
