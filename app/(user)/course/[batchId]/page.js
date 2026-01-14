@@ -134,7 +134,7 @@ const Batch = () =>
 
         Confetti();
 
-        const scale = 3; // 2–4 is ideal for certificates
+        const scale = 4 
 
         const style = {
             transform: `scale(${scale})`,
