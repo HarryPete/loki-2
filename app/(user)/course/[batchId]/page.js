@@ -33,6 +33,7 @@ import template from '@/assets/template.png'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Confetti } from "@/utility/confetti";
 import { calculateResult } from "@/utility/calculateScores";
+import jsPDF from 'jspdf'
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 
@@ -130,37 +131,41 @@ const Batch = () =>
 
     const downloadCertification = async () => 
     {
-        if (!divRef.current) return;
+        if (!divRef.current) return
 
-        Confetti();
+        Confetti()
 
-        const scale = 4 
-
-        const style = {
-            transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-            width: `${divRef.current.offsetWidth}px`,
-            height: `${divRef.current.offsetHeight}px`,
-        };
-
-        const param = {
-            cacheBust: true,
-            pixelRatio: scale,
-            style,
-            width: divRef.current.offsetWidth * scale,
-            height: divRef.current.offsetHeight * scale,
-        };
+        const scale = 4
 
         try {
-            const dataUrl = await toPng(divRef.current, param);
-            const link = document.createElement('a');
-            link.download = 'fintsacademy-certificate.png';
-            link.href = dataUrl;
-            link.click();
+            const dataUrl = await toPng(divRef.current, {
+            cacheBust: true,
+            pixelRatio: scale,
+            })
+
+            const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [
+                divRef.current.offsetWidth,
+                divRef.current.offsetHeight,
+            ],
+            })
+
+            pdf.addImage(
+            dataUrl,
+            'PNG',
+            0,
+            0,
+            divRef.current.offsetWidth,
+            divRef.current.offsetHeight
+            )
+
+            pdf.save('fintsacademy-certificate.pdf')
         } catch (err) {
-            toast.error('Failed to download certificate');
+            toast.error('Failed to download certificate')
         }
-        };
+        }
 
     const handleAccess = (session, index) =>
     {

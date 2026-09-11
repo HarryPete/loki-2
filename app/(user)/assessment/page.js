@@ -146,7 +146,7 @@ const Mock = () =>
     
                             }}
                         />
-                    <p>{data.option}</p>
+                    <p>{data}</p>
                 </div>
                 ))}
 
